@@ -1,9 +1,9 @@
 package main
 
-import "github.com/littletrainee/GunGiBoardGameGUI/GameHolder"
+import "github.com/littletrainee/GunGiBoardGameGUI/gamehandler"
 
 func main() {
-	var Game GameHolder.Game = GameHolder.Game{}
+	var Game gamehandler.Game = gamehandler.Game{}
 	Game.Initilization()
 	Game.Start()
 }

@@ -1,4 +1,4 @@
-package Font
+package font
 
 import (
 	"io"
@@ -10,7 +10,7 @@ import (
 )
 
 func ConvertToFace() font.Face {
-	file, err := os.Open("./Font/NotoSansTC-Bold.otf")
+	file, err := os.Open("./Font/NotoSansTC-Thin.otf")
 	if err != nil {
 		log.Fatal(err)
 	}
