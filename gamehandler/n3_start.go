@@ -8,6 +8,7 @@ import (
 )
 
 func (g *Game) Start() {
+	// ebiten.SetVsyncEnabled(false)
 	ebiten.SetWindowSize(constant.WINDOW_SIZE_WIDTH, constant.WINDOW_SIZE_HEIGHT)
 	// ebiten.SetFullscreen(true)
 	ebiten.SetWindowTitle(constant.WINDOW_TITLE)

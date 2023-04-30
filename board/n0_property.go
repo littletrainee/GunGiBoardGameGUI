@@ -1,10 +1,11 @@
 package board
 
 import (
+	"image"
+
 	"github.com/littletrainee/GunGiBoardGameGUI/block"
-	"github.com/littletrainee/GunGiBoardGameGUI/coordinate"
 )
 
 type Board struct {
-	Blocks map[coordinate.Coordinate]block.Block
+	Blocks map[image.Point]block.Block
 }

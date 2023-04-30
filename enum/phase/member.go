@@ -1,0 +1,18 @@
+package phase
+
+import (
+	"github.com/littletrainee/gunginotationgenerator/enum/phase"
+)
+
+const (
+	SELECT_COLOR phase.Phase = iota
+	SET_COLOR
+	SELECT_LEVEL
+	SET_LEVEL
+	RECOMMENDED_ARRANGEMENT
+	SET_TO_PREPARE_FOR_GAMING
+	INITILIZATION_BOARD_CLOCK_AND_CPU
+	PREPARE_FOR_GAMING
+	ARRANGEMENT_PHASE
+	DUELING_PHASE
+)

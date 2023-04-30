@@ -1,6 +1,7 @@
 package koma
 
 import (
+	"image"
 	"image/color"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -11,7 +12,7 @@ import (
 type Koma struct {
 	Name              string
 	Color             color.Gray16
-	CurrentCoordinate coordinate.Coordinate
+	CurrentCoordinate image.Point
 	CurrentPosition   pair.Pair[int, int]
 	Img               *ebiten.Image
 	Op                *ebiten.DrawImageOptions
