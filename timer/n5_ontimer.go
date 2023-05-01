@@ -11,7 +11,7 @@ import (
 func (t *Timer) ClickTimer(gs *gamestate.GameState, pos image.Point) {
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		if t.onTimer(pos.X, pos.Y) {
-			gs.GetAnotherColor()
+			gs.TrunToNext()
 		}
 	}
 }

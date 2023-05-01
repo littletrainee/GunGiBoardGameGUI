@@ -11,11 +11,11 @@ func (t *Timer) SetGeoM(rotate bool) {
 	if rotate {
 		t.Op.GeoM.Rotate(math.Pi)
 		t.Op.GeoM.Translate(
-			float64(t.CurrentCoordinate.X)+float64(constant.TIMER_SIZE)/6*4.5,
+			float64(t.CurrentCoordinate.X)+float64(constant.TIMER_SIZE)/5*4.5,
 			float64(t.CurrentCoordinate.Y)+float64(constant.TIMER_SIZE)/6*4)
 	} else {
 		t.Op.GeoM.Translate(
-			float64(t.CurrentCoordinate.X)+float64(constant.TIMER_SIZE)/5,
+			float64(t.CurrentCoordinate.X)+float64(constant.TIMER_SIZE)/6,
 			float64(t.CurrentCoordinate.Y)+float64(constant.TIMER_SIZE)/4)
 	}
 }

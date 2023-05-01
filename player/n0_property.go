@@ -18,4 +18,7 @@ type Player struct {
 	State                   playerstate.PlayerState
 	IsOwn                   bool
 	IsSuMi                  bool
+	MaxRange                int
+	WhichOneSelected        int
+	KomaTaiBeingClick       bool
 }

@@ -28,7 +28,11 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	case phase.PREPARE_FOR_GAMING:
 		g.PrepareForGameing.Draw(screen, g.Font, g.GameState.Phase)
 
-	case phase.ARRANGEMENT_PHASE, phase.DUELING_PHASE:
+	case phase.ARRANGEMENT_PHASE,
+		phase.DUELING_PHASE_SELECT_KOMA,
+		phase.DUELING_PHASE_MOVE_KOMA,
+		phase.DUELING_PHASE_CLICK_CLOCK,
+		phase.DELAY:
 
 		// 繪製棋盤
 		// Base
@@ -39,6 +43,6 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		g.Board.Draw(screen, g.Font)
 		g.Player1.DrawKomaTai(screen, g.Font)
 		g.Player2.DrawKomaTai(screen, g.Font)
-		// g.TimerPair.Draw(screen, g.Font)
+		g.TimerHandler.Draw(screen, g.Font, g.GameState.Phase)
 	}
 }

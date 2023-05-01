@@ -27,9 +27,11 @@ func (t *Timer) Draw(screen *ebiten.Image, font font.Face, phase phase.Phase) {
 			float32(constant.TIMER_SIZE), float32(constant.TIMER_SIZE),
 			t.BackgroundColor, true)
 		// 每次重新顯示文字必須要重製畫布，否則會有殘留影像
+		t.Img = ebiten.NewImage(constant.TIMER_SIZE, constant.TIMER_SIZE)
 		s := strconv.Itoa(t.RemainingTime / 60)
 		s += ":"
 		s += strconv.Itoa(t.RemainingTime % 60)
+		text.Draw(t.Img, s, font, 0, 20, color.Black)
 
 	}
 	screen.DrawImage(t.Img, t.Op)

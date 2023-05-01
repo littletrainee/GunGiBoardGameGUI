@@ -25,6 +25,8 @@ func (k *Koma) Draw(screen *ebiten.Image, font font.Face) {
 	vector.DrawFilledCircle(screen,
 		float32(k.CurrentCoordinate.X), float32(k.CurrentCoordinate.Y),
 		constant.RADIUS-6.25, color.White, true)
+	// 重製畫布
+	k.Img = ebiten.NewImage(int(constant.RADIUS)+1, int(constant.RADIUS)+1)
 
 	text.Draw(k.Img, k.Name, font, 0, 20, color.Black)
 	/*

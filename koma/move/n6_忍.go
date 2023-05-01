@@ -1,16 +1,26 @@
 package move
 
-import "github.com/littletrainee/GunGiBoardGameGUI/coordinate"
+import (
+	"image"
+)
 
-func PM忍() [][]coordinate.Coordinate {
-	return [][]coordinate.Coordinate{
-		// 一段
-		{{X: -1, Y: -1}, {X: -2, Y: -2}, {X: 1, Y: -1}, {X: 2, Y: -2},
-			{X: 1, Y: 1}, {X: 2, Y: 2}, {X: -1, Y: 1}, {X: -2, Y: 2}},
-
-		// 二段
-		{{X: -3, Y: -3}, {X: 3, Y: -3}, {X: 3, Y: 3}, {X: -3, Y: 3}},
-
-		// 三段
-		{{X: -4, Y: -4}, {X: 4, Y: -4}, {X: 4, Y: 4}, {X: -4, Y: 4}}}
+func PM忍() [][][]image.Point {
+	return [][][]image.Point{
+		// 上
+		{},
+		// 右上
+		{{{X: 1, Y: -1}, {X: 2, Y: -2}}, {{X: 3, Y: -3}}, {{X: 4, Y: -4}}},
+		// 右
+		{},
+		// 右下
+		{{{X: 1, Y: 1}, {X: 2, Y: 2}}, {{X: 3, Y: 3}}, {{X: 4, Y: 4}}},
+		// 下
+		{},
+		// 左下
+		{{{X: -1, Y: 1}, {X: -2, Y: 2}}, {{X: -3, Y: 3}}, {{X: -4, Y: 4}}},
+		// 左
+		{},
+		// 左上
+		{{{X: -1, Y: -1}, {X: -2, Y: -2}}, {{X: -3, Y: -3}}, {{X: -4, Y: -4}}},
+	}
 }

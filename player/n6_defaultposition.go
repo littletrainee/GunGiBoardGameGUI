@@ -13,7 +13,7 @@ import (
 	"github.com/littletrainee/pair"
 )
 
-func (p *Player) DefaultPosiont(g gamestate.GameState, b board.Board) {
+func (p *Player) DefaultPosition(g gamestate.GameState, b board.Board) {
 	var (
 		target []pair.Pair[int, image.Point]
 	)

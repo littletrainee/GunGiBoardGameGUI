@@ -5,7 +5,6 @@ import (
 	"image/color"
 
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/littletrainee/GunGiBoardGameGUI/coordinate"
 	"github.com/littletrainee/pair"
 )
 
@@ -16,5 +15,5 @@ type Koma struct {
 	CurrentPosition   pair.Pair[int, int]
 	Img               *ebiten.Image
 	Op                *ebiten.DrawImageOptions
-	ProbablyMoveing   [][]coordinate.Coordinate
+	ProbablyMoveing   [][][]image.Point
 }

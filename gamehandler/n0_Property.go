@@ -1,6 +1,8 @@
 package gamehandler
 
 import (
+	"image"
+
 	"github.com/littletrainee/GunGiBoardGameGUI/board"
 	"github.com/littletrainee/GunGiBoardGameGUI/cpu"
 	"github.com/littletrainee/GunGiBoardGameGUI/gamestate"
@@ -11,13 +13,13 @@ import (
 )
 
 type Game struct {
-	GameState         gamestate.GameState
-	Player1           player.Player
-	Player2           player.Player
-	PrepareForGameing timer.Timer
-	Board             board.Board
-	// TimerPair         pair.Pair[timer.Timer, timer.Timer]
-	TimerHandler timerhandler.TimerHandler
-	Font         font.Face
-	CPU          cpu.CPU
+	GameState          gamestate.GameState
+	Player1            player.Player
+	Player2            player.Player
+	PrepareForGameing  timer.Timer
+	Board              board.Board
+	TimerHandler       timerhandler.TimerHandler
+	Font               font.Face
+	CPU                cpu.CPU
+	WhichBlockBeSelect image.Point
 }

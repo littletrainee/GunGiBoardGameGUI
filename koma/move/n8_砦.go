@@ -1,18 +1,24 @@
 package move
 
-import "github.com/littletrainee/GunGiBoardGameGUI/coordinate"
+import "image"
 
-func PM砦() [][]coordinate.Coordinate {
-	return [][]coordinate.Coordinate{
-		// 一段
-		{{X: 0, Y: -1}, {X: 1, Y: 0}, {X: 1, Y: 1}, {X: -1, Y: 1},
-			{X: -1, Y: 0}},
-
-		// 二段
-		{{X: 0, Y: -2}, {X: 2, Y: 0}, {X: 2, Y: 2}, {X: -2, Y: 2},
-			{X: -2, Y: 0}},
-
-		// 三段
-		{{X: 0, Y: -3}, {X: 3, Y: 0}, {X: 3, Y: 3}, {X: -3, Y: 3},
-			{X: -3, Y: 0}}}
+func PM砦() [][][]image.Point {
+	return [][][]image.Point{
+		// 上
+		{{{X: 0, Y: -1}}, {{X: 0, Y: -2}}, {{X: 0, Y: -3}}},
+		// 右上
+		{},
+		// 右
+		{{{X: 1, Y: 0}}, {{X: 2, Y: 0}}, {{X: 3, Y: 0}}},
+		// 右下
+		{{{X: 1, Y: 1}}, {{X: 2, Y: 2}}, {{X: 3, Y: 3}}},
+		// 下
+		{},
+		// 左下
+		{{{X: -1, Y: 1}}, {{X: -2, Y: 2}}, {{X: -3, Y: 3}}},
+		// 左
+		{{{X: -1, Y: 0}}, {{X: -2, Y: 0}}, {{X: -3, Y: 0}}},
+		// 左上
+		{},
+	}
 }

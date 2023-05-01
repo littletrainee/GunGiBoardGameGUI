@@ -13,6 +13,7 @@ func (g *GameState) SelectLevel() {
 			if v.OnLevelBlock(x, y) {
 				g.Level = v.Code
 				g.Phase = phase.SET_LEVEL
+				g.LevelList = nil
 				break
 			}
 		}

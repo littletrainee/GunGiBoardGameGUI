@@ -29,5 +29,6 @@ func (p *Player) SetPositionAndState(l level.Level) {
 		}
 	}
 	p.State = playerstate.WAIT_FOR_SELECT_KOMA
+	p.WhichOneSelected = -1
 	p.SetKomaTai(l)
 }

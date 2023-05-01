@@ -32,6 +32,9 @@ func (p *Player) SetKomaTai(l level.Level) {
 	}
 	if !p.IsOwn {
 		distance *= -1
+		p.MaxRange = 3
+	} else {
+		p.MaxRange = 7
 	}
 
 	for _, v := range source {
@@ -41,7 +44,6 @@ func (p *Player) SetKomaTai(l level.Level) {
 			tempKoma koma.Koma = koma.Koma{
 				Name:  string(v),
 				Color: p.SelfColor,
-				Img:   ebiten.NewImage(int(constant.RADIUS)+1, int(constant.RADIUS)+1),
 				CurrentCoordinate: image.Point{
 					X: int(c),
 					Y: int(r)},

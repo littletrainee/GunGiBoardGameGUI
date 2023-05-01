@@ -10,8 +10,8 @@ func (c *CPU) ClickClockOrSuMi(t *timerhandler.TimerHandler, gs *gamestate.GameS
 	if c.DeclareSuMiPercentage > c.target {
 		c.Player.IsSuMi = true
 	} else {
-		gs.GetAnotherColor()
-		t.Turn = true
+		gs.TrunToNext()
+		t.Turn = gs.Turn
 		t.Player2Timer.StopCountDown <- true
 		t.Player2Timer.BackgroundColor = color.TimerPauseColor
 		t.Player1Timer.CountDown()

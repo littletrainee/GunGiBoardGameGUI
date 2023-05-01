@@ -10,7 +10,7 @@ import (
 )
 
 func ConvertToFace() font.Face {
-	file, err := os.Open("./Font/NotoSansTC-Thin.otf")
+	file, err := os.Open("./Font/NotoSansTC-Bold.otf")
 	if err != nil {
 		log.Fatal(err)
 	}
