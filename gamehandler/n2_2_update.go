@@ -1,10 +1,11 @@
 package gamehandler
 
 import (
-	"fmt"
 	"image/color"
+	"time"
 
 	"github.com/littletrainee/GunGiBoardGameGUI/board"
+	_color "github.com/littletrainee/GunGiBoardGameGUI/color"
 	"github.com/littletrainee/GunGiBoardGameGUI/constant"
 	"github.com/littletrainee/GunGiBoardGameGUI/cpu"
 	"github.com/littletrainee/GunGiBoardGameGUI/enum/phase"
@@ -48,7 +49,12 @@ func (g *Game) Update() error {
 			g.GameState.Phase = phase.PREPARE_FOR_GAMING
 			g.GameState.LevelList = nil
 		}
-		g.GameState.SetFirst()
+		if g.GameState.Level == level.ADVANCED {
+			g.GameState.MaxLayer = 3
+		} else {
+			g.GameState.MaxLayer = 2
+		}
+		g.GameState.SetFirstAndTurn()
 		g.Player1.SetPositionAndState(g.GameState.Level)
 		g.Player2.SetPositionAndState(g.GameState.Level)
 
@@ -75,44 +81,69 @@ func (g *Game) Update() error {
 	// 初始化棋盤、騎鐘與電腦
 	case phase.INITILIZATION_BOARD_CLOCK_AND_CPU:
 		g.Board = board.Initilization()
-		g.TimerHandler = timerhandler.Initilization()
+		g.TimerHandler = timerhandler.Initilization(g.GameState)
 		g.CPU = cpu.Initilization(&g.Player2)
 		g.GameState.Phase = phase.ARRANGEMENT_PHASE
+		if g.GameState.Turn == g.Player1.SelfColor {
+			g.TimerHandler.Player1Timer.BackgroundColor = _color.ConfirmColor
+			g.TimerHandler.Player1Timer.CountDown()
+			g.TimerHandler.Player2Timer.CountDown()
+			go func() {
+				time.Sleep(time.Second / 2)
+				g.TimerHandler.Player2Timer.StopCountDown <- true
+			}()
+		} else {
+			g.TimerHandler.Player2Timer.BackgroundColor = _color.ConfirmColor
+			g.TimerHandler.Player2Timer.CountDown()
+			g.TimerHandler.Player1Timer.CountDown()
+			go func() {
+				time.Sleep(time.Second / 2)
+				g.TimerHandler.Player1Timer.StopCountDown <- true
+			}()
+		}
 
 	// 布陣階段
 	case phase.ARRANGEMENT_PHASE:
 		if g.GameState.RecommendedArramgement {
-			g.Player1.DefaultPosiont(g.GameState, g.Board)
-			g.Player2.DefaultPosiont(g.GameState, g.Board)
-			g.GameState.Phase = phase.DUELING_PHASE
+			g.Player1.DefaultPosition(g.GameState, g.Board)
+			g.Player2.DefaultPosition(g.GameState, g.Board)
+			g.delayedChangePhaseTo(phase.DUELING_PHASE_SELECT_KOMA)
 		}
-		// if g.GameState.Turn == g.GameState.First {
-		// 	// 確認本家是否已經有動作
-		// 	switch g.Player1.PlayerState {
-		// 	case playerstate.WAIT_FOR_SELECT_KOMA:
-		// 		g.Player1.SelectKomaFromKomaTai(g.GameState, g.Board)
-		// 	case playerstate.IS_SELECT_KOMA:
-		// 		g.Player1.PutOnBoard(g.Board, g.GameState)
-		// 	case playerstate.WAIT_TO_CLICK_CLOCK:
-		// 		g.TimerHandler.ChangeAnotherOne(&g.GameState)
-		// 		g.Player2.PlayerState = playerstate.IS_SELECT_KOMA
-		// 	}
-		// } else {
-		// 	switch g.Player2.PlayerState {
-		// 	case playerstate.IS_SELECT_KOMA:
-		// 		g.cpu.AutoSetKoma(g.GameState, &g.Board)
-		// 		time.Sleep(time.Second)
-		// 	case playerstate.WAIT_TO_CLICK_CLOCK:
-		// 		g.cpu.ClickClockOrSuMi(&g.TimerHandler, &g.GameState)
-		// 		time.Sleep(time.Second)
-		// 		g.Player1.PlayerState = playerstate.WAIT_FOR_SELECT_KOMA
-		// 		g.GameState.ArrangementPhaseRoundCount++
-		// 	}
-		// }
-	case phase.DUELING_PHASE:
-		fmt.Println("Hello")
+	// if g.GameState.Turn == g.GameState.First {
+	// 	// 確認本家是否已經有動作
+	// 	switch g.Player1.PlayerState {
+	// 	case playerstate.WAIT_FOR_SELECT_KOMA:
+	// 		g.Player1.SelectKomaFromKomaTai(g.GameState, g.Board)
+	// 	case playerstate.IS_SELECT_KOMA:
+	// 		g.Player1.PutOnBoard(g.Board, g.GameState)
+	// 	case playerstate.WAIT_TO_CLICK_CLOCK:
+	// 		g.TimerHandler.ChangeAnotherOne(&g.GameState)
+	// 		g.Player2.PlayerState = playerstate.IS_SELECT_KOMA
+	// 	}
+	// } else {
+	// 	switch g.Player2.PlayerState {
+	// 	case playerstate.IS_SELECT_KOMA:
+	// 		g.cpu.AutoSetKoma(g.GameState, &g.Board)
+	// 		time.Sleep(time.Second)
+	// 	case playerstate.WAIT_TO_CLICK_CLOCK:
+	// 		g.cpu.ClickClockOrSuMi(&g.TimerHandler, &g.GameState)
+	// 		time.Sleep(time.Second)
+	// 		g.Player1.PlayerState = playerstate.WAIT_FOR_SELECT_KOMA
+	// 		g.GameState.ArrangementPhaseRoundCount++
+	// 	}
+	// }
+	case phase.DUELING_PHASE_SELECT_KOMA:
+		if g.GameState.Turn == g.Player1.SelfColor {
+			//選擇棋盤上的駒或是駒台上的駒
+			g.selectKoma()
+		} else {
+			//CPU
+		}
+	case phase.DUELING_PHASE_MOVE_KOMA:
+		g.MoveOnBoard()
+	case phase.DUELING_PHASE_CLICK_CLOCK:
+		g.TimerHandler.ChangeAnotherOne(&g.GameState)
 	default:
 	}
-	// }
 	return nil
 }
