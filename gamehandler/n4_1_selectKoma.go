@@ -10,12 +10,11 @@ import (
 	"github.com/littletrainee/gunginotationgenerator/enum/level"
 )
 
-func (g *Game) selectKoma() {
+func (g *Game) SelectKoma() {
 	// 循環查找哪個block是否有被按鍵釋放
 	if inpututil.IsMouseButtonJustReleased(ebiten.MouseButtonLeft) {
 		x, y := ebiten.CursorPosition()
 		for k, currentBlock := range g.Board.Blocks {
-		Recheck:
 			// 若當前block有被按鍵釋放
 			if currentBlock.OnBlock(x, y) {
 				if len(currentBlock.KomaStack) > 0 && g.WhichBlockBeSelect == (image.Point{}) {
@@ -42,7 +41,7 @@ func (g *Game) selectKoma() {
 							}
 							g.Board.Blocks[k] = currentBlock
 							g.delayedChangePhaseTo(phase.DUELING_PHASE_MOVE_KOMA)
-							goto Out
+							return
 						}
 					}
 
@@ -59,34 +58,15 @@ func (g *Game) selectKoma() {
 					}
 					g.Board.Blocks[k] = currentBlock
 					g.delayedChangePhaseTo(phase.DUELING_PHASE_MOVE_KOMA)
-					goto Out
-				} else {
-					for k := range g.Board.Blocks {
-						tempblock := g.Board.Blocks[k]
-						tempblock.BeSelect = false
-						tempblock.CurrentColor = color.BoardColor
-						tempblock.ConfirmPosition = nil
-						g.Board.Blocks[k] = tempblock
-					}
-					// 如果視同一個位置
-					if k != g.WhichBlockBeSelect {
-						g.WhichBlockBeSelect = image.Point{}
-						g.Player1.KomaTaiBeingClick = false
-						g.Player1.WhichOneSelected = -1
-						goto Recheck
-					}
-					g.WhichBlockBeSelect = image.Point{}
-
-					g.delayedChangePhaseTo(phase.DUELING_PHASE_MOVE_KOMA)
-					goto Out
+					return
 				}
 			}
 		}
 
 		for i, v := range g.Player1.KomaTai {
 			if v.Item1.OnKoma(float64(x), float64(y)) {
-				if v.Item2 > 0 && !g.Player1.KomaTaiBeingClick {
-					g.Player1.KomaTaiBeingClick = true
+				if v.Item2 > 0 {
+					g.WhichKomaOnKomaTaiBeSelect = i
 					g.Player1.WhichOneSelected = i
 					for k := range g.Board.Blocks {
 						tempblock := g.Board.Blocks[k]
@@ -108,19 +88,8 @@ func (g *Game) selectKoma() {
 						}
 					}
 					g.delayedChangePhaseTo(phase.DUELING_PHASE_MOVE_KOMA)
-				} else {
-					g.Player1.KomaTaiBeingClick = false
-					g.Player1.WhichOneSelected = -1
-					// 延遲可選擇取消
-					for k := range g.Board.Blocks {
-						tempblock := g.Board.Blocks[k]
-						tempblock.CurrentColor = color.BoardColor
-						g.Board.Blocks[k] = tempblock
-						g.delayedChangePhaseTo(phase.DUELING_PHASE_MOVE_KOMA)
-					}
 				}
 			}
 		}
-	Out:
 	}
 }

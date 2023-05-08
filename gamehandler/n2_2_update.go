@@ -1,6 +1,7 @@
 package gamehandler
 
 import (
+	"fmt"
 	"image/color"
 	"time"
 
@@ -12,7 +13,6 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/gamestate/recommendarrangement"
 	"github.com/littletrainee/GunGiBoardGameGUI/player"
 	"github.com/littletrainee/GunGiBoardGameGUI/timer"
-	"github.com/littletrainee/GunGiBoardGameGUI/timerhandler"
 	"github.com/littletrainee/gunginotationgenerator/enum/level"
 )
 
@@ -81,24 +81,39 @@ func (g *Game) Update() error {
 	// 初始化棋盤、騎鐘與電腦
 	case phase.INITILIZATION_BOARD_CLOCK_AND_CPU:
 		g.Board = board.Initilization()
-		g.TimerHandler = timerhandler.Initilization(g.GameState)
+		g.Player1Timer = timer.Initilization(constant.REMAINING_TIME,
+			constant.TIMER_POSITION_X+1,
+			constant.TIMER_POSITION_Y+1+constant.TIMER_BASE_HEIGHT/2)
+		g.Player2Timer = timer.Initilization(constant.REMAINING_TIME,
+			constant.TIMER_POSITION_X+1,
+			constant.TIMER_POSITION_Y+1)
+		// g.TimerHandler = timerhandler.Initilization(g.GameState)
 		g.CPU = cpu.Initilization(&g.Player2)
 		g.GameState.Phase = phase.ARRANGEMENT_PHASE
 		if g.GameState.Turn == g.Player1.SelfColor {
-			g.TimerHandler.Player1Timer.BackgroundColor = _color.ConfirmColor
-			g.TimerHandler.Player1Timer.CountDown()
-			g.TimerHandler.Player2Timer.CountDown()
+			// g.TimerHandler.Player1Timer.BackgroundColor = _color.ConfirmColor
+			g.Player1Timer.BackgroundColor = _color.ConfirmColor
+			g.Player2Timer.BackgroundColor = _color.TimerPauseColor
+			g.Player1Timer.SetGeoM(false)
+			g.Player2Timer.SetGeoM(true)
+
+			g.Player1Timer.CountDown()
+			g.Player2Timer.CountDown()
 			go func() {
 				time.Sleep(time.Second / 2)
-				g.TimerHandler.Player2Timer.StopCountDown <- true
+				g.Player2Timer.StopCountDown <- true
 			}()
 		} else {
-			g.TimerHandler.Player2Timer.BackgroundColor = _color.ConfirmColor
-			g.TimerHandler.Player2Timer.CountDown()
-			g.TimerHandler.Player1Timer.CountDown()
+			g.Player1Timer.BackgroundColor = _color.TimerPauseColor
+			g.Player2Timer.BackgroundColor = _color.ConfirmColor
+			g.Player1Timer.SetGeoM(false)
+			g.Player2Timer.SetGeoM(true)
+
+			g.Player2Timer.CountDown()
+			g.Player1Timer.CountDown()
 			go func() {
 				time.Sleep(time.Second / 2)
-				g.TimerHandler.Player1Timer.StopCountDown <- true
+				g.Player1Timer.StopCountDown <- true
 			}()
 		}
 
@@ -135,14 +150,27 @@ func (g *Game) Update() error {
 	case phase.DUELING_PHASE_SELECT_KOMA:
 		if g.GameState.Turn == g.Player1.SelfColor {
 			//選擇棋盤上的駒或是駒台上的駒
-			g.selectKoma()
+			g.SelectKoma()
 		} else {
-			//CPU
+			g.CPU.SelectKoma(g.Board)
+			g.delayedChangePhaseTo(phase.CPU_SELECT_MOVE)
 		}
+
+	case phase.CPU_SELECT_MOVE:
+		g.CPU.SelectMove(g.GameState, g.Board)
+		g.delayedChangePhaseTo(phase.CPU_MOVE_KOMA)
+	case phase.CPU_MOVE_KOMA:
+		g.CPU.MoveKoma(g.Board)
+		g.delayedChangePhaseTo(phase.CPU_CLICK_CLOCK)
+	case phase.CPU_CLICK_CLOCK:
+		g.CPU.ClickClock(&g.GameState, &g.Player1Timer, &g.Player2Timer)
+		g.delayedChangePhaseTo(phase.DUELING_PHASE_SELECT_KOMA)
+		fmt.Println("HW")
 	case phase.DUELING_PHASE_MOVE_KOMA:
 		g.MoveOnBoard()
 	case phase.DUELING_PHASE_CLICK_CLOCK:
-		g.TimerHandler.ChangeAnotherOne(&g.GameState)
+		// g.TimerHandler.ChangeAnotherOne(&g.GameState)
+		g.OwnClickClock()
 	default:
 	}
 	return nil

@@ -32,6 +32,9 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		phase.DUELING_PHASE_SELECT_KOMA,
 		phase.DUELING_PHASE_MOVE_KOMA,
 		phase.DUELING_PHASE_CLICK_CLOCK,
+		phase.CPU_SELECT_MOVE,
+		phase.CPU_MOVE_KOMA,
+		phase.CPU_CLICK_CLOCK,
 		phase.DELAY:
 
 		// 繪製棋盤
@@ -43,6 +46,11 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		g.Board.Draw(screen, g.Font)
 		g.Player1.DrawKomaTai(screen, g.Font)
 		g.Player2.DrawKomaTai(screen, g.Font)
-		g.TimerHandler.Draw(screen, g.Font, g.GameState.Phase)
+		vector.DrawFilledRect(screen,
+			float32(constant.TIMER_POSITION_X), float32(constant.TIMER_POSITION_Y),
+			float32(constant.TIMER_BASE_WIDTH), float32(constant.TIMER_BASE_HEIGHT),
+			color.Black, true)
+		g.Player1Timer.Draw(screen, g.Font, g.GameState.Phase)
+		g.Player2Timer.Draw(screen, g.Font, g.GameState.Phase)
 	}
 }

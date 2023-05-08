@@ -1,10 +1,15 @@
 package cpu
 
-import "github.com/littletrainee/GunGiBoardGameGUI/player"
+import (
+	"image"
+
+	"github.com/littletrainee/GunGiBoardGameGUI/player"
+)
 
 type CPU struct {
-	Player                *player.Player
-	DeclareSuMiPercentage float32
-	PercentagePhase       float32
-	target                float32
+	*player.Player
+	// DeclareSuMiPercentage float32
+	// PercentagePhase       float32
+	targetPosition image.Point
+	targetKoma     []int
 }

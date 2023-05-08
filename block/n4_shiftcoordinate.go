@@ -1,4 +1,4 @@
-package gamehandler
+package block
 
 import (
 	"github.com/littletrainee/GunGiBoardGameGUI/constant"
