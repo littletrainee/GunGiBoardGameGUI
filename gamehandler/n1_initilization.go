@@ -6,6 +6,6 @@ import (
 )
 
 func (g *Game) Initilization() {
-	g.GameState = gamestate.Initilization()
 	g.Font = font.ConvertToFace()
+	g.GameState = gamestate.Initilization(g.Font)
 }

@@ -1,9 +1,8 @@
 package gamehandler
 
 import (
-	"image"
-
 	"github.com/littletrainee/GunGiBoardGameGUI/board"
+	"github.com/littletrainee/GunGiBoardGameGUI/capture"
 	"github.com/littletrainee/GunGiBoardGameGUI/cpu"
 	"github.com/littletrainee/GunGiBoardGameGUI/gamestate"
 	"github.com/littletrainee/GunGiBoardGameGUI/player"
@@ -12,15 +11,15 @@ import (
 )
 
 type Game struct {
-	GameState                  gamestate.GameState
-	Player1                    player.Player
-	Player2                    player.Player
-	PrepareForGameing          timer.Timer
-	Board                      board.Board
-	Player1Timer               timer.Timer
-	Player2Timer               timer.Timer
-	Font                       font.Face
-	CPU                        cpu.CPU
-	WhichBlockBeSelect         image.Point
-	WhichKomaOnKomaTaiBeSelect int
+	GameState             gamestate.GameState
+	Player1               player.Player
+	Player2               player.Player
+	PrepareForGameing     timer.Timer
+	Board                 board.Board
+	Player1Timer          timer.Timer
+	Player2Timer          timer.Timer
+	Font                  font.Face
+	CPU                   cpu.CPU
+	WhichKomaBeenSelected []int
+	Capture               capture.Capture
 }

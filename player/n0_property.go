@@ -19,6 +19,4 @@ type Player struct {
 	IsOwn                   bool
 	IsSuMi                  bool
 	MaxRange                int
-	WhichOneSelected        int
-	// KomaTaiBeingClick       bool
 }

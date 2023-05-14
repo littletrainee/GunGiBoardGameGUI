@@ -52,5 +52,6 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			color.Black, true)
 		g.Player1Timer.Draw(screen, g.Font, g.GameState.Phase)
 		g.Player2Timer.Draw(screen, g.Font, g.GameState.Phase)
+		g.Capture.Draw(screen)
 	}
 }

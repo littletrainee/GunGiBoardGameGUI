@@ -55,4 +55,6 @@ func (c *CPU) MoveKoma(b board.Board) {
 	}
 	// 將修改後的目標block賦予回去map
 	b.Blocks[c.targetPosition] = targetBlock
+	c.targetKoma = nil
+	c.targetPosition = image.Point{}
 }

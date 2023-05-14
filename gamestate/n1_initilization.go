@@ -3,10 +3,11 @@ package gamestate
 import (
 	"github.com/littletrainee/GunGiBoardGameGUI/enum/phase"
 	"github.com/littletrainee/GunGiBoardGameGUI/gamestate/selectcolor"
+	"golang.org/x/image/font"
 )
 
-func Initilization() GameState {
-	return GameState{Phase: phase.SELECT_COLOR, Color: selectcolor.Initilization()}
+func Initilization(font font.Face) GameState {
+	return GameState{Phase: phase.SELECT_COLOR, Color: selectcolor.Initilization(font)}
 	// g.Level = gameLevel
 	// g.First = firstColor
 	// g.Turn = firstColor

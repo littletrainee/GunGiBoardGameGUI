@@ -1,11 +1,11 @@
 package gamehandler
 
 import (
-	"fmt"
 	"image/color"
 	"time"
 
 	"github.com/littletrainee/GunGiBoardGameGUI/board"
+	"github.com/littletrainee/GunGiBoardGameGUI/capture"
 	_color "github.com/littletrainee/GunGiBoardGameGUI/color"
 	"github.com/littletrainee/GunGiBoardGameGUI/constant"
 	"github.com/littletrainee/GunGiBoardGameGUI/cpu"
@@ -55,8 +55,8 @@ func (g *Game) Update() error {
 			g.GameState.MaxLayer = 2
 		}
 		g.GameState.SetFirstAndTurn()
-		g.Player1.SetPositionAndState(g.GameState.Level)
-		g.Player2.SetPositionAndState(g.GameState.Level)
+		g.Player1.SetKomaTaiPosition(g.GameState.Level, g.Font)
+		g.Player2.SetKomaTaiPosition(g.GameState.Level, g.Font)
 
 	// 若階級是入門或初級詢問是否用推薦的配置
 	case phase.RECOMMENDED_ARRANGEMENT:
@@ -78,7 +78,7 @@ func (g *Game) Update() error {
 			g.GameState.Phase = phase.INITILIZATION_BOARD_CLOCK_AND_CPU
 		}
 
-	// 初始化棋盤、騎鐘與電腦
+	// 初始化棋盤、棋鐘、電腦與詢問俘獲彈出視窗
 	case phase.INITILIZATION_BOARD_CLOCK_AND_CPU:
 		g.Board = board.Initilization()
 		g.Player1Timer = timer.Initilization(constant.REMAINING_TIME,
@@ -116,7 +116,7 @@ func (g *Game) Update() error {
 				g.Player1Timer.StopCountDown <- true
 			}()
 		}
-
+		g.Capture = capture.Initilization(g.Font)
 	// 布陣階段
 	case phase.ARRANGEMENT_PHASE:
 		if g.GameState.RecommendedArramgement {
@@ -150,7 +150,7 @@ func (g *Game) Update() error {
 	case phase.DUELING_PHASE_SELECT_KOMA:
 		if g.GameState.Turn == g.Player1.SelfColor {
 			//選擇棋盤上的駒或是駒台上的駒
-			g.SelectKoma()
+			g.OwnSelectKoma()
 		} else {
 			g.CPU.SelectKoma(g.Board)
 			g.delayedChangePhaseTo(phase.CPU_SELECT_MOVE)
@@ -165,11 +165,12 @@ func (g *Game) Update() error {
 	case phase.CPU_CLICK_CLOCK:
 		g.CPU.ClickClock(&g.GameState, &g.Player1Timer, &g.Player2Timer)
 		g.delayedChangePhaseTo(phase.DUELING_PHASE_SELECT_KOMA)
-		fmt.Println("HW")
 	case phase.DUELING_PHASE_MOVE_KOMA:
 		g.MoveOnBoard()
+	case phase.DUELING_PHASE_CAPTURE_OR_CONTROL_ASK:
+		g.CaptureOrControl()
+
 	case phase.DUELING_PHASE_CLICK_CLOCK:
-		// g.TimerHandler.ChangeAnotherOne(&g.GameState)
 		g.OwnClickClock()
 	default:
 	}

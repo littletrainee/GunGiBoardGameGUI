@@ -2,18 +2,21 @@ package player
 
 import (
 	"image"
+	"image/color"
 	"math"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/text"
 	"github.com/littletrainee/GunGiBoardGameGUI/constant"
 	"github.com/littletrainee/GunGiBoardGameGUI/koma"
 	"github.com/littletrainee/GunGiBoardGameGUI/koma/move"
 	_constant "github.com/littletrainee/gunginotationgenerator/constant"
 	"github.com/littletrainee/gunginotationgenerator/enum/level"
 	"github.com/littletrainee/pair"
+	"golang.org/x/image/font"
 )
 
-func (p *Player) SetKomaTai(l level.Level) {
+func (p *Player) SetKomaTai(l level.Level, font font.Face) {
 	var (
 		source       string
 		row          float32 = 0
@@ -47,10 +50,12 @@ func (p *Player) SetKomaTai(l level.Level) {
 				CurrentCoordinate: image.Point{
 					X: int(c),
 					Y: int(r)},
-				Op: &ebiten.DrawImageOptions{},
+				Op:  &ebiten.DrawImageOptions{},
+				Img: ebiten.NewImage(int(constant.RADIUS)+1, int(constant.RADIUS)+1),
 			}
 			repeat int
 		)
+		text.Draw(tempKoma.Img, tempKoma.Name, font, 0, 20, color.Black)
 
 		if p.IsOwn {
 			tempKoma.SetGeoMetry(0)
