@@ -86,9 +86,11 @@ func (g *Game) MoveOnBoard() {
 						}
 					}
 					// 若目標block的段數已經答這個階級所能堆疊到最高段數，並且有包含對家的駒
-					if len(currentBlock.KomaStack) == g.GameState.MaxLayer && containOpponentKoma {
+					if len(currentBlock.KomaStack) == g.GameState.MaxLayer && containOpponentKoma && len(g.Board.Blocks[image.Point{X: g.WhichKomaBeenSelected[0], Y: g.WhichKomaBeenSelected[1]}].KomaStack) == len(currentBlock.KomaStack) {
 						g.Capture.Show = true
+						g.Capture.CancelBool = true
 						g.Capture.CaptureBool = true
+						g.TargetPosition = k
 						g.delayedChangePhaseTo(phase.DUELING_PHASE_CAPTURE_OR_CONTROL_ASK)
 						return
 					}
@@ -97,10 +99,15 @@ func (g *Game) MoveOnBoard() {
 					if len(currentBlock.KomaStack) < g.GameState.MaxLayer && containOpponentKoma {
 						g.Capture.Show = true
 						g.Capture.CaptureBool = true
+						g.Capture.CancelBool = true
 						g.Capture.ControlBool = true
+						g.TargetPosition = k
 						g.delayedChangePhaseTo(phase.DUELING_PHASE_CAPTURE_OR_CONTROL_ASK)
-						// 若目標位置已經達最高段數且目標位置有包括對方的駒時
-					} else {
+						return
+
+					}
+					// 若目標位置已經達最高段數且目標位置有包括對方的駒時
+					if len(currentBlock.KomaStack) < g.GameState.MaxLayer && !currentBlock.HasSuI() {
 						// 複製前一個block
 						previousBlock := g.Board.Blocks[image.Point{X: g.WhichKomaBeenSelected[0], Y: g.WhichKomaBeenSelected[1]}]
 						// 複製前一個block中KomaStack的最後一個駒

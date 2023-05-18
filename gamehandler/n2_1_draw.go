@@ -32,6 +32,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		phase.DUELING_PHASE_SELECT_KOMA,
 		phase.DUELING_PHASE_MOVE_KOMA,
 		phase.DUELING_PHASE_CLICK_CLOCK,
+		phase.DUELING_PHASE_CAPTURE_OR_CONTROL_ASK,
 		phase.CPU_SELECT_MOVE,
 		phase.CPU_MOVE_KOMA,
 		phase.CPU_CLICK_CLOCK,

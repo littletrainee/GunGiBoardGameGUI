@@ -1,6 +1,8 @@
 package gamehandler
 
 import (
+	"image"
+
 	"github.com/littletrainee/GunGiBoardGameGUI/board"
 	"github.com/littletrainee/GunGiBoardGameGUI/capture"
 	"github.com/littletrainee/GunGiBoardGameGUI/cpu"
@@ -21,5 +23,6 @@ type Game struct {
 	Font                  font.Face
 	CPU                   cpu.CPU
 	WhichKomaBeenSelected []int
+	TargetPosition        image.Point
 	Capture               capture.Capture
 }

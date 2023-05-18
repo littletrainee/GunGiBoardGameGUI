@@ -51,7 +51,7 @@ func checkTargetBlock(direction [][]image.Point, lastKoma koma.Koma, currentDan 
 
 						if tempblock.HasSuI() {
 							tempblock.CurrentColor = _color.DenyColor
-						} else if canCapture {
+						} else if canCapture && len(tempblock.KomaStack) <= currentDan {
 							tempblock.CurrentColor = _color.CaptureColor
 						} else if targetlen <= currentDan && targetlen < g.GameState.MaxLayer {
 							tempblock.CurrentColor = _color.ConfirmColor
