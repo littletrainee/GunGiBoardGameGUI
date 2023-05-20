@@ -12,4 +12,5 @@ type CPU struct {
 	// PercentagePhase       float32
 	targetPosition image.Point
 	targetKoma     []int
+	TargetMove     []image.Point
 }

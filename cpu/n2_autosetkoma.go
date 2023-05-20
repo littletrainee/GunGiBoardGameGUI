@@ -7,7 +7,6 @@ import (
 
 	"github.com/littletrainee/GunGiBoardGameGUI/block"
 	"github.com/littletrainee/GunGiBoardGameGUI/board"
-	"github.com/littletrainee/GunGiBoardGameGUI/constant"
 	"github.com/littletrainee/GunGiBoardGameGUI/enum/playerstate"
 	"github.com/littletrainee/GunGiBoardGameGUI/gamestate"
 	"github.com/littletrainee/GunGiBoardGameGUI/koma"
@@ -31,9 +30,8 @@ func (c *CPU) AutoSetKoma(g gamestate.GameState, b *board.Board) {
 			switch len(targetblock.KomaStack) {
 			}
 			tempKoma = c.Player.KomaTai[0].Item1
-			tempKoma.CurrentCoordinate.X = int(targetblock.Coordinate.X + constant.BLOCK_SIZE/2)
-			tempKoma.CurrentCoordinate.Y = int(targetblock.Coordinate.Y + constant.BLOCK_SIZE/2)
-			tempKoma.SetCurrentPosition(targetblock.Name.Item1, targetblock.Name.Item2)
+			tempKoma.SetCurrentCoordinate(targetblock.Coordinate, 0)
+			tempKoma.SetCurrentPosition(targetblock.Name)
 			tempKoma.Op.GeoM.Reset()
 			tempKoma.SetGeoMetry(math.Pi)
 			targetblock.KomaStack = append(targetblock.KomaStack, tempKoma)
@@ -46,7 +44,7 @@ func (c *CPU) AutoSetKoma(g gamestate.GameState, b *board.Board) {
 			var (
 				whichOneCanBeChosen []int = []int{}
 				whichOne            int
-				shift               float32
+				shift               int
 			)
 			// random select koma
 			for i, v := range c.Player.KomaTai {
@@ -64,21 +62,13 @@ func (c *CPU) AutoSetKoma(g gamestate.GameState, b *board.Board) {
 					break
 				}
 			}
-			switch len(targetblock.KomaStack) {
-			case 0:
-				shift = 0
-			case 1:
-				shift = constant.SECOND_DAN
-			case 2:
-				shift = constant.THIRD_DAN
-			}
+			shift = block.Shift(targetblock.KomaStack)
 			//複製出來
 			tempKoma = c.Player.KomaTai[whichOneCanBeChosen[whichOne]].Item1.Clone()
 			// 設定目標格的位置
-			tempKoma.CurrentCoordinate.X = int(targetblock.Coordinate.X + constant.BLOCK_SIZE/2 - shift)
-			tempKoma.CurrentCoordinate.Y = int(targetblock.Coordinate.Y + constant.BLOCK_SIZE/2 - shift)
+			tempKoma.SetCurrentCoordinate(targetblock.Coordinate, shift)
 			//設定目標代號
-			tempKoma.SetCurrentPosition(targetblock.Name.Item1, targetblock.Name.Item2)
+			tempKoma.SetCurrentPosition(targetblock.Name)
 			// 設定文字顯示的位置
 			tempKoma.SetGeoMetry(math.Pi)
 			targetblock.KomaStack = append(targetblock.KomaStack, tempKoma)

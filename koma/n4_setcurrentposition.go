@@ -1,7 +1,11 @@
 package koma
 
-import "github.com/littletrainee/pair"
+import (
+	"image"
 
-func (k *Koma) SetCurrentPosition(x, y int) {
-	k.CurrentPosition = pair.Pair[int, int]{Item1: x, Item2: y}
+	"github.com/littletrainee/pair"
+)
+
+func (k *Koma) SetCurrentPosition(p pair.Pair[int, int]) {
+	k.CurrentPosition = image.Point{X: p.Item1, Y: p.Item2}
 }

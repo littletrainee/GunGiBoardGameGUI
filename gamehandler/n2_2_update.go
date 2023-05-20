@@ -150,10 +150,14 @@ func (g *Game) Update() error {
 	case phase.DUELING_PHASE_SELECT_KOMA:
 		if g.GameState.Turn == g.Player1.SelfColor {
 			//選擇棋盤上的駒或是駒台上的駒
-			g.OwnSelectKoma()
+			g.SelectKoma()
 		} else {
 			g.CPU.SelectKoma(g.Board)
-			g.delayedChangePhaseTo(phase.CPU_SELECT_MOVE)
+			if len(g.CPU.TargetMove) != 0 {
+				g.delayedChangePhaseTo(phase.CPU_MOVE_KOMA)
+			} else {
+				g.delayedChangePhaseTo(phase.CPU_SELECT_MOVE)
+			}
 		}
 
 	case phase.CPU_SELECT_MOVE:
@@ -166,12 +170,12 @@ func (g *Game) Update() error {
 		g.CPU.ClickClock(&g.GameState, &g.Player1Timer, &g.Player2Timer)
 		g.delayedChangePhaseTo(phase.DUELING_PHASE_SELECT_KOMA)
 	case phase.DUELING_PHASE_MOVE_KOMA:
-		g.MoveOnBoard()
+		g.MoveKoma()
 	case phase.DUELING_PHASE_CAPTURE_OR_CONTROL_ASK:
 		g.CaptureOrControl()
 
 	case phase.DUELING_PHASE_CLICK_CLOCK:
-		g.OwnClickClock()
+		g.ClickClock()
 	default:
 	}
 	return nil

@@ -5,7 +5,6 @@ import (
 	"math"
 
 	"github.com/littletrainee/GunGiBoardGameGUI/board"
-	"github.com/littletrainee/GunGiBoardGameGUI/constant"
 	"github.com/littletrainee/GunGiBoardGameGUI/gamestate"
 	"github.com/littletrainee/GunGiBoardGameGUI/koma"
 	"github.com/littletrainee/GunGiBoardGameGUI/koma/defaultposition"
@@ -26,9 +25,8 @@ func (p *Player) DefaultPosition(g gamestate.GameState, b board.Board) {
 		pos := image.Point{X: v.Item2.X, Y: v.Item2.Y}
 		tempblock := b.Blocks[pos]
 		tempKoma := p.KomaTai[v.Item1].Item1.Clone()
-		tempKoma.CurrentCoordinate.X = int(tempblock.Coordinate.X + constant.BLOCK_SIZE/2)
-		tempKoma.CurrentCoordinate.Y = int(tempblock.Coordinate.Y + constant.BLOCK_SIZE/2)
-		tempKoma.SetCurrentPosition(tempblock.Name.Item1, tempblock.Name.Item2)
+		tempKoma.SetCurrentCoordinate(tempblock.Coordinate, 0)
+		tempKoma.SetCurrentPosition(tempblock.Name)
 		if p.IsOwn {
 			tempKoma.SetGeoMetry(0)
 		} else {

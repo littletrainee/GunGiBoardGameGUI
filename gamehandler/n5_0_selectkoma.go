@@ -10,7 +10,7 @@ import (
 	"github.com/littletrainee/gunginotationgenerator/enum/level"
 )
 
-func (g *Game) OwnSelectKoma() {
+func (g *Game) SelectKoma() {
 	// 循環查找哪個block是否有被按鍵釋放
 	if inpututil.IsMouseButtonJustReleased(ebiten.MouseButtonLeft) {
 		x, y := ebiten.CursorPosition()
@@ -33,9 +33,7 @@ func (g *Game) OwnSelectKoma() {
 							for _, direction := range lastKoma.ProbablyMoveing {
 								for danIndex, eachDanCanMove := range direction {
 									if danIndex < currentDan {
-										currentBlock.ConfirmPosition = append(
-											currentBlock.ConfirmPosition,
-											suICheck(eachDanCanMove, lastKoma, g, currentDan)...)
+										g.ConfirmPosition = append(g.ConfirmPosition, suICheck(eachDanCanMove, lastKoma, g, currentDan)...)
 									}
 								}
 							}
@@ -47,7 +45,7 @@ func (g *Game) OwnSelectKoma() {
 
 					// 迭代當前的方向
 					for _, direction := range lastKoma.ProbablyMoveing {
-						currentBlock.ConfirmPosition = append(currentBlock.ConfirmPosition, checkTargetBlock(direction, lastKoma, currentDan, g)...)
+						g.ConfirmPosition = append(g.ConfirmPosition, checkTargetBlock(direction, lastKoma, currentDan, g)...)
 					}
 					g.Board.Blocks[k] = currentBlock
 					g.delayedChangePhaseTo(phase.DUELING_PHASE_MOVE_KOMA)

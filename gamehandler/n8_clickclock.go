@@ -7,7 +7,7 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/enum/phase"
 )
 
-func (g *Game) OwnClickClock() {
+func (g *Game) ClickClock() {
 	if inpututil.IsMouseButtonJustReleased(ebiten.MouseButtonLeft) {
 		x, y := ebiten.CursorPosition()
 		if g.Player1Timer.OnTimer(x, y) {

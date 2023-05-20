@@ -25,4 +25,5 @@ type Game struct {
 	WhichKomaBeenSelected []int
 	TargetPosition        image.Point
 	Capture               capture.Capture
+	ConfirmPosition       []image.Point
 }

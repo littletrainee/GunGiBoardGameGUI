@@ -49,8 +49,8 @@ func (c *CPU) SelectMove(g gamestate.GameState, b board.Board) {
 					wall = false
 					for i := 0; i < len(v[0]); i++ {
 						targetblockPosition := image.Point{
-							X: currentLastKoma.CurrentPosition.Item1 - int(v[0][i].X),
-							Y: currentLastKoma.CurrentPosition.Item2 + int(v[0][i].Y),
+							X: currentLastKoma.CurrentPosition.X - v[0][i].X,
+							Y: currentLastKoma.CurrentPosition.Y + v[0][i].Y,
 						}
 						_, exists := b.Blocks[targetblockPosition]
 						if exists {
@@ -86,8 +86,8 @@ func (c *CPU) SelectMove(g gamestate.GameState, b board.Board) {
 					wall = false
 					for i := 0; i < len(v[0]); i++ {
 						targetblockPosition := image.Point{
-							X: currentLastKoma.CurrentPosition.Item1 - int(v[0][i].X),
-							Y: currentLastKoma.CurrentPosition.Item2 + int(v[0][i].Y),
+							X: currentLastKoma.CurrentPosition.X - v[0][i].X,
+							Y: currentLastKoma.CurrentPosition.Y + v[0][i].Y,
 						}
 						_, exists := b.Blocks[targetblockPosition]
 						if exists {

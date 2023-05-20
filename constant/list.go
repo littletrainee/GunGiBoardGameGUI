@@ -48,8 +48,8 @@ const (
 	TIMER_BASE_HEIGHT int = 240
 	TIMER_SIZE        int = 118
 
-	REMAINING_TIME     int = 601
-	CPU_REMAINING_TIME int = 61
+	REMAINING_TIME     int = 600
+	CPU_REMAINING_TIME int = 60
 
 	// Dan
 

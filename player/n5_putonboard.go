@@ -30,10 +30,9 @@ func (p *Player) PutOnBoard(b board.Board, GS gamestate.GameState) {
 				//複製出來
 				tempKoma = p.KomaTai[p.KomaTaiIndex].Item1.Clone()
 				// 設定目標格的位置
-				tempKoma.CurrentCoordinate.X = int(v.Coordinate.X + constant.BLOCK_SIZE/2 - shift)
-				tempKoma.CurrentCoordinate.Y = int(v.Coordinate.Y + constant.BLOCK_SIZE/2 - shift)
+				tempKoma.SetCurrentCoordinate(v.Coordinate, int(shift))
 				//設定目標代號
-				tempKoma.SetCurrentPosition(v.Name.Item1, v.Name.Item2)
+				tempKoma.SetCurrentPosition(v.Name)
 				// 設定文字顯示的位置
 				tempKoma.SetGeoMetry(0)
 				v.KomaStack = append(v.KomaStack, tempKoma)

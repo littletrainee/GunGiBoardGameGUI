@@ -18,10 +18,8 @@ func suICheck(eachDanCanMove []image.Point, lastKoma koma.Koma, g *Game,
 	for _, coor := range eachDanCanMove {
 		// 設定目標位置
 		targetBlockPosition := image.Point{
-			X: 10 - lastKoma.CurrentPosition.Item1 +
-				int(coor.X),
-			Y: lastKoma.CurrentPosition.Item2 +
-				int(coor.Y),
+			X: 10 - lastKoma.CurrentPosition.X + coor.X,
+			Y: lastKoma.CurrentPosition.Y + coor.Y,
 		}
 
 		// 確認目標位置是否在棋盤內

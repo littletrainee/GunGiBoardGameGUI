@@ -7,7 +7,6 @@ import (
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"github.com/littletrainee/GunGiBoardGameGUI/block"
 	"github.com/littletrainee/GunGiBoardGameGUI/color"
-	"github.com/littletrainee/GunGiBoardGameGUI/constant"
 	"github.com/littletrainee/GunGiBoardGameGUI/enum/phase"
 	"github.com/littletrainee/GunGiBoardGameGUI/koma"
 )
@@ -27,9 +26,8 @@ func (g *Game) CaptureOrControl() {
 					currentBlock := g.Board.Blocks[g.TargetPosition]
 					shift := block.Shift(tempKomaStack)
 
-					targetKoma.CurrentCoordinate.X = int(currentBlock.Coordinate.X+constant.BLOCK_SIZE/2) - shift
-					targetKoma.CurrentCoordinate.Y = int(currentBlock.Coordinate.Y+constant.BLOCK_SIZE/2) - shift
-					targetKoma.SetCurrentPosition(currentBlock.Name.Item1, currentBlock.Name.Item2)
+					targetKoma.SetCurrentCoordinate(currentBlock.Coordinate, shift)
+					targetKoma.SetCurrentPosition(currentBlock.Name)
 					targetKoma.SetGeoMetry(0)
 					tempKomaStack = append(tempKomaStack, targetKoma)
 
@@ -38,27 +36,25 @@ func (g *Game) CaptureOrControl() {
 			targetKoma := previousBlock.KomaStack[len(previousBlock.KomaStack)-1].Clone()
 			shift := block.Shift(tempKomaStack)
 
-			targetKoma.CurrentCoordinate.X = int(currentBlock.Coordinate.X+constant.BLOCK_SIZE/2) - shift
-			targetKoma.CurrentCoordinate.Y = int(currentBlock.Coordinate.Y+constant.BLOCK_SIZE/2) - shift
-			targetKoma.SetCurrentPosition(currentBlock.Name.Item1, currentBlock.Name.Item2)
+			targetKoma.SetCurrentCoordinate(currentBlock.Coordinate, shift)
+			targetKoma.SetCurrentPosition(currentBlock.Name)
 			targetKoma.SetGeoMetry(0)
 
 			tempKomaStack = append(tempKomaStack, targetKoma)
 			previousBlock.KomaStack = previousBlock.KomaStack[:len(previousBlock.KomaStack)-1]
-			previousBlock.ConfirmPosition = nil
 			currentBlock.KomaStack = tempKomaStack
 			g.Board.Blocks[g.TargetPosition] = currentBlock
 			g.Board.Blocks[previousPosition] = previousBlock
+			g.ConfirmPosition = nil
 
 			for k := range g.Board.Blocks {
 				tempblock := g.Board.Blocks[k]
 				tempblock.BeSelect = false
 				tempblock.CurrentColor = color.BoardColor
-				tempblock.ConfirmPosition = nil
 				g.Board.Blocks[k] = tempblock
 			}
 			g.delayedChangePhaseTo(phase.DUELING_PHASE_CLICK_CLOCK)
-			g.SetOwnMaxRange()
+			g.SetMaxRange()
 			g.Capture.Reset()
 			g.WhichKomaBeenSelected = nil
 			g.TargetPosition = image.Point{}
@@ -72,16 +68,15 @@ func (g *Game) CaptureOrControl() {
 			currentBlock := g.Board.Blocks[g.TargetPosition]
 			shift := block.Shift(currentBlock.KomaStack)
 			// 對被複製的駒重設其位置與座標
-			targetKoma.CurrentCoordinate.X = int(currentBlock.Coordinate.X+constant.BLOCK_SIZE/2) - shift
-			targetKoma.CurrentCoordinate.Y = int(currentBlock.Coordinate.Y+constant.BLOCK_SIZE/2) - shift
-			targetKoma.SetCurrentPosition(currentBlock.Name.Item1, currentBlock.Name.Item2)
+			targetKoma.SetCurrentCoordinate(currentBlock.Coordinate, shift)
+			targetKoma.SetCurrentPosition(currentBlock.Name)
 			targetKoma.SetGeoMetry(0)
 			// 當前block的KomaStack增加被複製的駒
 			currentBlock.KomaStack = append(currentBlock.KomaStack, targetKoma)
 			// 前一個block中的KomaStack移除最後一個
 			previousBlock.KomaStack = previousBlock.KomaStack[:len(previousBlock.KomaStack)-1]
 			// 重設可移動的位置切片
-			previousBlock.ConfirmPosition = nil
+			g.ConfirmPosition = nil
 
 			// 將前一個block重新賦予回去map
 			g.Board.Blocks[image.Point{X: g.WhichKomaBeenSelected[0], Y: g.WhichKomaBeenSelected[1]}] = previousBlock
@@ -93,11 +88,10 @@ func (g *Game) CaptureOrControl() {
 				tempblock := g.Board.Blocks[k]
 				tempblock.BeSelect = false
 				tempblock.CurrentColor = color.BoardColor
-				tempblock.ConfirmPosition = nil
 				g.Board.Blocks[k] = tempblock
 			}
 			g.delayedChangePhaseTo(phase.DUELING_PHASE_CLICK_CLOCK)
-			g.SetOwnMaxRange()
+			g.SetMaxRange()
 			g.Capture.Reset()
 			g.WhichKomaBeenSelected = nil
 			g.TargetPosition = image.Point{}
@@ -107,7 +101,6 @@ func (g *Game) CaptureOrControl() {
 				tempblock := g.Board.Blocks[k]
 				tempblock.BeSelect = false
 				tempblock.CurrentColor = color.BoardColor
-				tempblock.ConfirmPosition = nil
 				g.Board.Blocks[k] = tempblock
 			}
 			g.delayedChangePhaseTo(phase.DUELING_PHASE_SELECT_KOMA)

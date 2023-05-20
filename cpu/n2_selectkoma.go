@@ -1,6 +1,7 @@
 package cpu
 
 import (
+	"fmt"
 	"math/rand"
 	"time"
 
@@ -8,6 +9,25 @@ import (
 )
 
 func (c *CPU) SelectKoma(b board.Board) {
+	if c.InevitableWinOpportunity(b) {
+		return
+	}
+	if c.InevitableLoseOpportunity(b) {
+		// try capture or control
+		c.TryCapture(b)
+		if len(c.TargetMove) > 0 {
+			fmt.Println("GG Been Capture")
+			return
+		}
+	}
+	// BestMoveOption()
+	// tryCapture()
+	c.TryCapture(b)
+	if len(c.TargetMove) > 0 {
+		fmt.Println("Capture")
+		return
+	}
+
 	var probablyChoice [][]int
 	rand.Seed(time.Now().UnixNano())
 	// 迭代block
