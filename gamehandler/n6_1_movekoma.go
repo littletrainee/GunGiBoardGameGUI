@@ -88,6 +88,7 @@ func (g *Game) MoveKoma() {
 							g.Capture.CaptureBool = true
 							g.TargetPosition = k
 							g.delayedChangePhaseTo(phase.DUELING_PHASE_CAPTURE_OR_CONTROL_ASK)
+							// g.SetMaxRange()
 							return
 						}
 

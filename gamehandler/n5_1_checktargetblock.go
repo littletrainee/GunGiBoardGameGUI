@@ -12,7 +12,7 @@ func checkTargetBlock(direction [][]image.Point, lastKoma koma.Koma, currentDan 
 ) []image.Point {
 	// 設定是否已經有阻礙
 	var (
-		wall            bool
+		hinder          bool
 		confirmPosition []image.Point
 	)
 	for danIndex, eachDanCanMove := range direction {
@@ -31,7 +31,7 @@ func checkTargetBlock(direction [][]image.Point, lastKoma koma.Koma, currentDan 
 				// 若在棋盤內
 				if exists {
 					// 若沒有阻隔
-					if !wall {
+					if !hinder {
 						// 從blocks取出目標block
 						var (
 							tempblock block.Block = g.Board.Blocks[targetBlockPosition]
@@ -40,7 +40,7 @@ func checkTargetBlock(direction [][]image.Point, lastKoma koma.Koma, currentDan 
 
 						// 目標點有駒或者目標的段數大於或等於當前的段數
 						if targetlen != 0 && targetlen >= currentDan {
-							wall = true
+							hinder = true
 						}
 
 						if tempblock.HasSuI() {

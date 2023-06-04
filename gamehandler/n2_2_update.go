@@ -152,8 +152,8 @@ func (g *Game) Update() error {
 			//選擇棋盤上的駒或是駒台上的駒
 			g.SelectKoma()
 		} else {
-			g.CPU.SelectKoma(g.Board)
-			if len(g.CPU.TargetMove) != 0 {
+			g.CPU.SelectKoma(g.Board, g.GameState)
+			if len(g.CPU.CaptureForDefense) != 0 || len(g.CPU.AvoidForDefense) != 0 || len(g.CPU.ARaTaForDefense) != 0 || len(g.CPU.CaptureForMotivation) != 0 {
 				g.delayedChangePhaseTo(phase.CPU_MOVE_KOMA)
 			} else {
 				g.delayedChangePhaseTo(phase.CPU_SELECT_MOVE)
@@ -164,7 +164,8 @@ func (g *Game) Update() error {
 		g.CPU.SelectMove(g.GameState, g.Board)
 		g.delayedChangePhaseTo(phase.CPU_MOVE_KOMA)
 	case phase.CPU_MOVE_KOMA:
-		g.CPU.MoveKoma(g.Board)
+		g.CPU.MoveKoma(&g.Board)
+		g.SetMaxRange()
 		g.delayedChangePhaseTo(phase.CPU_CLICK_CLOCK)
 	case phase.CPU_CLICK_CLOCK:
 		g.CPU.ClickClock(&g.GameState, &g.Player1Timer, &g.Player2Timer)

@@ -17,7 +17,7 @@ func (g *Game) SelectKoma() {
 		for k, currentBlock := range g.Board.Blocks {
 			// 若當前block有被按鍵釋放
 			if currentBlock.OnBlock(x, y) {
-				if len(currentBlock.KomaStack) > 0 {
+				if len(currentBlock.KomaStack) > 0 && currentBlock.KomaStack[len(currentBlock.KomaStack)-1].Color == g.Player1.SelfColor {
 					tempblock := g.Board.Blocks[k]
 					tempblock.BeSelect = true
 					g.Board.Blocks[k] = tempblock
@@ -28,8 +28,7 @@ func (g *Game) SelectKoma() {
 					// 取得當前block的駒堆疊數量，以確認當前block最後一個駒可以移動的最大範圍
 					currentDan := len(currentBlock.KomaStack)
 					if lastKoma.Name == "帥" {
-						if g.GameState.Level != level.INTERMEDIATE &&
-							g.GameState.Level != level.ADVANCED {
+						if g.GameState.Level != level.INTERMEDIATE && g.GameState.Level != level.ADVANCED {
 							for _, direction := range lastKoma.ProbablyMoveing {
 								for danIndex, eachDanCanMove := range direction {
 									if danIndex < currentDan {

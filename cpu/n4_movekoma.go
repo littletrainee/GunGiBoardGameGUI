@@ -9,26 +9,35 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/koma"
 )
 
-func (c *CPU) MoveKoma(b board.Board) {
-	if len(c.TargetMove) != 0 {
+func (c *CPU) MoveKoma(b *board.Board) {
+	if len(c.CaptureForDefense) > 0 {
 		var (
-			previousBlock block.Block = b.Blocks[c.TargetMove[0]]
-			targetBlock   block.Block = b.Blocks[c.TargetMove[1]]
+			previousBlock block.Block = b.Blocks[c.CaptureForDefense[0]]
+			targetBlock   block.Block = b.Blocks[c.CaptureForDefense[1]]
 			shift         int
 			cloneKoma     koma.Koma
 			tempKomaSlice []koma.Koma
 		)
 
+		// 嘗試移除非自家的駒
 		for _, v := range targetBlock.KomaStack {
 			if v.Color == c.SelfColor {
+				// 確認偏移量
 				shift = block.Shift(tempKomaSlice)
+				// 複製目標駒
 				cloneKoma = v.Clone()
+				// 設定目標駒座標與位置
 				cloneKoma.SetCurrentCoordinate(targetBlock.Coordinate, shift)
 				cloneKoma.SetCurrentPosition(targetBlock.Name)
+				// 設定是否旋轉
 				cloneKoma.SetGeoMetry(math.Pi)
+				// 將目標駒加至堆疊
 				tempKomaSlice = append(tempKomaSlice, cloneKoma)
 			}
 		}
+
+		// 將先前位置堆疊的最上層駒增加至目標位置的堆疊
+		// 確認偏移量
 		shift = block.Shift(tempKomaSlice)
 		cloneKoma = previousBlock.KomaStack[len(previousBlock.KomaStack)-1].Clone()
 		cloneKoma.SetCurrentCoordinate(targetBlock.Coordinate, shift)
@@ -38,9 +47,93 @@ func (c *CPU) MoveKoma(b board.Board) {
 
 		targetBlock.KomaStack = tempKomaSlice
 		previousBlock.KomaStack = previousBlock.KomaStack[:len(previousBlock.KomaStack)-1]
-		b.Blocks[c.TargetMove[0]] = previousBlock
-		b.Blocks[c.TargetMove[1]] = targetBlock
-		c.TargetMove = nil
+		b.Blocks[c.CaptureForDefense[0]] = previousBlock
+		b.Blocks[c.CaptureForDefense[1]] = targetBlock
+		c.CaptureForDefense = nil
+		c.checkmateBy = image.Point{}
+	} else if len(c.AvoidForDefense) > 0 {
+		var (
+			previousBlock block.Block = b.Blocks[c.AvoidForDefense[0]]
+			targetBlock   block.Block = b.Blocks[c.AvoidForDefense[1]]
+			shift         int
+			cloneKoma     koma.Koma
+			tempKomaSlice []koma.Koma
+		)
+
+		// 確認偏移量
+		shift = block.Shift(tempKomaSlice)
+		cloneKoma = previousBlock.KomaStack[len(previousBlock.KomaStack)-1].Clone()
+		cloneKoma.SetCurrentCoordinate(targetBlock.Coordinate, shift)
+		cloneKoma.SetCurrentPosition(targetBlock.Name)
+		cloneKoma.SetGeoMetry(math.Pi)
+		tempKomaSlice = append(tempKomaSlice, cloneKoma)
+
+		targetBlock.KomaStack = tempKomaSlice
+		previousBlock.KomaStack = previousBlock.KomaStack[:len(previousBlock.KomaStack)-1]
+		b.Blocks[c.AvoidForDefense[0]] = previousBlock
+		b.Blocks[c.AvoidForDefense[1]] = targetBlock
+		c.AvoidForDefense = nil
+		c.checkmateBy = image.Point{}
+	} else if len(c.ARaTaForDefense) > 0 {
+		var (
+			targetBlockPosision image.Point = image.Point{X: c.ARaTaForDefense[1], Y: c.ARaTaForDefense[2]}
+			targetBlock         block.Block = b.Blocks[targetBlockPosision]
+			shift               int
+			cloneKoma           koma.Koma
+			tempKomaSlice       []koma.Koma = b.Blocks[targetBlockPosision].KomaStack
+		)
+		shift = block.Shift(tempKomaSlice)
+		cloneKoma = c.KomaTai[c.ARaTaForDefense[0]].Item1.Clone()
+		cloneKoma.SetCurrentCoordinate(targetBlock.Coordinate, shift)
+		cloneKoma.SetCurrentPosition(targetBlock.Name)
+		cloneKoma.SetGeoMetry(math.Pi)
+		tempKomaSlice = append(tempKomaSlice, cloneKoma)
+
+		targetBlock.KomaStack = tempKomaSlice
+		b.Blocks[targetBlockPosision] = targetBlock
+		c.ARaTaForDefense = nil
+		c.checkmateBy = image.Point{}
+	} else if len(c.CaptureForMotivation) > 0 {
+		var (
+			previousBlock block.Block = b.Blocks[c.CaptureForMotivation[0]]
+			targetBlock   block.Block = b.Blocks[c.CaptureForMotivation[1]]
+			shift         int
+			cloneKoma     koma.Koma
+			tempKomaSlice []koma.Koma
+		)
+
+		// 嘗試移除非自家的駒
+		for _, v := range targetBlock.KomaStack {
+			if v.Color == c.SelfColor {
+				// 確認偏移量
+				shift = block.Shift(tempKomaSlice)
+				// 複製目標駒
+				cloneKoma = v.Clone()
+				// 設定目標駒座標與位置
+				cloneKoma.SetCurrentCoordinate(targetBlock.Coordinate, shift)
+				cloneKoma.SetCurrentPosition(targetBlock.Name)
+				// 設定是否旋轉
+				cloneKoma.SetGeoMetry(math.Pi)
+				// 將目標駒加至堆疊
+				tempKomaSlice = append(tempKomaSlice, cloneKoma)
+			}
+		}
+
+		// 將先前位置堆疊的最上層駒增加至目標位置的堆疊
+		// 確認偏移量
+		shift = block.Shift(tempKomaSlice)
+		cloneKoma = previousBlock.KomaStack[len(previousBlock.KomaStack)-1].Clone()
+		cloneKoma.SetCurrentCoordinate(targetBlock.Coordinate, shift)
+		cloneKoma.SetCurrentPosition(targetBlock.Name)
+		cloneKoma.SetGeoMetry(math.Pi)
+		tempKomaSlice = append(tempKomaSlice, cloneKoma)
+
+		targetBlock.KomaStack = tempKomaSlice
+		previousBlock.KomaStack = previousBlock.KomaStack[:len(previousBlock.KomaStack)-1]
+		b.Blocks[c.CaptureForMotivation[0]] = previousBlock
+		b.Blocks[c.CaptureForMotivation[1]] = targetBlock
+		c.CaptureForMotivation = nil
+		c.checkmateBy = image.Point{}
 	} else {
 		var (
 			// 複製目標block

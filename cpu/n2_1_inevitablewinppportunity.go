@@ -9,7 +9,7 @@ import (
 )
 
 // 必勝的機會
-func (c *CPU) InevitableWinOpportunity(b board.Board) bool {
+func (c *CPU) inevitableWinOpportunity(b board.Board) bool {
 	// 迭代每個block
 	for _, v := range b.Blocks {
 		var (
@@ -20,14 +20,14 @@ func (c *CPU) InevitableWinOpportunity(b board.Board) bool {
 			confirmPosition image.Point
 			// 可移動位置的目標駒
 			lastOne koma.Koma
-			wall    bool
+			hinder  bool
 		)
 		// 若有駒且最上面的駒是己方的
 		if komaStackLength > 0 && v.KomaStack[komaStackLength-1].Color == c.SelfColor {
 			theTopOneOfKomaStack = v.KomaStack[komaStackLength-1]
 			// 迭代可能的方向
 			for _, direction := range theTopOneOfKomaStack.ProbablyMoveing {
-				wall = false
+				hinder = false
 				// 基於可能的方向去進行迭代每個方向的段
 				for _, layer := range direction {
 					// 基於每個段迭代位置
@@ -41,12 +41,12 @@ func (c *CPU) InevitableWinOpportunity(b board.Board) bool {
 						targetBlock, ok := b.Blocks[confirmPosition]
 						if ok {
 							// 在棋盤內確認是否有阻擋已中斷這個方向的迭代
-							if !wall {
+							if !hinder {
 								// 目標block有駒
 								if len(targetBlock.KomaStack) != 0 {
 									// 有駒並且高度大於當前block
 									if len(targetBlock.KomaStack) >= komaStackLength {
-										wall = true
+										hinder = true
 									}
 									// 最後一個駒是否是對家的帥
 									lastOne = targetBlock.KomaStack[len(targetBlock.KomaStack)-1]

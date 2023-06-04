@@ -11,7 +11,7 @@ func suICheck(eachDanCanMove []image.Point, lastKoma koma.Koma, g *Game,
 	currentDan int) []image.Point {
 	// 設定是否已經有阻礙
 	var (
-		wall            bool
+		hinder          bool
 		confirmPosition []image.Point
 	)
 	// 從每個段的移動迭代每個位置
@@ -28,13 +28,18 @@ func suICheck(eachDanCanMove []image.Point, lastKoma koma.Koma, g *Game,
 		// 若在棋盤內
 		if exists {
 			// 若沒有阻隔
-			if !wall {
+			if !hinder {
 				// 從blocks取出目標block
 				tempblock := g.Board.Blocks[targetBlockPosition]
 				targetlen := len(tempblock.KomaStack)
 				// 目標點有駒或者目標的段數大於或等於當前的段數
 				if currentDan == targetlen {
-					tempblock.CurrentColor = color.DenyColor
+					if tempblock.KomaStack[targetlen-1].Color != lastKoma.Color {
+						confirmPosition = append(confirmPosition, targetBlockPosition)
+						tempblock.CurrentColor = color.ConfirmColor
+					} else {
+						tempblock.CurrentColor = color.DenyColor
+					}
 				} else {
 					tempblock.CurrentColor = color.ConfirmColor
 					confirmPosition = append(confirmPosition, targetBlockPosition)
