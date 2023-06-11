@@ -1,7 +1,6 @@
 package cpu
 
 import (
-	"fmt"
 	"image"
 
 	"github.com/littletrainee/GunGiBoardGameGUI/board"
@@ -51,7 +50,7 @@ func (c *CPU) inevitableWinOpportunity(b board.Board) bool {
 									// 最後一個駒是否是對家的帥
 									lastOne = targetBlock.KomaStack[len(targetBlock.KomaStack)-1]
 									if lastOne.Name == "帥" && lastOne.Color != c.SelfColor {
-										fmt.Println("將軍")
+										// fmt.Println("將軍")
 										return true
 									}
 								}

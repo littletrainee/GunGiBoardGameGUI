@@ -65,17 +65,17 @@ func stillInCaptureRange(b board.Board, confirmPosition image.Point, selfColor c
 					if i < stackLength {
 						// 迭代允許的位置
 						for _, pos := range layer {
-							// 設定目標位置
-							targetPosition := image.Point{
-								X: theTopOne.CurrentPosition.X - pos.X,
-								Y: theTopOne.CurrentPosition.Y + pos.Y,
-							}
-							// 確認目標位置是否在棋盤內
-							targetBlock, ok := b.Blocks[targetPosition]
-							// 若目標位置在棋盤內
-							if ok {
-								// 若在棋盤內並且沒有牆阻礙
-								if !hinder {
+							if !hinder {
+								// 設定目標位置
+								targetPosition := image.Point{
+									X: theTopOne.CurrentPosition.X - pos.X,
+									Y: theTopOne.CurrentPosition.Y + pos.Y,
+								}
+								// 確認目標位置是否在棋盤內
+								targetBlock, ok := b.Blocks[targetPosition]
+								// 若目標位置在棋盤內
+								if ok {
+									// 若在棋盤內並且沒有牆阻礙
 									if len(targetBlock.KomaStack) == stackLength {
 										hinder = true
 									} else if len(targetBlock.KomaStack) > stackLength {
@@ -85,6 +85,8 @@ func stillInCaptureRange(b board.Board, confirmPosition image.Point, selfColor c
 									if targetPosition == confirmPosition {
 										return true
 									}
+								} else {
+									break
 								}
 							} else {
 								break

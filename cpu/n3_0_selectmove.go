@@ -120,9 +120,6 @@ func (c *CPU) SelectMove(g gamestate.GameState, b board.Board) {
 					}
 				}
 			} else {
-				if currentLastKoma.Name == "砦" {
-					fmt.Println("stop")
-				}
 				for _, direction := range currentLastKoma.ProbablyMoveing {
 					for danIndex, eachDanCanMove := range direction {
 						// 確定沒有超過當前階級可以的最高段數

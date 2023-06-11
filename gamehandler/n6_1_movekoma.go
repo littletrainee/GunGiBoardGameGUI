@@ -1,6 +1,7 @@
 package gamehandler
 
 import (
+	"fmt"
 	"image"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -61,7 +62,6 @@ func (g *Game) MoveKoma() {
 		} else {
 			for k, currentBlock := range g.Board.Blocks {
 				if currentBlock.OnBlock(x, y) {
-					// targetposition := image.Point{X: g.WhichKomaBeenSelected[0], Y: g.WhichKomaBeenSelected[1]}
 					// 若點選的位置為棋盤上被選擇駒的位置，則取消選取
 					if k.X == g.WhichKomaBeenSelected[0] && k.Y == g.WhichKomaBeenSelected[1] {
 						for k := range g.Board.Blocks {
@@ -136,6 +136,9 @@ func (g *Game) MoveKoma() {
 							g.delayedChangePhaseTo(phase.DUELING_PHASE_CLICK_CLOCK)
 							g.SetMaxRange()
 							return
+						}
+						if currentBlock.KomaStack[len(currentBlock.KomaStack)-1].Name == "帥" {
+							fmt.Println("將軍")
 						}
 
 					}

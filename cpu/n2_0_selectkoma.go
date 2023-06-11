@@ -5,11 +5,12 @@ import (
 	"math/rand"
 	"time"
 
+	"github.com/littletrainee/GunGiBoardGameGUI/anotherroundorend"
 	"github.com/littletrainee/GunGiBoardGameGUI/board"
 	"github.com/littletrainee/GunGiBoardGameGUI/gamestate"
 )
 
-func (c *CPU) SelectKoma(b board.Board, gameState gamestate.GameState) {
+func (c *CPU) SelectKoma(b board.Board, gameState gamestate.GameState, anotherRoundOrEnd *anotherroundorend.AnotherRoundOrEnd) {
 	if c.inevitableWinOpportunity(b) {
 		return
 	}
@@ -38,7 +39,9 @@ func (c *CPU) SelectKoma(b board.Board, gameState gamestate.GameState) {
 		}
 		fmt.Println(currentTime(), ": can't arata koma to defense capture sui")
 		fmt.Println(currentTime(), "GG Been Capture")
-
+		c.IsBeenCheckMate = true
+		anotherRoundOrEnd.Show = true
+		return
 	}
 
 	// 嘗試俘獲
@@ -65,6 +68,7 @@ func (c *CPU) SelectKoma(b board.Board, gameState gamestate.GameState) {
 	}
 	// 從可選擇列表選擇一個
 	c.targetKoma = probablyChoice[rand.Intn(len(probablyChoice))]
+	fmt.Println(c.targetKoma)
 }
 
 func currentTime() string {

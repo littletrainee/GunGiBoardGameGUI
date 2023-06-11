@@ -17,4 +17,5 @@ type CPU struct {
 	AvoidForDefense      []image.Point
 	ARaTaForDefense      []int
 	CaptureForMotivation []image.Point
+	IsBeenCheckMate      bool
 }

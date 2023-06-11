@@ -4,6 +4,7 @@ import (
 	"image/color"
 	"time"
 
+	"github.com/littletrainee/GunGiBoardGameGUI/anotherroundorend"
 	"github.com/littletrainee/GunGiBoardGameGUI/board"
 	"github.com/littletrainee/GunGiBoardGameGUI/capture"
 	_color "github.com/littletrainee/GunGiBoardGameGUI/color"
@@ -117,6 +118,7 @@ func (g *Game) Update() error {
 			}()
 		}
 		g.Capture = capture.Initilization(g.Font)
+		g.AnotherRoundOrEnd = anotherroundorend.Initilization(g.Font)
 	// 布陣階段
 	case phase.ARRANGEMENT_PHASE:
 		if g.GameState.RecommendedArramgement {
@@ -152,9 +154,11 @@ func (g *Game) Update() error {
 			//選擇棋盤上的駒或是駒台上的駒
 			g.SelectKoma()
 		} else {
-			g.CPU.SelectKoma(g.Board, g.GameState)
+			g.CPU.SelectKoma(g.Board, g.GameState, &g.AnotherRoundOrEnd)
 			if len(g.CPU.CaptureForDefense) != 0 || len(g.CPU.AvoidForDefense) != 0 || len(g.CPU.ARaTaForDefense) != 0 || len(g.CPU.CaptureForMotivation) != 0 {
 				g.delayedChangePhaseTo(phase.CPU_MOVE_KOMA)
+			} else if g.CPU.IsBeenCheckMate {
+				g.delayedChangePhaseTo(phase.ANOTHER_ROUND_OR_END)
 			} else {
 				g.delayedChangePhaseTo(phase.CPU_SELECT_MOVE)
 			}
@@ -170,13 +174,16 @@ func (g *Game) Update() error {
 	case phase.CPU_CLICK_CLOCK:
 		g.CPU.ClickClock(&g.GameState, &g.Player1Timer, &g.Player2Timer)
 		g.delayedChangePhaseTo(phase.DUELING_PHASE_SELECT_KOMA)
+
 	case phase.DUELING_PHASE_MOVE_KOMA:
 		g.MoveKoma()
 	case phase.DUELING_PHASE_CAPTURE_OR_CONTROL_ASK:
 		g.CaptureOrControl()
-
 	case phase.DUELING_PHASE_CLICK_CLOCK:
 		g.ClickClock()
+
+	// case phase.ANOTHER_ROUND_OR_END:
+
 	default:
 	}
 	return nil

@@ -36,6 +36,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		phase.CPU_SELECT_MOVE,
 		phase.CPU_MOVE_KOMA,
 		phase.CPU_CLICK_CLOCK,
+		phase.ANOTHER_ROUND_OR_END,
 		phase.DELAY:
 
 		// 繪製棋盤
@@ -54,5 +55,6 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		g.Player1Timer.Draw(screen, g.Font, g.GameState.Phase)
 		g.Player2Timer.Draw(screen, g.Font, g.GameState.Phase)
 		g.Capture.Draw(screen)
+		g.AnotherRoundOrEnd.Draw(screen)
 	}
 }
