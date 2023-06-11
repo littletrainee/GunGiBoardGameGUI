@@ -1,7 +1,6 @@
 package gamehandler
 
 import (
-	"fmt"
 	"image"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -75,6 +74,12 @@ func (g *Game) MoveKoma() {
 						return
 					}
 					if contain(k, g.ConfirmPosition) {
+						if len(currentBlock.KomaStack) > 0 && currentBlock.KomaStack[len(currentBlock.KomaStack)-1].Name == "帥" {
+							g.Player1Timer.StopCountDown <- true
+							g.AnotherRoundOrEnd.Show = true
+							g.delayedChangePhaseTo(phase.ANOTHER_ROUND_OR_END)
+							return
+						}
 						var containOpponentKoma bool
 						for _, v := range currentBlock.KomaStack {
 							if v.Color != g.Player1.SelfColor {
@@ -136,9 +141,6 @@ func (g *Game) MoveKoma() {
 							g.delayedChangePhaseTo(phase.DUELING_PHASE_CLICK_CLOCK)
 							g.SetMaxRange()
 							return
-						}
-						if currentBlock.KomaStack[len(currentBlock.KomaStack)-1].Name == "帥" {
-							fmt.Println("將軍")
 						}
 
 					}

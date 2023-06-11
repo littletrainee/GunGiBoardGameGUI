@@ -31,6 +31,9 @@ func (c *CPU) SelectMove(g gamestate.GameState, b board.Board) {
 		}
 
 	} else { // 棋盤
+		if len(c.targetKoma) == 0 {
+			fmt.Println("empty")
+		}
 		currentBlock, ok := b.Blocks[image.Point{X: c.targetKoma[0], Y: c.targetKoma[1]}]
 		if ok {
 			currentLastKoma = currentBlock.KomaStack[len(currentBlock.KomaStack)-1]

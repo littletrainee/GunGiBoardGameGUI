@@ -158,6 +158,8 @@ func (g *Game) Update() error {
 			if len(g.CPU.CaptureForDefense) != 0 || len(g.CPU.AvoidForDefense) != 0 || len(g.CPU.ARaTaForDefense) != 0 || len(g.CPU.CaptureForMotivation) != 0 {
 				g.delayedChangePhaseTo(phase.CPU_MOVE_KOMA)
 			} else if g.CPU.IsBeenCheckMate {
+				// 暫停計時器
+				g.Player2Timer.StopCountDown <- true
 				g.delayedChangePhaseTo(phase.ANOTHER_ROUND_OR_END)
 			} else {
 				g.delayedChangePhaseTo(phase.CPU_SELECT_MOVE)
@@ -182,8 +184,8 @@ func (g *Game) Update() error {
 	case phase.DUELING_PHASE_CLICK_CLOCK:
 		g.ClickClock()
 
-	// case phase.ANOTHER_ROUND_OR_END:
-
+	case phase.ANOTHER_ROUND_OR_END:
+		g.AnotherRoundOrEndGame()
 	default:
 	}
 	return nil

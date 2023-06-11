@@ -19,6 +19,7 @@ func (a *AnotherRoundOrEnd) Draw(screen *ebiten.Image) {
 		vector.DrawFilledRect(screen,
 			constant.ANOTHER_ROUND_BASE_POSITION_X+1, constant.ANOTHER_ROUND_BASE_POSITION_Y+1,
 			constant.ANOTHER_ROUND_BASE_WIDTH-2, constant.ANOTHER_ROUND_BASE_HEIGHT-2, _color.BoardColor, true)
+		screen.DrawImage(a.TitleImg, a.TitleOpt)
 
 		// another round button base
 		vector.DrawFilledRect(screen,
