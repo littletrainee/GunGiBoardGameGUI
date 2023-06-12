@@ -1,9 +1,34 @@
-func (g *Game) Draw(screen *ebiten.Image) {
-vector.DrawFilledCircle(screen, 40, 40, 40, color.RGBA{255, 0, 0, 0}, true)
-}
+帥大中小侍忍槍砦馬兵弓炮銃謀
+０１２３４５６７８９ 10111213
 
-screen size 1024,768
-boardsize 550,550 border 1
-block size 60 60 not border
-own komaDai size 182 position 788 , 477 border 1
-opponent komadat size 182 position 54,109 border 1
+059
+169
+249
+467
+447
+588
+658
+777
+737
+828
+997
+957
+917
+10 78
+10 38
+
+051
+141
+261
+463
+443
+522
+652
+773
+733
+882
+993
+953
+913
+10 72
+10 32

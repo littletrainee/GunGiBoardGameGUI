@@ -16,10 +16,18 @@ func (p *Player) DefaultPosition(g gamestate.GameState, b board.Board) {
 	var (
 		target []pair.Pair[int, image.Point]
 	)
-	if g.Level == level.BEGINNER && p.IsOwn {
-		target = defaultposition.OwnBeginner()
-	} else if g.Level == level.BEGINNER && !p.IsOwn {
-		target = defaultposition.OpponentBeginner()
+	if g.Level == level.BEGINNER {
+		if p.IsOwn {
+			target = defaultposition.OwnBeginner()
+		} else {
+			target = defaultposition.OpponentBeginner()
+		}
+	} else if g.Level == level.ELEMENTARY {
+		if p.IsOwn {
+			target = defaultposition.OwnElementary()
+		} else {
+			target = defaultposition.OpponentElementary()
+		}
 	}
 	for _, v := range target {
 		pos := image.Point{X: v.Item2.X, Y: v.Item2.Y}
