@@ -41,6 +41,28 @@ func (g *Game) SelectKoma() {
 							return
 						}
 					}
+					if lastKoma.Name == "弓" {
+						for i, direction := range lastKoma.ProbablyMoveing {
+							switch i {
+							case 0:
+								if len(g.Board.Blocks[image.Point{X: k.X, Y: k.Y - 1}].KomaStack) > len(currentBlock.KomaStack) {
+									continue
+								}
+							case 1:
+								if len(g.Board.Blocks[image.Point{X: k.X - 1, Y: k.Y - 1}].KomaStack) > len(currentBlock.KomaStack) {
+									continue
+								}
+							case 7:
+								if len(g.Board.Blocks[image.Point{X: k.X + 1, Y: k.Y - 1}].KomaStack) > len(currentBlock.KomaStack) {
+									continue
+								}
+							}
+							g.ConfirmPosition = append(g.ConfirmPosition, checkTargetBlock(direction, lastKoma, currentDan, g)...)
+						}
+						g.Board.Blocks[k] = currentBlock
+						g.delayedChangePhaseTo(phase.DUELING_PHASE_MOVE_KOMA)
+						return
+					}
 
 					// 迭代當前的方向
 					for _, direction := range lastKoma.ProbablyMoveing {

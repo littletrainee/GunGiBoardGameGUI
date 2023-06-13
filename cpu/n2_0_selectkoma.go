@@ -67,8 +67,11 @@ func (c *CPU) SelectKoma(b board.Board, gameState gamestate.GameState, anotherRo
 		}
 	}
 	// 從可選擇列表選擇一個
-	c.targetKoma = probablyChoice[rand.Intn(len(probablyChoice))]
-	fmt.Println(c.targetKoma)
+	t := rand.Intn(len(probablyChoice))
+	c.targetKoma = probablyChoice[t]
+	if len(c.targetKoma) == 0 {
+		fmt.Println(c.targetKoma)
+	}
 }
 
 func currentTime() string {

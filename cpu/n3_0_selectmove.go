@@ -1,7 +1,6 @@
 package cpu
 
 import (
-	"fmt"
 	"image"
 	"math/rand"
 	"time"
@@ -31,9 +30,6 @@ func (c *CPU) SelectMove(g gamestate.GameState, b board.Board) {
 		}
 
 	} else { // 棋盤
-		if len(c.targetKoma) == 0 {
-			fmt.Println("empty")
-		}
 		currentBlock, ok := b.Blocks[image.Point{X: c.targetKoma[0], Y: c.targetKoma[1]}]
 		if ok {
 			currentLastKoma = currentBlock.KomaStack[len(currentBlock.KomaStack)-1]
@@ -122,6 +118,29 @@ func (c *CPU) SelectMove(g gamestate.GameState, b board.Board) {
 						}
 					}
 				}
+			} else if currentLastKoma.Name == "弓" {
+				for i, direction := range currentLastKoma.ProbablyMoveing {
+					switch i {
+					case 0:
+						if len(b.Blocks[image.Point{X: c.targetKoma[0], Y: c.targetKoma[1] + 1}].KomaStack) > len(currentBlock.KomaStack) {
+							continue
+						}
+					case 1:
+						if len(b.Blocks[image.Point{X: c.targetKoma[0] - 1, Y: c.targetKoma[1] + 1}].KomaStack) > len(currentBlock.KomaStack) {
+							continue
+						}
+					case 7:
+						if len(b.Blocks[image.Point{X: c.targetKoma[0] + 1, Y: c.targetKoma[1] + 1}].KomaStack) > len(currentBlock.KomaStack) {
+							continue
+						}
+					}
+					for j, eachDanCanMove := range direction {
+						if j < currentDan {
+							probablyPosition = append(probablyPosition, checkTargetBlock(eachDanCanMove, currentLastKoma, g, b, currentDan)...)
+						}
+					}
+
+				}
 			} else {
 				for _, direction := range currentLastKoma.ProbablyMoveing {
 					for danIndex, eachDanCanMove := range direction {
@@ -133,8 +152,6 @@ func (c *CPU) SelectMove(g gamestate.GameState, b board.Board) {
 					}
 				}
 			}
-		} else {
-			fmt.Println("Out")
 		}
 	}
 	rand.Seed(time.Now().UnixNano())
