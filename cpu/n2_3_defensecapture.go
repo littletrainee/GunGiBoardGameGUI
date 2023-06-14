@@ -37,7 +37,7 @@ func (c *CPU) defenseCapture(b board.Board) {
 								targetBlock, ok := b.Blocks[confirmPosition]
 								// 若存在於棋盤內
 								if ok {
-									if targetBlock.KomaStack[len(targetBlock.KomaStack)-1].Name == "弓" {
+									if len(targetBlock.KomaStack) > 1 && targetBlock.KomaStack[len(targetBlock.KomaStack)-1].Name == "弓" {
 										fmt.Println("check")
 									}
 									// 若目標的段數大於當前的段數，中斷迭代
