@@ -11,6 +11,7 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/koma"
 )
 
+// 俘獲或控制按鈕的判斷
 func (g *Game) CaptureOrControl() {
 	if inpututil.IsMouseButtonJustReleased(ebiten.MouseButtonLeft) {
 		x, y := ebiten.CursorPosition()
@@ -53,7 +54,7 @@ func (g *Game) CaptureOrControl() {
 				tempblock.CurrentColor = color.BoardColor
 				g.Board.Blocks[k] = tempblock
 			}
-			g.delayedChangePhaseTo(phase.DUELING_PHASE_CLICK_CLOCK)
+			g.delayedChangePhaseTo(phase.CLICK_CLOCK)
 			g.SetMaxRange()
 			g.Capture.Reset()
 			g.WhichKomaBeenSelected = nil
@@ -90,7 +91,7 @@ func (g *Game) CaptureOrControl() {
 				tempblock.CurrentColor = color.BoardColor
 				g.Board.Blocks[k] = tempblock
 			}
-			g.delayedChangePhaseTo(phase.DUELING_PHASE_CLICK_CLOCK)
+			g.delayedChangePhaseTo(phase.CLICK_CLOCK)
 			g.SetMaxRange()
 			g.Capture.Reset()
 			g.WhichKomaBeenSelected = nil
@@ -103,7 +104,7 @@ func (g *Game) CaptureOrControl() {
 				tempblock.CurrentColor = color.BoardColor
 				g.Board.Blocks[k] = tempblock
 			}
-			g.delayedChangePhaseTo(phase.DUELING_PHASE_SELECT_KOMA)
+			g.delayedChangePhaseTo(phase.SELECT_KOMA)
 			g.Capture.Reset()
 			g.TargetPosition = image.Point{}
 		}

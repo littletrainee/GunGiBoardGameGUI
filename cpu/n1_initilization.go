@@ -1,6 +1,11 @@
 package cpu
 
 import (
+	"fmt"
+	"math/rand"
+	"time"
+
+	"github.com/littletrainee/GunGiBoardGameGUI/constant"
 	"github.com/littletrainee/GunGiBoardGameGUI/player"
 )
 
@@ -10,11 +15,12 @@ func Initilization(p *player.Player) CPU {
 	}
 	c.Player = p
 	var count int
-	for _, v := range p.KomaTai {
+	for _, v := range p.KomaDai {
 		count += v.Item2
 	}
-	// c.PercentagePhase = float32(100 / count)
-	// c.DeclareSuMiPercentage = c.PercentagePhase
-	// c.target = rand.Float32() * 100.0
+	c.DeclareSuMiPercentagePhase = float32(100 / count)
+	rand.Seed(time.Now().UnixNano())
+	c.DeclareSuMiTargetPercentage = float32(rand.Intn(constant.CPU_DECLARE_SUMI_TARGET_PERCENTAGE))
+	fmt.Println(c.DeclareSuMiTargetPercentage)
 	return c
 }

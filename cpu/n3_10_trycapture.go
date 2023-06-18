@@ -43,7 +43,7 @@ func (c *CPU) tryCapture(b board.Board) {
 										hinder = true
 									}
 									if len(targetBlock.KomaStack) > 0 && targetBlock.KomaStack[len(targetBlock.KomaStack)-1].Color != c.SelfColor {
-										c.CaptureForMotivation = []image.Point{k, confirmPosition}
+										c.MoveToTarget = []int{k.X, k.Y, confirmPosition.X, confirmPosition.Y}
 										return
 									}
 								} else {

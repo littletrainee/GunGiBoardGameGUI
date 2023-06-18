@@ -32,7 +32,8 @@ func (c *CPU) defenseAvoid(b board.Board) {
 	}
 
 	if len(confirmPosition) > 0 {
-		c.AvoidForDefense = []image.Point{suiPosition, confirmPosition[rand.Intn(len(confirmPosition))]}
+		rnd := confirmPosition[rand.Intn(len(confirmPosition))]
+		c.MoveToTarget = []int{suiPosition.X, suiPosition.Y, rnd.X, rnd.Y}
 	}
 }
 

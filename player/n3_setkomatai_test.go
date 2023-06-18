@@ -12,9 +12,9 @@ import (
 
 func TestSetKomaDai(t *testing.T) {
 	P := Player{SelfColor: color.Black}
-	P.KomaTai = []pair.Pair[koma.Koma, int]{}
+	P.KomaDai = []pair.Pair[koma.Koma, int]{}
 	P.SetKomaTai(level.ELEMENTARY, font.ConvertToFace())
-	if len(P.KomaTai) == 11 {
+	if len(P.KomaDai) == 11 {
 		t.Log(true)
 	} else {
 		t.Error(false)

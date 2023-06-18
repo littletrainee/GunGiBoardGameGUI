@@ -5,11 +5,13 @@ import (
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"github.com/littletrainee/GunGiBoardGameGUI/color"
 	"github.com/littletrainee/GunGiBoardGameGUI/enum/phase"
+	"github.com/littletrainee/GunGiBoardGameGUI/enum/state"
 )
 
 func (g *Game) ClickClock() {
 	if inpututil.IsMouseButtonJustReleased(ebiten.MouseButtonLeft) {
 		x, y := ebiten.CursorPosition()
+		// 若按下地棋鐘的位置則換對家
 		if g.Player1Timer.OnTimer(x, y) {
 			// change anotherone's color
 			g.GameState.TurnToNext()
@@ -17,7 +19,17 @@ func (g *Game) ClickClock() {
 			g.Player1Timer.BackgroundColor = color.TimerPauseColor
 			g.Player2Timer.CountDown()
 			g.Player2Timer.BackgroundColor = color.ConfirmColor
-			g.delayedChangePhaseTo(phase.DUELING_PHASE_SELECT_KOMA)
+			g.delayedChangePhaseTo(phase.SELECT_KOMA)
+		} else if g.DeclareSuMi.SuMiButton(x, y) && g.CurrentState == state.ARRANGEMENT {
+			g.Player1.IsSuMi = true
+			g.DeclareSuMi.Show = false
+			g.Player1.KomaDaiBackGroundColor = color.DenyColor
+			g.GameState.TurnToNext()
+			g.Player1Timer.StopCountDown <- true
+			g.Player1Timer.BackgroundColor = color.TimerPauseColor
+			g.Player2Timer.CountDown()
+			g.Player2Timer.BackgroundColor = color.ConfirmColor
+			g.delayedChangePhaseTo(phase.SELECT_KOMA)
 		}
 	}
 }

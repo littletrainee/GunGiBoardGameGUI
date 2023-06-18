@@ -11,7 +11,7 @@ import (
 	"github.com/littletrainee/gunginotationgenerator/enum/level"
 )
 
-func (c *CPU) SelectMove(g gamestate.GameState, b board.Board) {
+func (c *CPU) DuelingPhaseSelectMove(g gamestate.GameState, b board.Board) {
 	var (
 		currentLastKoma  koma.Koma
 		probablyPosition []image.Point

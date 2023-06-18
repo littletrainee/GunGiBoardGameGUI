@@ -16,7 +16,7 @@ func (c *CPU) defenseARata(b board.Board, maxlayer int) {
 		komaTaiList   []int
 		rndSelectKoma int
 	)
-	for i, v := range c.KomaTai {
+	for i, v := range c.KomaDai {
 		if v.Item2 > 0 {
 			komaTaiList = append(komaTaiList, i)
 		}
@@ -24,7 +24,7 @@ func (c *CPU) defenseARata(b board.Board, maxlayer int) {
 	if len(komaTaiList) > 0 {
 		rndSelectKoma = komaTaiList[rand.Intn(len(komaTaiList))]
 		// 設定假定的駒
-		tempKoma = c.KomaTai[rndSelectKoma].Item1.Clone()
+		tempKoma = c.KomaDai[rndSelectKoma].Item1.Clone()
 		// 逐項迭代block
 		for k := range b.Blocks {
 			var cloneBoard board.Board = board.Board{Blocks: make(map[image.Point]block.Block)}
@@ -37,7 +37,7 @@ func (c *CPU) defenseARata(b board.Board, maxlayer int) {
 				block.KomaStack = append(block.KomaStack, tempKoma)
 				cloneBoard.Blocks[k] = block
 				if !stillInCaptureRange(cloneBoard, suiPosition, c.SelfColor) {
-					c.ARaTaForDefense = []int{rndSelectKoma, k.X, k.Y}
+					c.MoveToTarget = []int{rndSelectKoma, k.X, k.Y}
 					return
 				}
 			}

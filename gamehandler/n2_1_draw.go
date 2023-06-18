@@ -21,23 +21,19 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		g.GameState.Draw(screen, g.Font)
 
 	// 若階級是入門或初級詢問是否用推薦的配置
-	case phase.RECOMMENDED_ARRANGEMENT:
+	case phase.ASK_ARRANGEMENT:
 		g.GameState.Draw(screen, g.Font)
 
 	// 對弈前的倒數計時
-	case phase.PREPARE_FOR_GAMING:
+	case phase.BEGIN_COUNTDOWN_FOR_GAMING:
 		g.PrepareForGameing.Draw(screen, g.Font, g.GameState.Phase)
 
-	case phase.ARRANGEMENT_PHASE,
-		phase.DUELING_PHASE_SELECT_KOMA,
-		phase.DUELING_PHASE_MOVE_KOMA,
-		phase.DUELING_PHASE_CLICK_CLOCK,
-		phase.DUELING_PHASE_CAPTURE_OR_CONTROL_ASK,
-		phase.CPU_SELECT_MOVE,
-		phase.CPU_MOVE_KOMA,
-		phase.CPU_CLICK_CLOCK,
+	case phase.SELECT_KOMA,
+		phase.MOVE_KOMA,
+		phase.CLICK_CLOCK,
+		phase.PLAYER_CAPTURE_OR_CONTROL_ASK,
 		phase.ANOTHER_ROUND_OR_END,
-		phase.DELAY:
+		phase.BUFFER_ZONE:
 
 		// 繪製棋盤
 		// Base
@@ -56,5 +52,6 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		g.Player2Timer.Draw(screen, g.Font, g.GameState.Phase)
 		g.Capture.Draw(screen)
 		g.AnotherRoundOrEnd.Draw(screen)
+		g.DeclareSuMi.Draw(screen)
 	}
 }

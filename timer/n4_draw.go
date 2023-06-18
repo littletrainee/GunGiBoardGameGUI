@@ -14,7 +14,7 @@ import (
 )
 
 func (t *Timer) Draw(screen *ebiten.Image, font font.Face, phase phase.Phase) {
-	if phase == _phase.PREPARE_FOR_GAMING {
+	if phase == _phase.BEGIN_COUNTDOWN_FOR_GAMING {
 		// 重設畫布
 		t.Img = ebiten.NewImage(constant.WINDOW_SIZE_WIDTH, constant.WINDOW_SIZE_HEIGHT)
 		// 將文字繪製到畫布上

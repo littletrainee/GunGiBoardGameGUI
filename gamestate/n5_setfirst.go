@@ -4,6 +4,7 @@ import (
 	"image/color"
 )
 
+// 設定先後手
 func (g *GameState) SetFirstAndTurn() {
 	// rand.Seed(time.Now().UnixNano())
 	// target := rand.Intn(2)

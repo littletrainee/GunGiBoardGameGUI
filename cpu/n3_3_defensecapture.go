@@ -47,7 +47,8 @@ func (c *CPU) defenseCapture(b board.Board) {
 										hinder = true
 									}
 									if c.checkmateBy == confirmPosition {
-										c.CaptureForDefense = []image.Point{k, confirmPosition}
+										c.MoveToTarget = []int{k.X, k.Y, confirmPosition.X, confirmPosition.Y}
+										// c.CaptureForDefense = []image.Point{k, confirmPosition}
 										return
 									}
 								} else {

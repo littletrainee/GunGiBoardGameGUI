@@ -3,9 +3,7 @@ package capture
 import "github.com/hajimehoshi/ebiten/v2"
 
 type Capture struct {
-	Show              bool
-	CaptureBool       bool
-	CancelBool        bool
+	Show              bool // 是否顯示俘獲畫面
 	ControlBool       bool
 	CaptureText       string
 	CancelText        string

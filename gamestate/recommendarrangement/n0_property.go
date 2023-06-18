@@ -1,10 +1,14 @@
 package recommendarrangement
 
-import "image/color"
+import (
+	"image/color"
+
+	"github.com/littletrainee/GunGiBoardGameGUI/enum/arrangementselect"
+)
 
 type RecommendedArrangement struct {
 	Name       string
-	Code       bool
+	Select     arrangementselect.ArrangementSelect
 	X          float32
 	Y          float32
 	text       color.Gray16

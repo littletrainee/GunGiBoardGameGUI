@@ -11,6 +11,6 @@ func Initilization(selfColor color.Gray16, isown bool) Player {
 	return Player{
 		SelfColor: selfColor,
 		IsOwn:     isown,
-		KomaTai:   []pair.Pair[koma.Koma, int]{},
+		KomaDai:   []pair.Pair[koma.Koma, int]{},
 	}
 }

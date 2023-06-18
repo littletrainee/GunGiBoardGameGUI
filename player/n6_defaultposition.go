@@ -12,7 +12,8 @@ import (
 	"github.com/littletrainee/pair"
 )
 
-func (p *Player) DefaultPosition(g gamestate.GameState, b board.Board) {
+// 推薦位置
+func (p *Player) RecommendPosition(g gamestate.GameState, b board.Board) {
 	var (
 		target []pair.Pair[int, image.Point]
 	)
@@ -32,7 +33,7 @@ func (p *Player) DefaultPosition(g gamestate.GameState, b board.Board) {
 	for _, v := range target {
 		pos := image.Point{X: v.Item2.X, Y: v.Item2.Y}
 		tempblock := b.Blocks[pos]
-		tempKoma := p.KomaTai[v.Item1].Item1.Clone()
+		tempKoma := p.KomaDai[v.Item1].Item1.Clone()
 		tempKoma.SetCurrentCoordinate(tempblock.Coordinate, 0)
 		tempKoma.SetCurrentPosition(tempblock.Name)
 		if p.IsOwn {
@@ -41,9 +42,9 @@ func (p *Player) DefaultPosition(g gamestate.GameState, b board.Board) {
 			tempKoma.SetGeoMetry(math.Pi)
 		}
 		tempblock.KomaStack = append(tempblock.KomaStack, tempKoma)
-		p.KomaTai[v.Item1].Item2--
-		if p.KomaTai[v.Item1].Item2 == 0 {
-			p.KomaTai[v.Item1].Item1 = koma.Koma{}
+		p.KomaDai[v.Item1].Item2--
+		if p.KomaDai[v.Item1].Item2 == 0 {
+			p.KomaDai[v.Item1].Item1 = koma.Koma{}
 		}
 		b.Blocks[pos] = tempblock
 	}

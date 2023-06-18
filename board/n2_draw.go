@@ -10,5 +10,4 @@ func (b *Board) Draw(screen *ebiten.Image, font font.Face) {
 	for _, v := range b.Blocks {
 		v.Draw(screen, font)
 	}
-	KomaTai(screen)
 }

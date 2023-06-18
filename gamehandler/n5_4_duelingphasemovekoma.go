@@ -11,7 +11,7 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/koma"
 )
 
-func (g *Game) MoveKoma() {
+func (g *Game) DuelingPhaseMoveKoma() {
 	if inpututil.IsMouseButtonJustReleased(ebiten.MouseButtonLeft) {
 		x, y := ebiten.CursorPosition()
 		// 選取的駒是否為駒台上的駒
@@ -20,7 +20,7 @@ func (g *Game) MoveKoma() {
 			for k, currentBlock := range g.Board.Blocks {
 				if currentBlock.OnBlock(x, y) {
 					// 複製駒台上的駒
-					targetKoma := g.Player1.KomaTai[g.WhichKomaBeenSelected[0]].Item1.Clone()
+					targetKoma := g.Player1.KomaDai[g.WhichKomaBeenSelected[0]].Item1.Clone()
 					// 設置偏移量
 					shift := block.Shift(currentBlock.KomaStack)
 					// 對被複製的駒重設其位置與座標
@@ -30,20 +30,15 @@ func (g *Game) MoveKoma() {
 
 					// 當前block的KomaStack增加被複製的駒
 					currentBlock.KomaStack = append(currentBlock.KomaStack, targetKoma)
-					g.Player1.KomaTai[g.WhichKomaBeenSelected[0]].Item2--
-					if g.Player1.KomaTai[g.WhichKomaBeenSelected[0]].Item2 == 0 {
-						g.Player1.KomaTai[g.WhichKomaBeenSelected[0]].Item1 = koma.Koma{}
+					g.Player1.KomaDai[g.WhichKomaBeenSelected[0]].Item2--
+					if g.Player1.KomaDai[g.WhichKomaBeenSelected[0]].Item2 == 0 {
+						g.Player1.KomaDai[g.WhichKomaBeenSelected[0]].Item1 = koma.Koma{}
 					}
 					g.Board.Blocks[k] = currentBlock
 					g.WhichKomaBeenSelected = nil
 
-					for k := range g.Board.Blocks {
-						tempblock := g.Board.Blocks[k]
-						tempblock.BeSelect = false
-						tempblock.CurrentColor = color.BoardColor
-						g.Board.Blocks[k] = tempblock
-					}
-					g.delayedChangePhaseTo(phase.DUELING_PHASE_CLICK_CLOCK)
+					ResetBlockColor(&g.Board)
+					g.delayedChangePhaseTo(phase.CLICK_CLOCK)
 					g.SetMaxRange()
 					return
 				}
@@ -55,7 +50,7 @@ func (g *Game) MoveKoma() {
 				g.Board.Blocks[k] = tempblock
 			}
 			g.WhichKomaBeenSelected = nil
-			g.delayedChangePhaseTo(phase.DUELING_PHASE_SELECT_KOMA)
+			g.delayedChangePhaseTo(phase.SELECT_KOMA)
 
 			// 非駒台上的駒
 		} else {
@@ -70,7 +65,7 @@ func (g *Game) MoveKoma() {
 							g.Board.Blocks[k] = tempblock
 						}
 						g.WhichKomaBeenSelected = nil
-						g.delayedChangePhaseTo(phase.DUELING_PHASE_SELECT_KOMA)
+						g.delayedChangePhaseTo(phase.SELECT_KOMA)
 						return
 					}
 					if contain(k, g.ConfirmPosition) {
@@ -89,22 +84,17 @@ func (g *Game) MoveKoma() {
 						// 若目標block的段數已經答這個階級所能堆疊到最高段數，並且有包含對家的駒
 						if len(currentBlock.KomaStack) == g.GameState.MaxLayer && containOpponentKoma && len(g.Board.Blocks[image.Point{X: g.WhichKomaBeenSelected[0], Y: g.WhichKomaBeenSelected[1]}].KomaStack) == len(currentBlock.KomaStack) {
 							g.Capture.Show = true
-							g.Capture.CancelBool = true
-							g.Capture.CaptureBool = true
 							g.TargetPosition = k
-							g.delayedChangePhaseTo(phase.DUELING_PHASE_CAPTURE_OR_CONTROL_ASK)
-							// g.SetMaxRange()
+							g.delayedChangePhaseTo(phase.PLAYER_CAPTURE_OR_CONTROL_ASK)
 							return
 						}
 
 						// 若目標block的段數未達這個階級所能堆疊的最高段數，並且有包含對家的駒
 						if len(currentBlock.KomaStack) < g.GameState.MaxLayer && containOpponentKoma {
 							g.Capture.Show = true
-							g.Capture.CaptureBool = true
-							g.Capture.CancelBool = true
 							g.Capture.ControlBool = true
 							g.TargetPosition = k
-							g.delayedChangePhaseTo(phase.DUELING_PHASE_CAPTURE_OR_CONTROL_ASK)
+							g.delayedChangePhaseTo(phase.PLAYER_CAPTURE_OR_CONTROL_ASK)
 							return
 
 						}
@@ -138,7 +128,7 @@ func (g *Game) MoveKoma() {
 								tempblock.CurrentColor = color.BoardColor
 								g.Board.Blocks[k] = tempblock
 							}
-							g.delayedChangePhaseTo(phase.DUELING_PHASE_CLICK_CLOCK)
+							g.delayedChangePhaseTo(phase.CLICK_CLOCK)
 							g.SetMaxRange()
 							return
 						}

@@ -6,6 +6,7 @@ import (
 	_level "github.com/littletrainee/gunginotationgenerator/enum/level"
 )
 
+// 階級物件
 type Level struct {
 	Name       string
 	Code       _level.Level

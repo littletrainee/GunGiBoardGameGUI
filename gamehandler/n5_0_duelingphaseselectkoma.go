@@ -10,7 +10,7 @@ import (
 	"github.com/littletrainee/gunginotationgenerator/enum/level"
 )
 
-func (g *Game) SelectKoma() {
+func (g *Game) DuelingPhaseSelectKoma() {
 	// 循環查找哪個block是否有被按鍵釋放
 	if inpututil.IsMouseButtonJustReleased(ebiten.MouseButtonLeft) {
 		x, y := ebiten.CursorPosition()
@@ -37,7 +37,7 @@ func (g *Game) SelectKoma() {
 								}
 							}
 							g.Board.Blocks[k] = currentBlock
-							g.delayedChangePhaseTo(phase.DUELING_PHASE_MOVE_KOMA)
+							g.delayedChangePhaseTo(phase.MOVE_KOMA)
 							return
 						}
 					}
@@ -60,7 +60,7 @@ func (g *Game) SelectKoma() {
 							g.ConfirmPosition = append(g.ConfirmPosition, checkTargetBlock(direction, lastKoma, currentDan, g)...)
 						}
 						g.Board.Blocks[k] = currentBlock
-						g.delayedChangePhaseTo(phase.DUELING_PHASE_MOVE_KOMA)
+						g.delayedChangePhaseTo(phase.MOVE_KOMA)
 						return
 					}
 
@@ -69,14 +69,14 @@ func (g *Game) SelectKoma() {
 						g.ConfirmPosition = append(g.ConfirmPosition, checkTargetBlock(direction, lastKoma, currentDan, g)...)
 					}
 					g.Board.Blocks[k] = currentBlock
-					g.delayedChangePhaseTo(phase.DUELING_PHASE_MOVE_KOMA)
+					g.delayedChangePhaseTo(phase.MOVE_KOMA)
 					return
 				}
 			}
 		}
 
 		// 選擇駒台的駒
-		for i, v := range g.Player1.KomaTai {
+		for i, v := range g.Player1.KomaDai {
 			if v.Item1.OnKoma(float64(x), float64(y)) {
 				if v.Item2 > 0 {
 					g.WhichKomaBeenSelected = []int{i}
@@ -100,7 +100,7 @@ func (g *Game) SelectKoma() {
 							g.Board.Blocks[image.Point{X: column, Y: row}] = tempblock
 						}
 					}
-					g.delayedChangePhaseTo(phase.DUELING_PHASE_MOVE_KOMA)
+					g.delayedChangePhaseTo(phase.MOVE_KOMA)
 				}
 			}
 		}

@@ -42,8 +42,8 @@ func (p *Player) SetKomaTai(l level.Level, font font.Face) {
 
 	for _, v := range source {
 		var (
-			c        float32   = float32(p.KomaOnKomaTaiCoordinate.X) + distance*column
-			r        float32   = float32(p.KomaOnKomaTaiCoordinate.Y) + distance*row
+			c        float32   = float32(p.KomaOnKomaDaiCoordinate.X) + distance*column
+			r        float32   = float32(p.KomaOnKomaDaiCoordinate.Y) + distance*row
 			tempKoma koma.Koma = koma.Koma{
 				Name:  string(v),
 				Color: p.SelfColor,
@@ -110,11 +110,11 @@ func (p *Player) SetKomaTai(l level.Level, font font.Face) {
 			repeat = 1
 		}
 		for i := 0; i < repeat; i++ {
-			index := Contains(p.KomaTai, tempKoma)
+			index := Contains(p.KomaDai, tempKoma)
 			if index > 0 {
-				p.KomaTai[index].Item2++
+				p.KomaDai[index].Item2++
 			} else {
-				p.KomaTai = append(p.KomaTai, pair.Pair[koma.Koma, int]{
+				p.KomaDai = append(p.KomaDai, pair.Pair[koma.Koma, int]{
 					Item1: tempKoma, Item2: 1})
 			}
 		}

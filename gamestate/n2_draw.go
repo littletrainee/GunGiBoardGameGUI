@@ -14,8 +14,8 @@ func (g *GameState) Draw(screen *ebiten.Image, font font.Face) {
 		for _, v := range g.LevelList {
 			v.Draw(screen, font)
 		}
-	case phase.RECOMMENDED_ARRANGEMENT:
-		for _, v := range g.ArrangementList {
+	case phase.ASK_ARRANGEMENT:
+		for _, v := range g.RecommendOrManual {
 			v.Draw(screen, font)
 		}
 	}
