@@ -45,7 +45,6 @@ func (g *Game) DuelingPhaseMoveKoma() {
 			}
 			for k := range g.Board.Blocks {
 				tempblock := g.Board.Blocks[k]
-				tempblock.BeSelect = false
 				tempblock.CurrentColor = color.BoardColor
 				g.Board.Blocks[k] = tempblock
 			}
@@ -60,7 +59,6 @@ func (g *Game) DuelingPhaseMoveKoma() {
 					if k.X == g.WhichKomaBeenSelected[0] && k.Y == g.WhichKomaBeenSelected[1] {
 						for k := range g.Board.Blocks {
 							tempblock := g.Board.Blocks[k]
-							tempblock.BeSelect = false
 							tempblock.CurrentColor = color.BoardColor
 							g.Board.Blocks[k] = tempblock
 						}
@@ -124,7 +122,6 @@ func (g *Game) DuelingPhaseMoveKoma() {
 
 							for k := range g.Board.Blocks {
 								tempblock := g.Board.Blocks[k]
-								tempblock.BeSelect = false
 								tempblock.CurrentColor = color.BoardColor
 								g.Board.Blocks[k] = tempblock
 							}

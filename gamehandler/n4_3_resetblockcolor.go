@@ -8,7 +8,6 @@ import (
 func ResetBlockColor(b *board.Board) {
 	for k, tempblock := range b.Blocks {
 		if tempblock.CurrentColor != color.BoardColor {
-			tempblock.BeSelect = false
 			tempblock.CurrentColor = color.BoardColor
 			b.Blocks[k] = tempblock
 		}

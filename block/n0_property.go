@@ -13,5 +13,4 @@ type Block struct {
 	CurrentColor color.RGBA
 	Coordinate   coordinate.Coordinate
 	KomaStack    []koma.Koma
-	BeSelect     bool
 }

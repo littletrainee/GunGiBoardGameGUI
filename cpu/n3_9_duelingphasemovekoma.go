@@ -1,6 +1,7 @@
 package cpu
 
 import (
+	"fmt"
 	"image"
 	"math"
 
@@ -55,7 +56,6 @@ func (c *CPU) DuelingPhaseMoveKoma(b *board.Board) {
 		b.Blocks[targetBlockPosition] = targetBlock
 		c.MoveToTarget = nil
 		c.Select = cpuselect.None
-		c.checkmateBy = image.Point{}
 	case cpuselect.DEFENSE_AVOID:
 		var (
 			previousBlockPosition image.Point = image.Point{X: c.MoveToTarget[0], Y: c.MoveToTarget[1]}
@@ -81,7 +81,6 @@ func (c *CPU) DuelingPhaseMoveKoma(b *board.Board) {
 		b.Blocks[targetBlockPosition] = targetBlock
 		c.MoveToTarget = nil
 		c.Select = cpuselect.None
-		c.checkmateBy = image.Point{}
 	case cpuselect.DEFENSE_ARATA:
 		var (
 			targetBlockPosision image.Point = image.Point{X: c.MoveToTarget[1], Y: c.MoveToTarget[2]}
@@ -95,15 +94,22 @@ func (c *CPU) DuelingPhaseMoveKoma(b *board.Board) {
 		cloneKoma.SetCurrentCoordinate(targetBlock.Coordinate, shift)
 		cloneKoma.SetCurrentPosition(targetBlock.Name)
 		cloneKoma.SetGeoMetry(math.Pi)
+
 		tempKomaSlice = append(tempKomaSlice, cloneKoma)
+		c.KomaDai[c.MoveToTarget[0]].Item2--
+		if c.KomaDai[c.MoveToTarget[0]].Item2 == 0 {
+			c.KomaDai[c.MoveToTarget[0]].Item1 = koma.Koma{}
+		}
 
 		targetBlock.KomaStack = tempKomaSlice
 		b.Blocks[targetBlockPosision] = targetBlock
 		c.MoveToTarget = nil
 		c.Select = cpuselect.None
-		c.checkmateBy = image.Point{}
 	case cpuselect.TRY_CAPTURE:
 		if len(c.MoveToTarget) > 0 {
+			if len(c.MoveToTarget) != 4 {
+				fmt.Println("check")
+			}
 			var (
 				previousBlockPosition image.Point = image.Point{X: c.MoveToTarget[0], Y: c.MoveToTarget[1]}
 				targetBlockPosition   image.Point = image.Point{X: c.MoveToTarget[2], Y: c.MoveToTarget[3]}
@@ -145,53 +151,59 @@ func (c *CPU) DuelingPhaseMoveKoma(b *board.Board) {
 			b.Blocks[previousBlockPosition] = previousBlock
 			b.Blocks[targetBlockPosition] = targetBlock
 			c.MoveToTarget = nil
-			c.checkmateBy = image.Point{}
 		}
-	default:
+	case cpuselect.None:
 		var (
-			// 複製目標block
-			targetBlock block.Block = b.Blocks[c.targetPosition]
-			// 設定目標偏移量
-			shift int = block.Shift(targetBlock.KomaStack)
+			targetPosition image.Point // 設定目標位置的座標
+			targetBlock    block.Block // 複製目標block
 		)
-		if len(c.targetKoma) == 1 {
+		if len(c.MoveToTarget) == 3 {
+			// 設定物位置與複製目標block
+			targetPosition = image.Point{X: c.MoveToTarget[1], Y: c.MoveToTarget[2]}
+			targetBlock = b.Blocks[targetPosition]
 			// 從駒台上複製駒
-			cloneKoma := c.KomaDai[c.targetKoma[0]].Item1.Clone()
+			cloneKoma := c.KomaDai[c.MoveToTarget[0]].Item1.Clone()
 
 			// 設定複製的駒位置
-			cloneKoma.SetCurrentCoordinate(targetBlock.Coordinate, shift)
+			cloneKoma.SetCurrentCoordinate(targetBlock.Coordinate, block.Shift(targetBlock.KomaStack))
 			cloneKoma.SetCurrentPosition(targetBlock.Name)
 			cloneKoma.SetGeoMetry(math.Pi)
 
 			// 目標block堆疊增加複製的駒
 			targetBlock.KomaStack = append(targetBlock.KomaStack, cloneKoma)
 			// 將駒台上的目標駒數量減少
-			c.KomaDai[c.targetKoma[0]].Item2--
+			c.KomaDai[c.MoveToTarget[0]].Item2--
 			// 若目標駒的數量為0時，則重設為空struct已減少記憶體使用量
-			if c.KomaDai[c.targetKoma[0]].Item2 == 0 {
-				c.KomaDai[c.targetKoma[0]].Item1 = koma.Koma{}
+			if c.KomaDai[c.MoveToTarget[0]].Item2 == 0 {
+				c.KomaDai[c.MoveToTarget[0]].Item1 = koma.Koma{}
 			}
-		} else {
+			// 將修改後的目標block賦予回去map
+			b.Blocks[targetPosition] = targetBlock
+			c.MoveToTarget = nil
+		} else if len(c.MoveToTarget) == 4 {
+			// 設定要移動的駒的原本block位置
+			previousPosition := image.Point{X: c.MoveToTarget[0], Y: c.MoveToTarget[1]}
 			// 複製要移動駒的原本block
-			orginalBlock := b.Blocks[image.Point{X: c.targetKoma[0], Y: c.targetKoma[1]}]
+			previousBlock := b.Blocks[previousPosition]
+			targetPosition = image.Point{X: c.MoveToTarget[2], Y: c.MoveToTarget[3]}
+			targetBlock = b.Blocks[targetPosition]
 
 			// 複製最後一個駒並且修改其位置
-			cloneLastKoma := orginalBlock.KomaStack[len(orginalBlock.KomaStack)-1].Clone()
-			cloneLastKoma.SetCurrentCoordinate(targetBlock.Coordinate, shift)
+			cloneLastKoma := previousBlock.KomaStack[len(previousBlock.KomaStack)-1].Clone()
+			cloneLastKoma.SetCurrentCoordinate(targetBlock.Coordinate, block.Shift(targetBlock.KomaStack))
 			cloneLastKoma.SetCurrentPosition(targetBlock.Name)
 			cloneLastKoma.SetGeoMetry(math.Pi)
 
 			// 目標block堆疊增加複製的駒
 			targetBlock.KomaStack = append(targetBlock.KomaStack, cloneLastKoma)
 			// 將原本block的KomaStack移除最後一個駒
-			orginalBlock.KomaStack = orginalBlock.KomaStack[:len(orginalBlock.KomaStack)-1]
+			previousBlock.KomaStack = previousBlock.KomaStack[:len(previousBlock.KomaStack)-1]
 			// 並賦予回去map
-			b.Blocks[image.Point{X: c.targetKoma[0], Y: c.targetKoma[1]}] = orginalBlock
+			b.Blocks[previousPosition] = previousBlock
+			// 將修改後的目標block賦予回去map
+			b.Blocks[targetPosition] = targetBlock
+			c.MoveToTarget = nil
 		}
-		// 將修改後的目標block賦予回去map
-		b.Blocks[c.targetPosition] = targetBlock
-		c.targetKoma = nil
-		c.targetPosition = image.Point{}
-
+	default:
 	}
 }

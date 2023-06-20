@@ -1,7 +1,6 @@
 package cpu
 
 import (
-	"fmt"
 	"math/rand"
 	"time"
 
@@ -21,6 +20,5 @@ func Initilization(p *player.Player) CPU {
 	c.DeclareSuMiPercentagePhase = float32(100 / count)
 	rand.Seed(time.Now().UnixNano())
 	c.DeclareSuMiTargetPercentage = float32(rand.Intn(constant.CPU_DECLARE_SUMI_TARGET_PERCENTAGE))
-	fmt.Println(c.DeclareSuMiTargetPercentage)
 	return c
 }

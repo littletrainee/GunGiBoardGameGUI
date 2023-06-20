@@ -50,7 +50,6 @@ func (g *Game) CaptureOrControl() {
 
 			for k := range g.Board.Blocks {
 				tempblock := g.Board.Blocks[k]
-				tempblock.BeSelect = false
 				tempblock.CurrentColor = color.BoardColor
 				g.Board.Blocks[k] = tempblock
 			}
@@ -87,7 +86,6 @@ func (g *Game) CaptureOrControl() {
 
 			for k := range g.Board.Blocks {
 				tempblock := g.Board.Blocks[k]
-				tempblock.BeSelect = false
 				tempblock.CurrentColor = color.BoardColor
 				g.Board.Blocks[k] = tempblock
 			}
@@ -100,7 +98,6 @@ func (g *Game) CaptureOrControl() {
 		if g.Capture.CancelButton(x, y) {
 			for k := range g.Board.Blocks {
 				tempblock := g.Board.Blocks[k]
-				tempblock.BeSelect = false
 				tempblock.CurrentColor = color.BoardColor
 				g.Board.Blocks[k] = tempblock
 			}

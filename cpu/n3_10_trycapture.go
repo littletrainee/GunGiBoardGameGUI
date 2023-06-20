@@ -6,8 +6,8 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/board"
 )
 
-// 若帥被將軍則嘗試是否可以透過俘獲解除
-func (c *CPU) tryCapture(b board.Board) {
+// 嘗試俘獲
+func (c *CPU) tryCapture(b board.Board) bool {
 	// 迭代檢查每個Block
 	for k, v := range b.Blocks {
 		// 有包含駒，並且顏色不是自家顏色
@@ -44,7 +44,7 @@ func (c *CPU) tryCapture(b board.Board) {
 									}
 									if len(targetBlock.KomaStack) > 0 && targetBlock.KomaStack[len(targetBlock.KomaStack)-1].Color != c.SelfColor {
 										c.MoveToTarget = []int{k.X, k.Y, confirmPosition.X, confirmPosition.Y}
-										return
+										return true
 									}
 								} else {
 									break
@@ -60,4 +60,5 @@ func (c *CPU) tryCapture(b board.Board) {
 			}
 		}
 	}
+	return false
 }

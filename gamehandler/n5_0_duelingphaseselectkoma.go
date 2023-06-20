@@ -19,7 +19,6 @@ func (g *Game) DuelingPhaseSelectKoma() {
 			if currentBlock.OnBlock(x, y) {
 				if len(currentBlock.KomaStack) > 0 && currentBlock.KomaStack[len(currentBlock.KomaStack)-1].Color == g.Player1.SelfColor {
 					tempblock := g.Board.Blocks[k]
-					tempblock.BeSelect = true
 					g.Board.Blocks[k] = tempblock
 					g.WhichKomaBeenSelected = []int{k.X, k.Y}
 					// 用暫時變數引用當前的block的最後一個駒
@@ -83,7 +82,6 @@ func (g *Game) DuelingPhaseSelectKoma() {
 					// g.Player1.WhichOneSelected = i
 					for k := range g.Board.Blocks {
 						tempblock := g.Board.Blocks[k]
-						tempblock.BeSelect = false
 						tempblock.CurrentColor = color.BoardColor
 						g.Board.Blocks[k] = tempblock
 					}

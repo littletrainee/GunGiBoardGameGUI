@@ -16,27 +16,22 @@ func (c *CPU) DuelingPhaseSelectKoma(b board.Board, gameState gamestate.GameStat
 		return
 	}
 	if c.inevitableLoseOpportunity(b) {
-		// 嘗試俘獲防禦
-		c.defenseCapture(b)
-		if len(c.MoveToTarget) > 0 {
+
+		if c.defenseCapture(b) {
 			fmt.Println(currentTime(), ": can capture defense")
 			c.Select = cpuselect.DEFENSE_CAPTURE
 			return
 		}
 		fmt.Println(currentTime(), ": can't capture defense")
 
-		// 嘗試移動防禦
-		c.defenseAvoid(b)
-		if len(c.MoveToTarget) > 0 {
+		if c.defenseAvoid(b) {
 			fmt.Println(currentTime(), ": can move sui to avoid capture")
 			c.Select = cpuselect.DEFENSE_AVOID
 			return
 		}
 		fmt.Println(currentTime(), ": can't move sui to avoid capture")
 
-		// try arata
-		c.defenseARata(b, gameState.MaxLayer)
-		if len(c.MoveToTarget) > 0 {
+		if c.defenseARata(b, gameState.MaxLayer) {
 			fmt.Println(currentTime(), ": can arata koma to defense capture sui")
 			c.Select = cpuselect.DEFENSE_ARATA
 			return
@@ -48,9 +43,7 @@ func (c *CPU) DuelingPhaseSelectKoma(b board.Board, gameState gamestate.GameStat
 		return
 	}
 
-	// 嘗試俘獲
-	c.tryCapture(b)
-	if len(c.MoveToTarget) > 0 {
+	if c.tryCapture(b) {
 		fmt.Println(currentTime(), ": try to Capture")
 		c.Select = cpuselect.TRY_CAPTURE
 		return
@@ -61,22 +54,19 @@ func (c *CPU) DuelingPhaseSelectKoma(b board.Board, gameState gamestate.GameStat
 	// 迭代block
 	for k, v := range b.Blocks {
 		if len(v.KomaStack) > 0 && v.KomaStack[len(v.KomaStack)-1].Color == c.Player.SelfColor {
-			probablyChoice = append(probablyChoice, []int{k.X, k.Y})
+			probablyChoice = append(probablyChoice, []int{k.X, k.Y}) //駒在棋盤上的位置
 		}
 	}
 
 	// 迭代駒台
 	for i, v := range c.KomaDai {
 		if v.Item2 > 0 {
-			probablyChoice = append(probablyChoice, []int{i})
+			probablyChoice = append(probablyChoice, []int{i}) // 駒在駒台上的編號
 		}
 	}
 	// 從可選擇列表選擇一個
-	t := rand.Intn(len(probablyChoice))
-	c.targetKoma = probablyChoice[t]
-	if len(c.targetKoma) == 0 {
-		fmt.Println(c.targetKoma)
-	}
+	t := rand.Intn(len(probablyChoice)) // 隨機選擇在可能選擇的列表中的位置
+	c.MoveToTarget = probablyChoice[t]  // 設定選擇的事可能選擇的列表中的位置
 }
 
 func currentTime() string {

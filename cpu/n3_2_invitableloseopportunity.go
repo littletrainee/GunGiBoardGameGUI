@@ -23,35 +23,38 @@ func (c *CPU) inevitableLoseOpportunity(b board.Board) bool {
 			for _, direction := range theTopOne.ProbablyMoveing {
 				hinder = false
 				// 基於可能的方向去進行迭代每個方向的段
-				for _, layer := range direction {
-					// 基於每個段迭代位置
-					for _, pos := range layer {
-						// 目標駒可以移動的位置
-						var confirmPosition image.Point = image.Point{
-							X: theTopOne.CurrentPosition.X - pos.X,
-							Y: theTopOne.CurrentPosition.Y + pos.Y,
-						}
-						// 確認目標位置是否在棋盤內
-						targetBlock, ok := b.Blocks[confirmPosition]
-						if ok {
-							if !hinder {
-								// 在棋盤內確認是否有阻擋已中斷這個方向的迭代
-								if len(targetBlock.KomaStack) > 0 {
-									if len(targetBlock.KomaStack) >= len(v.KomaStack) {
-										hinder = true
+				for i, layer := range direction {
+					if len(v.KomaStack) > i {
+						// 基於每個段迭代位置
+						for _, pos := range layer {
+							// 目標駒可以移動的位置
+							var confirmPosition image.Point = image.Point{
+								X: theTopOne.CurrentPosition.X - pos.X,
+								Y: theTopOne.CurrentPosition.Y + pos.Y,
+							}
+							// 確認目標位置是否在棋盤內
+							targetBlock, ok := b.Blocks[confirmPosition]
+							if ok {
+								if !hinder {
+									// 在棋盤內確認是否有阻擋已中斷這個方向的迭代
+									if len(targetBlock.KomaStack) > 0 {
+										if len(targetBlock.KomaStack) >= len(v.KomaStack) {
+											hinder = true
+										}
+										// 最後一個駒是否是對家的帥
+										lastOne = targetBlock.KomaStack[len(targetBlock.KomaStack)-1]
+										if lastOne.Name == "帥" && lastOne.Color == c.SelfColor {
+											// 前兩個代表哪邊可以將軍的座標，後兩個代表帥的座標
+											c.MoveToTarget = []int{k.X, k.Y, confirmPosition.X, confirmPosition.Y}
+											return true
+										}
 									}
-									// 最後一個駒是否是對家的帥
-									lastOne = targetBlock.KomaStack[len(targetBlock.KomaStack)-1]
-									if lastOne.Name == "帥" && lastOne.Color == c.SelfColor {
-										c.checkmateBy = k
-										return true
-									}
+								} else {
+									break
 								}
-							} else {
+							} else { // 不存在則中斷
 								break
 							}
-						} else { // 不存在則中斷
-							break
 						}
 					}
 				}

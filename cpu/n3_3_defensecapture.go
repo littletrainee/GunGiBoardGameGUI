@@ -7,16 +7,17 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/board"
 )
 
-// 若帥被將軍則嘗試是否可以透過俘獲解除
-func (c *CPU) defenseCapture(b board.Board) {
+// 俘獲防禦函式:可以導出那個位置的駒可以俘獲對方的駒從而避免被將軍的狀況
+func (c *CPU) defenseCapture(b board.Board) bool {
 	// 迭代檢查每個Block
 	for k, v := range b.Blocks {
 		// 有包含駒，並且顏色不是自家顏色
 		if len(v.KomaStack) > 0 && v.KomaStack[len(v.KomaStack)-1].Color == c.SelfColor {
 			//宣告
 			var (
-				confirmPosition image.Point
-				hinder          bool
+				whereCanCheckmate image.Point = image.Point{X: c.MoveToTarget[0], Y: c.MoveToTarget[1]}
+				confirmPosition   image.Point
+				hinder            bool
 			)
 			// 迭代目標駒的可移動範圍所有方向
 			for _, direction := range v.KomaStack[len(v.KomaStack)-1].ProbablyMoveing {
@@ -46,10 +47,10 @@ func (c *CPU) defenseCapture(b board.Board) {
 									} else if len(targetBlock.KomaStack) == len(v.KomaStack) {
 										hinder = true
 									}
-									if c.checkmateBy == confirmPosition {
-										c.MoveToTarget = []int{k.X, k.Y, confirmPosition.X, confirmPosition.Y}
-										// c.CaptureForDefense = []image.Point{k, confirmPosition}
-										return
+									if whereCanCheckmate == confirmPosition {
+										// 目標位置的自家駒可以俘獲可以將軍自家帥的位置的駒
+										c.MoveToTarget = []int{k.X, k.Y, c.MoveToTarget[0], c.MoveToTarget[1]}
+										return true
 									}
 								} else {
 									break
@@ -65,4 +66,5 @@ func (c *CPU) defenseCapture(b board.Board) {
 			}
 		}
 	}
+	return false
 }

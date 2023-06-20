@@ -150,15 +150,21 @@ func (g *Game) Update() error {
 				g.DuelingPhaseSelectKoma()
 			} else {
 				g.CPU.DuelingPhaseSelectKoma(g.Board, g.GameState, &g.AnotherRoundOrEnd)
-				if g.CPU.Select != cpuselect.None {
+				switch g.CPU.Select {
+				case cpuselect.None:
+					g.CPU.DuelingPhaseSelectMove(g.GameState, g.Board)
 					g.delayedChangePhaseTo(phase.MOVE_KOMA)
-				} else if g.CPU.Select == cpuselect.BEEN_CHECKMATE {
+				case cpuselect.DEFENSE_CAPTURE,
+					cpuselect.DEFENSE_AVOID,
+					cpuselect.DEFENSE_ARATA,
+					cpuselect.TRY_CAPTURE:
+					g.delayedChangePhaseTo(phase.MOVE_KOMA)
+				case cpuselect.BEEN_CHECKMATE:
 					// 暫停計時器
 					g.Player2Timer.StopCountDown <- true
 					g.delayedChangePhaseTo(phase.ANOTHER_ROUND_OR_END)
-				} else {
-					g.CPU.DuelingPhaseSelectMove(g.GameState, g.Board)
-					g.delayedChangePhaseTo(phase.MOVE_KOMA)
+					g.CPU.Select = cpuselect.WAIT_FOR_SELECT_ANOTHERROUND_OR_EXIT
+				case cpuselect.WAIT_FOR_SELECT_ANOTHERROUND_OR_EXIT:
 				}
 			}
 		}
@@ -168,8 +174,6 @@ func (g *Game) Update() error {
 		case state.ARRANGEMENT:
 			if g.GameState.Turn == g.GameState.First {
 				g.ArrangementPhaseMoveKoma()
-				// 是否有按下布陣完成按鈕
-				// g.declareSuMi()
 			} else {
 				g.CPU.ArrangementPhaseMoveKoma(g.Board)
 				g.delayedChangePhaseTo(phase.CLICK_CLOCK)
@@ -178,9 +182,13 @@ func (g *Game) Update() error {
 			if g.GameState.Turn == g.GameState.First {
 				g.DuelingPhaseMoveKoma()
 			} else {
-				g.CPU.DuelingPhaseMoveKoma(&g.Board)
-				g.SetMaxRange()
-				g.delayedChangePhaseTo(phase.CLICK_CLOCK)
+				if len(g.CPU.MoveToTarget) != 0 {
+					g.CPU.DuelingPhaseMoveKoma(&g.Board)
+					g.SetMaxRange()
+					g.delayedChangePhaseTo(phase.CLICK_CLOCK)
+				} else {
+					g.delayedChangePhaseTo(phase.ANOTHER_ROUND_OR_END)
+				}
 			}
 		}
 
@@ -189,7 +197,7 @@ func (g *Game) Update() error {
 			g.ClickClock()
 		} else {
 			g.CPU.ClickClock(&g.GameState, &g.Player1Timer, &g.Player2Timer, g.CurrentState)
-			if g.Player1.IsSuMi && g.Player2.IsSuMi {
+			if g.Player2.IsSuMi {
 				g.CurrentState = state.DUELING
 				g.Player1.KomaDaiBackGroundColor = _color.BoardColor
 				g.Player2.KomaDaiBackGroundColor = _color.BoardColor

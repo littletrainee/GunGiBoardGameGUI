@@ -9,21 +9,19 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/koma"
 )
 
-func (c *CPU) defenseAvoid(b board.Board) {
+// 閃躲防禦函式:可以導出帥移動到哪個位置可以避免被將軍的狀況
+func (c *CPU) defenseAvoid(b board.Board) bool {
 	var (
-		suiPosition image.Point
-		// komaStackLength int
-		allowedPosition []image.Point
-		confirmPosition []image.Point
+		suiPosition            image.Point = image.Point{X: c.MoveToTarget[2], Y: c.MoveToTarget[3]}
+		confirmSuIProbablyMove []image.Point
+		confirmPosition        []image.Point
 	)
-	// 先定位帥的位置若移動到目標位置
-	suiPosition = positionSuI(b, c)
 
 	// 確認帥可以移動的位置
-	allowedPosition = confirmMove(b, suiPosition)
+	confirmSuIProbablyMove = confirmMove(b, suiPosition)
 
 	// 迭代所有核可的移動範圍
-	for _, targetPos := range allowedPosition {
+	for _, targetPos := range confirmSuIProbablyMove {
 		if !stillInCaptureRange(b, targetPos, c.SelfColor) {
 			if !contain(confirmPosition, targetPos) {
 				confirmPosition = append(confirmPosition, targetPos)
@@ -34,7 +32,9 @@ func (c *CPU) defenseAvoid(b board.Board) {
 	if len(confirmPosition) > 0 {
 		rnd := confirmPosition[rand.Intn(len(confirmPosition))]
 		c.MoveToTarget = []int{suiPosition.X, suiPosition.Y, rnd.X, rnd.Y}
+		return true
 	}
+	return false
 }
 
 func contain(slice []image.Point, target image.Point) bool {
@@ -101,15 +101,6 @@ func stillInCaptureRange(b board.Board, confirmPosition image.Point, selfColor c
 		}
 	}
 	return false
-}
-
-func positionSuI(b board.Board, c *CPU) image.Point {
-	for k, v := range b.Blocks {
-		if len(v.KomaStack) > 0 && v.KomaStack[len(v.KomaStack)-1].Name == "帥" && v.KomaStack[len(v.KomaStack)-1].Color == c.SelfColor {
-			return k
-		}
-	}
-	return image.Point{}
 }
 
 // 帥可以移動的範圍

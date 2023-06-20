@@ -11,6 +11,7 @@ import (
 func (g *Game) ArrangementPhaseMoveKoma() {
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		x, y := ebiten.CursorPosition()
+		// 若點到棋盤上的位置則放置
 		for k, v := range g.Board.Blocks {
 			if v.OnBlock(x, y) && !v.HasSuI() && v.Name.Item2 > 6 && len(v.KomaStack) < g.GameState.MaxLayer {
 				//複製出來
@@ -31,7 +32,17 @@ func (g *Game) ArrangementPhaseMoveKoma() {
 				g.Board.Blocks[k] = v
 				ResetBlockColor(&g.Board)
 				g.WhichKomaBeenSelected = nil
-				g.GameState.Phase = phase.CLICK_CLOCK
+				g.delayedChangePhaseTo(phase.CLICK_CLOCK)
+				return
+			}
+		}
+		// 弱點到駒台上被選取駒
+		for i, v := range g.Player1.KomaDai {
+			if v.Item1.OnKoma(float64(x), float64(y)) && i == g.WhichKomaBeenSelected[0] {
+				ResetBlockColor(&g.Board)
+				g.WhichKomaBeenSelected = nil
+				g.delayedChangePhaseTo(phase.SELECT_KOMA)
+				return
 			}
 		}
 	}

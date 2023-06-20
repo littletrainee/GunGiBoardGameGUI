@@ -18,7 +18,7 @@ func (c *CPU) DuelingPhaseSelectMove(g gamestate.GameState, b board.Board) {
 		hinder           bool
 	)
 
-	if len(c.targetKoma) == 1 { // 駒台
+	if len(c.MoveToTarget) == 1 { // 駒台
 		for column := 1; column < 10; column++ {
 			for row := 1; row < c.Player.MaxRange+1; row++ {
 				targetPosition := image.Point{X: column, Y: row}
@@ -29,8 +29,8 @@ func (c *CPU) DuelingPhaseSelectMove(g gamestate.GameState, b board.Board) {
 			}
 		}
 
-	} else { // 棋盤
-		currentBlock, ok := b.Blocks[image.Point{X: c.targetKoma[0], Y: c.targetKoma[1]}]
+	} else if len(c.MoveToTarget) == 2 { // 棋盤
+		currentBlock, ok := b.Blocks[image.Point{X: c.MoveToTarget[0], Y: c.MoveToTarget[1]}]
 		if ok {
 			currentLastKoma = currentBlock.KomaStack[len(currentBlock.KomaStack)-1]
 			currentDan := len(currentBlock.KomaStack)
@@ -122,15 +122,15 @@ func (c *CPU) DuelingPhaseSelectMove(g gamestate.GameState, b board.Board) {
 				for i, direction := range currentLastKoma.ProbablyMoveing {
 					switch i {
 					case 0:
-						if len(b.Blocks[image.Point{X: c.targetKoma[0], Y: c.targetKoma[1] + 1}].KomaStack) > len(currentBlock.KomaStack) {
+						if len(b.Blocks[image.Point{X: c.MoveToTarget[0], Y: c.MoveToTarget[1] + 1}].KomaStack) > len(currentBlock.KomaStack) {
 							continue
 						}
 					case 1:
-						if len(b.Blocks[image.Point{X: c.targetKoma[0] - 1, Y: c.targetKoma[1] + 1}].KomaStack) > len(currentBlock.KomaStack) {
+						if len(b.Blocks[image.Point{X: c.MoveToTarget[0] - 1, Y: c.MoveToTarget[1] + 1}].KomaStack) > len(currentBlock.KomaStack) {
 							continue
 						}
 					case 7:
-						if len(b.Blocks[image.Point{X: c.targetKoma[0] + 1, Y: c.targetKoma[1] + 1}].KomaStack) > len(currentBlock.KomaStack) {
+						if len(b.Blocks[image.Point{X: c.MoveToTarget[0] + 1, Y: c.MoveToTarget[1] + 1}].KomaStack) > len(currentBlock.KomaStack) {
 							continue
 						}
 					}
@@ -155,6 +155,7 @@ func (c *CPU) DuelingPhaseSelectMove(g gamestate.GameState, b board.Board) {
 		}
 	}
 	rand.Seed(time.Now().UnixNano())
-	c.targetPosition = probablyPosition[rand.Intn(len(probablyPosition))]
+	temp := probablyPosition[rand.Intn(len(probablyPosition))]
+	c.MoveToTarget = append(c.MoveToTarget, temp.X, temp.Y)
 
 }
