@@ -1,16 +1,18 @@
+// 詢問玩家是否要再來一局或是離開遊戲的物件
 package anotherroundorend
 
 import "github.com/hajimehoshi/ebiten/v2"
 
+// 再來一局或是離開遊戲
 type AnotherRoundOrEnd struct {
-	Show             bool
-	TitleText        string
-	AnotherRoundText string
-	EndText          string
-	TitleImg         *ebiten.Image
-	AnotherRoundImg  *ebiten.Image
-	EndImg           *ebiten.Image
-	TitleOpt         *ebiten.DrawImageOptions
-	AnotherRoundOpt  *ebiten.DrawImageOptions
-	EndOpt           *ebiten.DrawImageOptions
+	Show             bool                     // 顯示的切換，true為顯示，false為否
+	TitleText        string                   // 彈出視窗的標題文字
+	AnotherRoundText string                   // 再來一局的按鈕文字
+	EndText          string                   // 離開遊戲的按鈕文字
+	TitleImg         *ebiten.Image            // 顯示標題文字的透明圖像
+	AnotherRoundImg  *ebiten.Image            // 顯示再來一局文字的透明圖像
+	EndImg           *ebiten.Image            // 顯示離開遊戲文字的透明圖像
+	TitleOpt         *ebiten.DrawImageOptions // 標題文字的繪製參數
+	AnotherRoundOpt  *ebiten.DrawImageOptions // 再來一局文字的繪製參數
+	EndOpt           *ebiten.DrawImageOptions // 離開遊戲文字的繪製參數
 }

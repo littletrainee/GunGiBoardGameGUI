@@ -7,6 +7,9 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/koma"
 )
 
+// invitableLoseOpportunity 必輸的機會，判斷是否被對方將軍自己的帥，若被將軍則回傳true，否則回傳false
+//
+// 參數b為棋盤物件
 func (c *CPU) inevitableLoseOpportunity(b board.Board) bool {
 	// 迭代每個block
 	for k, v := range b.Blocks {

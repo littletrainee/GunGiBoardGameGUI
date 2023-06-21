@@ -12,5 +12,5 @@ func (k *Koma) OnKoma(x, y float64) bool {
 		tempy float64 = y - float64(k.CurrentCoordinate.Y)
 	)
 	d := math.Sqrt(math.Pow(tempx, 2) + math.Pow(tempy, 2))
-	return d < float64(constant.RADIUS)
+	return d < float64(constant.KOMA_SIZE)
 }

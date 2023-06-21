@@ -1,6 +1,8 @@
 package block
 
-// 確認目標位置是否有帥
+// HasSuI 檢查該區塊是否包含帥
+//
+// 若有在按鈕上則回傳true，否則false。
 func (b *Block) HasSuI() bool {
 	if len(b.KomaStack) > 0 {
 		for _, v := range b.KomaStack {

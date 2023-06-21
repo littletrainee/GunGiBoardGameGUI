@@ -8,6 +8,6 @@ import (
 
 func (i *RecommendedArrangement) OnAskArrangement(x, y int) bool {
 	return image.Point{x, y}.In(image.Rect(int(i.X), int(i.Y),
-		int(i.X+constant.RECOMMENDED_ARRANGEMENT_BLOCK_SIZE-2),
-		int(i.Y+constant.RECOMMENDED_ARRANGEMENT_BLOCK_SIZE-2)))
+		int(i.X+constant.ARRANGEMENT_BUTTON_SIZE-2),
+		int(i.Y+constant.ARRANGEMENT_BUTTON_SIZE-2)))
 }

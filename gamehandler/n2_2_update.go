@@ -81,11 +81,11 @@ func (g *Game) Update() error {
 	case phase.INITILIZATION_EACH_OBJECT:
 		g.Board = board.Initilization()
 		g.Player1Timer = timer.Initilization(constant.REMAINING_TIME,
-			constant.TIMER_POSITION_X+1,
-			constant.TIMER_POSITION_Y+1+constant.TIMER_BASE_HEIGHT/2)
+			constant.TIMER_X+1,
+			constant.TIMER_Y+1+constant.TIMER_HEIGHT/2)
 		g.Player2Timer = timer.Initilization(constant.REMAINING_TIME,
-			constant.TIMER_POSITION_X+1,
-			constant.TIMER_POSITION_Y+1)
+			constant.TIMER_X+1,
+			constant.TIMER_Y+1)
 		g.CPU = cpu.Initilization(&g.Player2)
 		g.GameState.Phase = phase.SELECT_KOMA
 		g.CurrentState = state.ARRANGEMENT

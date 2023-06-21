@@ -15,7 +15,7 @@ func (g *Game) AnotherRoundOrEndGame() {
 		if g.AnotherRoundOrEnd.AnotherRoundButton(x, y) {
 			g.GameState = gamestate.Initilization(g.Font)
 			g.delayedChangePhaseTo(phase.SELECT_COLOR)
-		} else if g.AnotherRoundOrEnd.EndGame(x, y) {
+		} else if g.AnotherRoundOrEnd.EndGameButton(x, y) {
 			os.Exit(0)
 		}
 	}

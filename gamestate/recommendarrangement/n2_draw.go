@@ -12,10 +12,10 @@ import (
 
 func (r *RecommendedArrangement) Draw(screen *ebiten.Image, font font.Face) {
 	vector.DrawFilledRect(screen, r.X, r.Y,
-		constant.RECOMMENDED_ARRANGEMENT_BLOCK_SIZE,
-		constant.RECOMMENDED_ARRANGEMENT_BLOCK_SIZE, color.Black, true)
+		constant.ARRANGEMENT_BUTTON_SIZE,
+		constant.ARRANGEMENT_BUTTON_SIZE, color.Black, true)
 	vector.DrawFilledRect(screen, r.X+1, r.Y+1,
-		constant.RECOMMENDED_ARRANGEMENT_BLOCK_SIZE-2,
-		constant.RECOMMENDED_ARRANGEMENT_BLOCK_SIZE-2, r.backGround, true)
+		constant.ARRANGEMENT_BUTTON_SIZE-2,
+		constant.ARRANGEMENT_BUTTON_SIZE-2, r.backGround, true)
 	text.Draw(screen, r.Name, font, int(r.X)+35, int(r.Y)+83, r.text)
 }

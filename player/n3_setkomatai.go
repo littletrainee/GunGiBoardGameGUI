@@ -21,7 +21,7 @@ func (p *Player) SetKomaTai(l level.Level, font font.Face) {
 		source       string
 		row          float32 = 0
 		column       float32 = 0
-		distance     float32 = constant.RADIUS*2 + 1
+		distance     float32 = constant.KOMA_SIZE*2 + 1
 		numberOfKoma int
 	)
 	switch l {
@@ -51,7 +51,7 @@ func (p *Player) SetKomaTai(l level.Level, font font.Face) {
 					X: int(c),
 					Y: int(r)},
 				Op:  &ebiten.DrawImageOptions{},
-				Img: ebiten.NewImage(int(constant.RADIUS)+1, int(constant.RADIUS)+1),
+				Img: ebiten.NewImage(int(constant.KOMA_SIZE)+1, int(constant.KOMA_SIZE)+1),
 			}
 			repeat int
 		)

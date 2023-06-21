@@ -8,6 +8,9 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/player"
 )
 
+// Initilization 初始化CPU物件，設定好本局宣告"布陣完成"的機率與繼承控制Player2的物件並回傳。
+//
+// 參數p用為CPU繼承控制的Player2
 func Initilization(p *player.Player) CPU {
 	var c CPU = CPU{
 		Player: p,

@@ -16,7 +16,7 @@ func Initilization(font font.Face) DeclareSuMi {
 		SuMiImg:  ebiten.NewImage(int(constant.SUMI_BUTTON_WIDTH), int(constant.SUMI_BUTTON_HEIGHT)),
 		SuMiOpt:  &ebiten.DrawImageOptions{},
 	}
-	d.SuMiOpt.GeoM.Translate(constant.SUMI_BUTTON_POSITION_X, constant.SUMI_BUTTON_POSITION_Y)
+	d.SuMiOpt.GeoM.Translate(constant.SUMI_BUTTON_X, constant.SUMI_BUTTON_Y)
 	text.Draw(d.SuMiImg, d.SuMiText, font, 10, 55, color.Black)
 	return d
 }

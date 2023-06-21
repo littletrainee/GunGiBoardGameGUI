@@ -11,6 +11,9 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/gamestate"
 )
 
+// DuelingPhaseSelectKoma 對弈期間的選駒，用於判斷對弈期間是否有被將軍、可否俘獲對方、移駒或新的函式
+//
+// 參數b為棋盤物件，gameState為當前對弈的遊戲狀態，anotherRoundOrEnd為再來一局或是離開遊戲物件
 func (c *CPU) DuelingPhaseSelectKoma(b board.Board, gameState gamestate.GameState, anotherRoundOrEnd *anotherroundorend.AnotherRoundOrEnd) {
 	if c.inevitableWinOpportunity(b) {
 		return

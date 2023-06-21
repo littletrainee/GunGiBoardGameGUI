@@ -1,101 +1,63 @@
+// 軍儀棋會用到的常數
 package constant
 
 const (
-	// window
-	WINDOW_SIZE_WIDTH  = 1024
-	WINDOW_SIZE_HEIGHT = 768
-	WINDOW_TITLE       = "軍儀棋"
-
-	// level phase
-	LEVEL_BEGINNER     = 300
-	LEVEL_ELEMENTYARY  = 400
-	LEVEL_INTERMEDIATE = 500
-	LEVEL_ADVANCED     = 600
-	LEVEL_Y            = 300
-	LEVEL_BLOCK_SIZE   = 99
-
-	// recommend or manual arrangement phase
-	RECOMMENDED_ARRANGEMENT            = 375
-	NO_RECOMMENDED_ARRANGEMENT         = 525
-	RECOMMENDED_ARRANGEMENT_Y          = 300
-	RECOMMENDED_ARRANGEMENT_BLOCK_SIZE = 149
-
-	// count down time to gaming
-	PREPARE_FOR_GAMING_TIME = 1
-
-	// board
-	BOARD_BASE_SIZE_WIDTH  = 550
-	BOARD_BASE_SIZE_HEIGHT = 550
-	BOARD_BASE_POSITION_X  = 237
-	BOARD_BASE_POSITION_Y  = 109
-
-	// block
-	BLOCK_SIZE = 60
-
-	// own komadai position
-	OWN_KOMADAI_POSITION_X = 788
-	OWN_KOMADAI_POSITION_Y = 492
-
-	// opponent komadai position
-	OPPONENT_KOMADAI_POSITION_X = 69
-	OPPONENT_KOMADAI_POSITION_Y = 109
-
-	// komadai size
-	KOMADAI_SIZE = 167
-
-	// koma on own komadai position
-	KOMA_ON_OWN_KOMADAI_X = 810
-	KOMA_ON_OWN_KOMADAI_Y = 513
-
-	// koma on opponent komadai position
-	KOMA_ON_OPPONENT_KOMADAI_X = 214
-	KOMA_ON_OPPONENT_KOMADAI_Y = 254
-
-	// koma size
-	RADIUS = 20
-
-	// timer
-	TIMER_POSITION_X  = 850
-	TIMER_POSITION_Y  = 109
-	TIMER_BASE_WIDTH  = 120
-	TIMER_BASE_HEIGHT = 240
-	TIMER_SIZE        = 118
-
-	// remaining time
-	REMAINING_TIME     = 600
-	CPU_REMAINING_TIME = 60
-
-	// arrangement
-	// SUMI_BASE_POSITION_X               = 237
-	// SUMI_BASE_POSITION_Y               = 665
-	// SUMI_BASE_WIDTH                    = 550
-	// SUMI_BASE_HEIGHT                   = 100
-	SUMI_BUTTON_POSITION_X             = 462
-	SUMI_BUTTON_POSITION_Y             = 665
-	SUMI_BUTTON_WIDTH                  = 100
-	SUMI_BUTTON_HEIGHT                 = 100
-	CPU_DECLARE_SUMI_TARGET_PERCENTAGE = 65
-	// Dan
-	SECOND_DAN = 5
-	THIRD_DAN  = 10
-
-	// Capture Or Controll
-	CAPTURE_BASE_POSITION_X   = 276
-	CAPTURE_BASE_POSITION_Y   = 300
-	CAPTURE_BASE_WIDTH        = 476
-	CAPTURE_BASE_HEIGHT       = 150
-	CAPTURE_BUTTON_POSITION_X = 376
-	CAPTURE_BUTTON_POSITION_Y = 388
-	CAPTURE_BUTTON_WIDTH      = 100
-	CAPTURE_BUTTON_HEIGHT     = 50
-
-	// Another Round Or End Game
-	ANOTHER_ROUND_BASE_POSITION_X   = 276
-	ANOTHER_ROUND_BASE_POSITION_Y   = 300
-	ANOTHER_ROUND_BASE_WIDTH        = 476
-	ANOTHER_ROUND_BASE_HEIGHT       = 150
-	ANOTHER_ROUND_BUTTON_POSITION_X = 376
-	ANOTHER_ROUND_BUTTON_POSITION_Y = 388
-	ANOTHER_ROUND_BUTTON_WIDTH      = 100
-	ANOTHER_ROUND_BUTTON_HEIGHT     = 50
+	WINDOW_SIZE_WIDTH                  = 1024    // 視窗的寬
+	WINDOW_SIZE_HEIGHT                 = 768     // 視窗的高
+	WINDOW_TITLE                       = "GunGi" // 視窗的標題
+	LEVEL_BEGINNER_X                   = 300     // 入門階級的X座標
+	LEVEL_ELEMENTYARY_X                = 400     // 初級階級的X座標
+	LEVEL_INTERMEDIATE_X               = 500     // 中級階級的X座標
+	LEVEL_ADVANCED_X                   = 600     // 高級階級的X座標
+	LEVEL_Y                            = 300     // 階級的Y座標
+	LEVEL_BLOCK_SIZE                   = 99      // 階級的區塊尺寸
+	RECOMMENDED_ARRANGEMENT_BUTTON_X   = 375     // 推薦布陣按鈕的X座標
+	MANUAL_ARRANGEMENT_BUTTON_X        = 525     // 自訂布陣按鈕的X座標
+	ARRANGEMENT_BUTTON_Y               = 300     // 布陣按鈕的Y座標
+	ARRANGEMENT_BUTTON_SIZE            = 149     // 布陣按鈕的尺寸
+	PREPARE_FOR_GAMING_TIME            = 1       // 遊戲開始前的倒數
+	BOARD_WIDTH                        = 550     // 棋盤寬度
+	BOARD_HEIGHT                       = 550     // 棋盤高度
+	BOARD_X                            = 237     // 棋盤的X座標
+	BOARD_Y                            = 109     // 棋盤的Y座標
+	BLOCK_SIZE                         = 60      // 區塊數值
+	OWN_KOMADAI_X                      = 788     // 自家駒台的X座標
+	OWN_KOMADAI_Y                      = 492     // 自家駒台的Y座標
+	OPPONENT_KOMADAI_POSITION_X        = 69      // 對家駒台的X座標
+	OPPONENT_KOMADAI_POSITION_Y        = 109     // 對家駒台的Y座標
+	KOMADAI_SIZE                       = 167     // 駒台的尺寸
+	KOMA_ON_OWN_KOMADAI_X              = 810     // 駒在自家駒台上的X座標
+	KOMA_ON_OWN_KOMADAI_Y              = 513     // 駒在自家駒台上的Y座標
+	KOMA_ON_OPPONENT_KOMADAI_X         = 214     // 駒在對家駒台上的X座標
+	KOMA_ON_OPPONENT_KOMADAI_Y         = 254     // 駒在對家駒台上的Y座標
+	KOMA_SIZE                          = 20      // 駒的尺寸
+	TIMER_X                            = 850     // 棋鐘的X座標
+	TIMER_Y                            = 109     // 棋鐘的Y座標
+	TIMER_WIDTH                        = 120     // 棋鐘的寬度
+	TIMER_HEIGHT                       = 240     // 棋鐘的高度
+	TIMER_SIZE                         = 118     // 棋鐘的尺寸
+	REMAINING_TIME                     = 600     // 剩餘的思考時間
+	SUMI_BUTTON_X                      = 462     // 布陣完畢按鈕的X座標
+	SUMI_BUTTON_Y                      = 665     // 布陣完畢按鈕的Y座標
+	SUMI_BUTTON_WIDTH                  = 100     // 布陣完畢按鈕的寬度
+	SUMI_BUTTON_HEIGHT                 = 100     // 布陣完畢按鈕的高度
+	CPU_DECLARE_SUMI_TARGET_PERCENTAGE = 65      // 電腦宣告布陣完畢的累計區間值
+	SECOND_DAN                         = 5       // 駒在區塊內二段的偏移量
+	THIRD_DAN                          = 10      // 駒在區塊內三段的偏移量
+	CAPTURE_OR_CONTROL_X               = 276     // 俘獲或控制視窗的X座標
+	CAPTURE_OR_CONTROL_Y               = 300     // 俘獲或控制視窗的Y座標
+	CAPTURE_OR_CONTROL_WIDTH           = 476     // 俘獲或控制視窗的寬度
+	CAPTURE_OR_CONTROL_HEIGHT          = 150     // 俘獲或控制視窗的高度
+	CAPTURE_BUTTON_X                   = 376     // 俘獲按鈕的X座標
+	CAPTURE_BUTTON_Y                   = 388     // 俘獲按鈕的Y座標
+	CAPTURE_BUTTON_WIDTH               = 100     // 俘獲按鈕的寬度
+	CAPTURE_BUTTON_HEIGHT              = 50      // 俘獲按鈕的高度
+	ANOTHER_ROUND_OR_EXIT_X            = 276     // 再來一局或離開遊戲視窗的X座標
+	ANOTHER_ROUND_OR_EXIT_Y            = 300     // 再來一局或離開遊戲視窗的Y座標
+	ANOTHER_ROUND_OR_EXIT_WIDTH        = 476     // 再來一局或離開遊戲視窗的Y座標
+	ANOTHER_ROUND_OR_EXIT_HEIGHT       = 150     // 再來一局或離開遊戲視窗的Y座標
+	ANOTHER_ROUND_BUTTON_POSITION_X    = 376     // 再來一局按鈕的X座標
+	ANOTHER_ROUND_BUTTON_POSITION_Y    = 388     // 再來一局按鈕的Y座標
+	ANOTHER_ROUND_BUTTON_WIDTH         = 100     // 再來一局按鈕的寬度
+	ANOTHER_ROUND_BUTTON_HEIGHT        = 50      // 再來一局按鈕的高度
 )

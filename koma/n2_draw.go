@@ -13,17 +13,17 @@ func (k *Koma) Draw(screen *ebiten.Image, font font.Face) {
 	// base for outline
 	vector.DrawFilledCircle(screen,
 		float32(k.CurrentCoordinate.X), float32(k.CurrentCoordinate.Y),
-		constant.RADIUS, color.Black, true)
+		constant.KOMA_SIZE, color.Black, true)
 	vector.DrawFilledCircle(screen,
 		float32(k.CurrentCoordinate.X), float32(k.CurrentCoordinate.Y),
-		constant.RADIUS-1, k.Color, true)
+		constant.KOMA_SIZE-1, k.Color, true)
 
 	vector.DrawFilledCircle(screen,
 		float32(k.CurrentCoordinate.X), float32(k.CurrentCoordinate.Y),
-		constant.RADIUS-5.25, color.Black, true)
+		constant.KOMA_SIZE-5.25, color.Black, true)
 	vector.DrawFilledCircle(screen,
 		float32(k.CurrentCoordinate.X), float32(k.CurrentCoordinate.Y),
-		constant.RADIUS-6.25, color.White, true)
+		constant.KOMA_SIZE-6.25, color.White, true)
 	/*
 		正向文字為當前座標X-10,Y-12
 		反向文字為當前座標X+10,Y+12

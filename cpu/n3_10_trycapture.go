@@ -6,7 +6,9 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/board"
 )
 
-// 嘗試俘獲
+// tryCapture 嘗試俘獲，嘗試是否可以俘獲對方的駒，若可以則回傳true，否則回傳false
+//
+// 參數b為棋盤物件
 func (c *CPU) tryCapture(b board.Board) bool {
 	// 迭代檢查每個Block
 	for k, v := range b.Blocks {

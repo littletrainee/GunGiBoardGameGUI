@@ -9,6 +9,9 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/koma"
 )
 
+// ArrangementPhaseMoveKoma 布陣階段放置駒到棋盤上
+//
+// 參數b為棋盤物件
 func (c *CPU) ArrangementPhaseMoveKoma(b board.Board) {
 	var (
 		position image.Point = image.Point{X: c.MoveToTarget[1], Y: c.MoveToTarget[2]}

@@ -10,6 +10,9 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/gamestate"
 )
 
+// ArrangementPhaseSelectKoma 布陣階段的選駒，並且決定要將駒放在棋盤上的哪個位置
+//
+// 參數g為本局遊戲當前的狀態，b為棋盤物件
 func (c *CPU) ArrangementPhaseSelectKoma(g gamestate.GameState, b *board.Board) {
 	if !c.Player.IsSuMi {
 		var (

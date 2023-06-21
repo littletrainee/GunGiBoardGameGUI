@@ -12,8 +12,8 @@ import (
 func (p *Player) SetKomaTaiPosition(l level.Level, font font.Face) {
 	if p.IsOwn {
 		p.KomaDaiCoordinate = image.Point{
-			X: constant.OWN_KOMADAI_POSITION_X,
-			Y: constant.OWN_KOMADAI_POSITION_Y,
+			X: constant.OWN_KOMADAI_X,
+			Y: constant.OWN_KOMADAI_Y,
 		}
 		p.KomaOnKomaDaiCoordinate = image.Point{
 			X: constant.KOMA_ON_OWN_KOMADAI_X,

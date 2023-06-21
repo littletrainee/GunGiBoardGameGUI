@@ -9,7 +9,9 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/koma"
 )
 
-// 閃躲防禦函式:可以導出帥移動到哪個位置可以避免被將軍的狀況
+// defenseAvoid 閃躲防禦函式，可以導出帥移動到哪個位置可以避免被將軍的狀況，若可以避免則回傳true，否則回傳false
+//
+// 參數b為棋盤物件
 func (c *CPU) defenseAvoid(b board.Board) bool {
 	var (
 		suiPosition            image.Point = image.Point{X: c.MoveToTarget[2], Y: c.MoveToTarget[3]}

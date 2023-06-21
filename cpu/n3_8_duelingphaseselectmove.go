@@ -11,6 +11,9 @@ import (
 	"github.com/littletrainee/gunginotationgenerator/enum/level"
 )
 
+// DuelingPhaseSelectMove 對弈期間選擇移動的位置，從可能的切片當中選擇要移動的位置，可能是新也可能是移居，取決於切片的長度
+//
+// 參數g為當前遊戲的狀態，b為棋盤物件
 func (c *CPU) DuelingPhaseSelectMove(g gamestate.GameState, b board.Board) {
 	var (
 		currentLastKoma  koma.Koma
@@ -76,7 +79,7 @@ func (c *CPU) DuelingPhaseSelectMove(g gamestate.GameState, b board.Board) {
 					} else {
 						for danIndex, eachDanCanMove := range v {
 							if danIndex < currentDan {
-								probablyPosition = append(probablyPosition, checkTargetBlock(eachDanCanMove, currentLastKoma, g, b, currentDan)...)
+								probablyPosition = append(probablyPosition, otherCheck(eachDanCanMove, currentLastKoma, g, b, currentDan)...)
 							}
 						}
 					}
@@ -113,7 +116,7 @@ func (c *CPU) DuelingPhaseSelectMove(g gamestate.GameState, b board.Board) {
 					} else {
 						for danIndex, eachDanCanMove := range v {
 							if danIndex < currentDan {
-								probablyPosition = append(probablyPosition, checkTargetBlock(eachDanCanMove, currentLastKoma, g, b, currentDan)...)
+								probablyPosition = append(probablyPosition, otherCheck(eachDanCanMove, currentLastKoma, g, b, currentDan)...)
 							}
 						}
 					}
@@ -136,7 +139,7 @@ func (c *CPU) DuelingPhaseSelectMove(g gamestate.GameState, b board.Board) {
 					}
 					for j, eachDanCanMove := range direction {
 						if j < currentDan {
-							probablyPosition = append(probablyPosition, checkTargetBlock(eachDanCanMove, currentLastKoma, g, b, currentDan)...)
+							probablyPosition = append(probablyPosition, otherCheck(eachDanCanMove, currentLastKoma, g, b, currentDan)...)
 						}
 					}
 
@@ -147,7 +150,7 @@ func (c *CPU) DuelingPhaseSelectMove(g gamestate.GameState, b board.Board) {
 						// 確定沒有超過當前階級可以的最高段數
 						if danIndex < currentDan {
 							probablyPosition = append(probablyPosition,
-								checkTargetBlock(eachDanCanMove, currentLastKoma, g, b, currentDan)...)
+								otherCheck(eachDanCanMove, currentLastKoma, g, b, currentDan)...)
 						}
 					}
 				}

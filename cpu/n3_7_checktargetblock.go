@@ -8,7 +8,10 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/koma"
 )
 
-func checkTargetBlock(eachDanCanMove []image.Point, lastKoma koma.Koma, g gamestate.GameState, b board.Board, currentDan int) []image.Point {
+// otherCheck 其他駒可以移動的範圍，回傳值為可以移動的選項切片
+//
+// 參數eachCanCanMove為每個可以移動方向中的當前段可以移動的範圍，lastKoma為當前駒物件，g為本局遊戲的狀態，b為棋盤物件，currentDan為當前的段
+func otherCheck(eachDanCanMove []image.Point, lastKoma koma.Koma, g gamestate.GameState, b board.Board, currentDan int) []image.Point {
 	// 設定是否已經有阻礙
 	var (
 		hinder          bool

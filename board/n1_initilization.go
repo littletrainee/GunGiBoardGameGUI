@@ -10,6 +10,7 @@ import (
 	"github.com/littletrainee/pair"
 )
 
+// Initilization 回傳初始化的Board物件，並設定好每個區塊在畫面上的位置、名稱與顏色。
 func Initilization() Board {
 	var (
 		distance float32 = constant.BLOCK_SIZE + 1
@@ -25,8 +26,8 @@ func Initilization() Board {
 						Item1: 10 - column,
 						Item2: row},
 					Coordinate: coordinate.Coordinate{
-						X: constant.BOARD_BASE_POSITION_X + 1 + float32(column-1)*distance,
-						Y: constant.BOARD_BASE_POSITION_Y + 1 + float32(row-1)*distance},
+						X: constant.BOARD_X + 1 + float32(column-1)*distance,
+						Y: constant.BOARD_Y + 1 + float32(row-1)*distance},
 					CurrentColor: color.BoardColor}
 		}
 	}

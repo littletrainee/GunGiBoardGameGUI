@@ -38,15 +38,15 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		// 繪製棋盤
 		// Base
 		vector.DrawFilledRect(screen,
-			constant.BOARD_BASE_POSITION_X, constant.BOARD_BASE_POSITION_Y,
-			constant.BOARD_BASE_SIZE_WIDTH, constant.BOARD_BASE_SIZE_WIDTH,
+			constant.BOARD_X, constant.BOARD_Y,
+			constant.BOARD_WIDTH, constant.BOARD_WIDTH,
 			color.Black, true)
 		g.Board.Draw(screen, g.Font)
 		g.Player1.DrawKomaTai(screen, g.Font)
 		g.Player2.DrawKomaTai(screen, g.Font)
 		vector.DrawFilledRect(screen,
-			float32(constant.TIMER_POSITION_X), float32(constant.TIMER_POSITION_Y),
-			float32(constant.TIMER_BASE_WIDTH), float32(constant.TIMER_BASE_HEIGHT),
+			float32(constant.TIMER_X), float32(constant.TIMER_Y),
+			float32(constant.TIMER_WIDTH), float32(constant.TIMER_HEIGHT),
 			color.Black, true)
 		g.Player1Timer.Draw(screen, g.Font, g.GameState.Phase)
 		g.Player2Timer.Draw(screen, g.Font, g.GameState.Phase)

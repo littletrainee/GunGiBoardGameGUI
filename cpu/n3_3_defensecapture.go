@@ -7,7 +7,9 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/board"
 )
 
-// 俘獲防禦函式:可以導出那個位置的駒可以俘獲對方的駒從而避免被將軍的狀況
+// defenseCapture 俘獲防禦，可以導出那個位置的駒可以俘獲對方的駒從而避免被將軍的狀況，若可以透過俘獲解除將軍則回傳true，否則回傳false
+//
+// 參數b為棋盤物件
 func (c *CPU) defenseCapture(b board.Board) bool {
 	// 迭代檢查每個Block
 	for k, v := range b.Blocks {

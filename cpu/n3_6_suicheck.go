@@ -7,7 +7,10 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/koma"
 )
 
-func suICheck(eachDanCanMove []image.Point, lastKoma koma.Koma, b board.Board, currentDan int) []image.Point {
+// suICheck 在入門與初級階級下，率可以移動的範圍，必須不包含任何駒，回傳值為可以移動的選項切片
+//
+// 參數eachCanCanMove為每個可以移動方向中的當前段可以移動的範圍，suI為帥物件，b為棋盤物件，currentDan為當前的段
+func suICheck(eachDanCanMove []image.Point, suI koma.Koma, b board.Board, currentDan int) []image.Point {
 	// 設定是否已經有阻礙
 	var (
 		hinder          bool
@@ -17,8 +20,8 @@ func suICheck(eachDanCanMove []image.Point, lastKoma koma.Koma, b board.Board, c
 	for _, coor := range eachDanCanMove {
 		// 設定目標位置
 		targetBlockPosition := image.Point{
-			X: lastKoma.CurrentPosition.X - coor.X,
-			Y: lastKoma.CurrentPosition.Y + coor.Y,
+			X: suI.CurrentPosition.X - coor.X,
+			Y: suI.CurrentPosition.Y + coor.Y,
 		}
 
 		// 確認目標位置是否在棋盤內

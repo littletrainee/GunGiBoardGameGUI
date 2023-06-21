@@ -7,7 +7,9 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/koma"
 )
 
-// 必勝的機會
+// inevitableWinOpportunity 必勝的機會，判斷是否可以將軍對方的帥，若可以將軍對方的帥則回傳true，否則false
+//
+// 參數b為棋盤物件
 func (c *CPU) inevitableWinOpportunity(b board.Board) bool {
 	// 迭代每個block
 	for _, v := range b.Blocks {
@@ -50,7 +52,6 @@ func (c *CPU) inevitableWinOpportunity(b board.Board) bool {
 									// 最後一個駒是否是對家的帥
 									lastOne = targetBlock.KomaStack[len(targetBlock.KomaStack)-1]
 									if lastOne.Name == "帥" && lastOne.Color != c.SelfColor {
-										// fmt.Println("將軍")
 										return true
 									}
 								}

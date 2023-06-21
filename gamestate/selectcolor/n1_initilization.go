@@ -19,14 +19,14 @@ func Initilization(font font.Face) SelectColor {
 				Name:              "帥",
 				Color:             color.White,
 				CurrentCoordinate: image.Point{X: 472, Y: 384},
-				Img:               ebiten.NewImage(int(constant.RADIUS)+1, int(constant.RADIUS)+1),
+				Img:               ebiten.NewImage(int(constant.KOMA_SIZE)+1, int(constant.KOMA_SIZE)+1),
 				Op:                &ebiten.DrawImageOptions{},
 			},
 			{
 				Name:              "帥",
 				Color:             color.Black,
 				CurrentCoordinate: image.Point{X: 552, Y: 384},
-				Img:               ebiten.NewImage(int(constant.RADIUS)+1, int(constant.RADIUS)+1),
+				Img:               ebiten.NewImage(int(constant.KOMA_SIZE)+1, int(constant.KOMA_SIZE)+1),
 				Op:                &ebiten.DrawImageOptions{},
 			}},
 	}

@@ -9,7 +9,9 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/koma"
 )
 
-// 新之防禦函式:可以導出哪個位置新可以避免被將軍的狀況
+// defenseARata 新駒防禦函式，可以導出哪個位置新可以避免被將軍的狀況，若成立則回傳true，否則回傳false
+//
+// 參數b為棋盤物件，maxlayer為可以堆疊的最高段數
 func (c *CPU) defenseARata(b board.Board, maxlayer int) bool {
 	var (
 		suiPosition   image.Point = image.Point{X: c.MoveToTarget[2], Y: c.MoveToTarget[3]}

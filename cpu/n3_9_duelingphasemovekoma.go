@@ -11,6 +11,9 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/koma"
 )
 
+// DuelingPhaseMoveKoma 對弈期間的移駒，俘獲、迴避、新、嘗試俘獲與其他移動的選擇判斷要如何動作
+//
+// 參數b為棋盤物件
 func (c *CPU) DuelingPhaseMoveKoma(b *board.Board) {
 	switch c.Select {
 	case cpuselect.DEFENSE_CAPTURE:
