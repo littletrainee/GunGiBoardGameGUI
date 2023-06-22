@@ -12,5 +12,9 @@ func (g *Game) SetMaxRange() {
 			}
 		}
 	}
-	g.Player1.MaxRange = fartest
+	if fartest >= 7 {
+		g.Player1.MaxRange = 7
+	} else {
+		g.Player1.MaxRange = fartest
+	}
 }

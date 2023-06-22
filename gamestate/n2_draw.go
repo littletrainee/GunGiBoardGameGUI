@@ -13,12 +13,8 @@ func (g *GameState) Draw(screen *ebiten.Image) {
 	case phase.SELECT_COLOR:
 		g.ColorHolder.Draw(screen)
 	case phase.SELECT_LEVEL:
-		for _, v := range g.LevelHolder.LevelList {
-			v.Draw(screen)
-		}
-	case phase.RECOMMEND_OR_MANUAL_ARRANGEMENT:
-		for _, v := range g.ArrangementHolder.RecommendOrManual {
-			v.Draw(screen)
-		}
+		g.LevelHolder.Draw(screen)
+	case phase.SELECT_RECOMMEND_OR_MANUAL_ARRANGEMENT:
+		g.ArrangementHolder.Draw(screen)
 	}
 }

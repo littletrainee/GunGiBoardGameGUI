@@ -19,9 +19,9 @@ import (
 func Initilization(font font.Face) ArrangementHolder {
 	var (
 		a ArrangementHolder = ArrangementHolder{
-			TitleImg:          ebiten.NewImage(300, 300),
-			TitleOpt:          &ebiten.DrawImageOptions{},
-			RecommendOrManual: []roma.RecommendOrManualArrangement{},
+			TitleImg:        ebiten.NewImage(300, 300),
+			TitleOpt:        &ebiten.DrawImageOptions{},
+			ArrangementList: []roma.RecommendOrManualArrangement{},
 		}
 	)
 	for i := 0; i < 2; i++ {
@@ -50,8 +50,11 @@ func Initilization(font font.Face) ArrangementHolder {
 			temp.Opt.GeoM.Translate(float64(temp.Coor.X), float64(temp.Coor.Y))
 			text.Draw(temp.Img, "自行布陣", font, 35, 83, color.White)
 		}
-		a.RecommendOrManual = append(a.RecommendOrManual, temp)
+		a.ArrangementList = append(a.ArrangementList, temp)
 	}
+	a.TitleOpt.GeoM.Scale(3, 3)
+	a.TitleOpt.GeoM.Translate(constant.ARRANGEMENT_TITLE_X, constant.TITLE_Y)
+	text.Draw(a.TitleImg, "請選擇推薦或自訂布陣", font, 0, 50, color.Black)
 
 	return a
 }

@@ -1,6 +1,7 @@
 package cpu
 
 import (
+	"fmt"
 	"image"
 	"math/rand"
 	"time"
@@ -158,7 +159,10 @@ func (c *CPU) DuelingPhaseSelectMove(g gamestate.GameState, b board.Board) {
 		}
 	}
 	rand.Seed(time.Now().UnixNano())
+	if len(probablyPosition) == 0 {
+		fmt.Println("check")
+	}
 	temp := probablyPosition[rand.Intn(len(probablyPosition))]
 	c.MoveToTarget = append(c.MoveToTarget, temp.X, temp.Y)
-
+	fmt.Println(c.MoveToTarget)
 }

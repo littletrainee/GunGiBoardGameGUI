@@ -5,6 +5,9 @@ const (
 	WINDOW_SIZE_WIDTH                  = 1024    // 視窗的寬
 	WINDOW_SIZE_HEIGHT                 = 768     // 視窗的高
 	WINDOW_TITLE                       = "GunGi" // 視窗的標題
+	COLOR_AND_LEVEL_TITLE_X            = 350     // 顏色或階級標題的X座標
+	ARRANGEMENT_TITLE_X                = 225     // 布陣標題的X座標
+	TITLE_Y                            = 100     // 詢問標題的Y座標
 	LEVEL_BEGINNER_X                   = 300     // 入門階級的X座標
 	LEVEL_ELEMENTYARY_X                = 400     // 初級階級的X座標
 	LEVEL_INTERMEDIATE_X               = 500     // 中級階級的X座標

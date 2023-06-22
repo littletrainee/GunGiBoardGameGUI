@@ -81,7 +81,6 @@ func (g *Game) DuelingPhaseSelectKoma() {
 			if v.Item1.OnKoma(float64(x), float64(y)) {
 				if v.Item2 > 0 {
 					g.WhichKomaBeenSelected = []int{i}
-					// g.Player1.WhichOneSelected = i
 					for k := range g.Board.Blocks {
 						tempblock := g.Board.Blocks[k]
 						tempblock.CurrentColor = color.BoardColor

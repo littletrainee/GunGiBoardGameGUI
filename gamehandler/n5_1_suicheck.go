@@ -21,7 +21,7 @@ func suICheck(eachDanCanMove []image.Point, suI koma.Koma, b board.Board, curren
 	for _, coor := range eachDanCanMove {
 		// 設定目標位置
 		targetBlockPosition := image.Point{
-			X: 10 - suI.CurrentPosition.X + coor.X,
+			X: suI.CurrentPosition.X + coor.X,
 			Y: suI.CurrentPosition.Y + coor.Y,
 		}
 

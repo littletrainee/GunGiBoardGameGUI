@@ -1,7 +1,6 @@
 package cpu
 
 import (
-	"fmt"
 	"image"
 	"math"
 
@@ -110,9 +109,6 @@ func (c *CPU) DuelingPhaseMoveKoma(b *board.Board) {
 		c.Select = cpuselect.None
 	case cpuselect.TRY_CAPTURE:
 		if len(c.MoveToTarget) > 0 {
-			if len(c.MoveToTarget) != 4 {
-				fmt.Println("check")
-			}
 			var (
 				previousBlockPosition image.Point = image.Point{X: c.MoveToTarget[0], Y: c.MoveToTarget[1]}
 				targetBlockPosition   image.Point = image.Point{X: c.MoveToTarget[2], Y: c.MoveToTarget[3]}
@@ -155,7 +151,7 @@ func (c *CPU) DuelingPhaseMoveKoma(b *board.Board) {
 			b.Blocks[targetBlockPosition] = targetBlock
 			c.MoveToTarget = nil
 		}
-	case cpuselect.None:
+	case cpuselect.NORMAL:
 		var (
 			targetPosition image.Point // 設定目標位置的座標
 			targetBlock    block.Block // 複製目標block

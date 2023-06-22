@@ -25,7 +25,6 @@ import (
 // Update 實例化Game介面下的Update，用於更新當前遊戲的數據使遊戲進行下去
 func (g *Game) Update() error {
 	switch g.GameState.Phase {
-
 	case phase.SELECT_COLOR:
 		g.GameState.SelectColor(g.Font)
 
@@ -48,7 +47,7 @@ func (g *Game) Update() error {
 		// 若選擇的階級是入門或是初級會有推薦或自訂的選擇
 		if g.GameState.LevelHolder.CurrentLevel == level.BEGINNER ||
 			g.GameState.LevelHolder.CurrentLevel == level.ELEMENTARY {
-			g.GameState.Phase = phase.RECOMMEND_OR_MANUAL_ARRANGEMENT
+			g.GameState.Phase = phase.SELECT_RECOMMEND_OR_MANUAL_ARRANGEMENT
 			g.GameState.ArrangementHolder = arrangementholder.Initilization(g.Font) // 初始化布陣控制物件
 		} else {
 			g.GameState.Phase = phase.BEGIN_COUNTDOWN_FOR_GAMING
@@ -65,7 +64,7 @@ func (g *Game) Update() error {
 		g.Player1.SetKomaTaiPosition(g.GameState.LevelHolder.CurrentLevel, g.Font)
 		g.Player2.SetKomaTaiPosition(g.GameState.LevelHolder.CurrentLevel, g.Font)
 
-	case phase.RECOMMEND_OR_MANUAL_ARRANGEMENT:
+	case phase.SELECT_RECOMMEND_OR_MANUAL_ARRANGEMENT:
 		g.GameState.SelectRecommendOrManualArrangement()
 
 	case phase.SET_COUNTDOWN_FOR_GAMING:
@@ -153,7 +152,7 @@ func (g *Game) Update() error {
 			} else {
 				g.CPU.DuelingPhaseSelectKoma(g.Board, g.GameState, &g.AnotherRoundOrEnd)
 				switch g.CPU.Select {
-				case cpuselect.None:
+				case cpuselect.NORMAL:
 					g.CPU.DuelingPhaseSelectMove(g.GameState, g.Board)
 					g.delayedChangePhaseTo(phase.MOVE_KOMA)
 				case cpuselect.DEFENSE_CAPTURE,
@@ -165,8 +164,8 @@ func (g *Game) Update() error {
 					// 暫停計時器
 					g.Player2Timer.StopCountDown <- true
 					g.delayedChangePhaseTo(phase.ANOTHER_ROUND_OR_END)
-					g.CPU.Select = cpuselect.WAIT_FOR_SELECT_ANOTHERROUND_OR_EXIT
-				case cpuselect.WAIT_FOR_SELECT_ANOTHERROUND_OR_EXIT:
+					// g.CPU.Select = cpuselect.WAIT_FOR_SELECT_ANOTHERROUND_OR_EXIT
+					// case cpuselect.WAIT_FOR_SELECT_ANOTHERROUND_OR_EXIT:
 				}
 			}
 		}

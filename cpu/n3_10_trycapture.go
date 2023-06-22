@@ -16,8 +16,8 @@ func (c *CPU) tryCapture(b board.Board) bool {
 		if len(v.KomaStack) > 0 && v.KomaStack[len(v.KomaStack)-1].Color == c.SelfColor {
 			//宣告
 			var (
-				confirmPosition image.Point
-				hinder          bool
+				tempPos image.Point
+				hinder  bool
 			)
 			// 迭代目標駒的可移動範圍所有方向
 			for _, direction := range v.KomaStack[len(v.KomaStack)-1].ProbablyMoveing {
@@ -30,12 +30,12 @@ func (c *CPU) tryCapture(b board.Board) bool {
 						for _, pos := range layer {
 							if !hinder {
 								// 定義位置
-								confirmPosition = image.Point{
+								tempPos = image.Point{
 									X: v.KomaStack[len(v.KomaStack)-1].CurrentPosition.X - pos.X,
 									Y: v.KomaStack[len(v.KomaStack)-1].CurrentPosition.Y - pos.Y,
 								}
 								// 確認是否存在於棋盤內
-								targetBlock, ok := b.Blocks[confirmPosition]
+								targetBlock, ok := b.Blocks[tempPos]
 								// 若存在於棋盤內
 								if ok {
 									// 若目標的段數大於當前的段數，中斷迭代
@@ -45,7 +45,7 @@ func (c *CPU) tryCapture(b board.Board) bool {
 										hinder = true
 									}
 									if len(targetBlock.KomaStack) > 0 && targetBlock.KomaStack[len(targetBlock.KomaStack)-1].Color != c.SelfColor {
-										c.MoveToTarget = []int{k.X, k.Y, confirmPosition.X, confirmPosition.Y}
+										c.MoveToTarget = []int{k.X, k.Y, tempPos.X, tempPos.Y}
 										return true
 									}
 								} else {

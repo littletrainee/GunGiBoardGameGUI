@@ -74,5 +74,8 @@ func Initilization(font font.Face) LevelHolder {
 		}
 		sl.LevelList = append(sl.LevelList, templevel)
 	}
+	sl.TitleOpt.GeoM.Scale(3, 3)
+	sl.TitleOpt.GeoM.Translate(constant.COLOR_AND_LEVEL_TITLE_X, constant.TITLE_Y)
+	text.Draw(sl.TitleImg, "請選擇階級", font, 0, 50, color.Black)
 	return sl
 }

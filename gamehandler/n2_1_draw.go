@@ -15,7 +15,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	switch g.GameState.Phase {
 	case phase.SELECT_COLOR,
 		phase.SELECT_LEVEL,
-		phase.RECOMMEND_OR_MANUAL_ARRANGEMENT:
+		phase.SELECT_RECOMMEND_OR_MANUAL_ARRANGEMENT:
 		g.GameState.Draw(screen)
 
 	// 對弈前的倒數計時

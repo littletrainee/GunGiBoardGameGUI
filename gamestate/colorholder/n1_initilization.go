@@ -35,7 +35,7 @@ func Initilization(font font.Face) ColorHolder {
 			}},
 	}
 	sc.TitleOpt.GeoM.Scale(3, 3)
-	sc.TitleOpt.GeoM.Translate(372, 100)
+	sc.TitleOpt.GeoM.Translate(constant.COLOR_AND_LEVEL_TITLE_X, constant.TITLE_Y)
 	text.Draw(sc.TitleImg, "請選擇顏色", font, 0, 50, color.Black)
 
 	for i := range sc.KomaList {

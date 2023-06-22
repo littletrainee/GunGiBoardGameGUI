@@ -16,12 +16,14 @@ import (
 // 參數b為棋盤物件，gameState為當前對弈的遊戲狀態，anotherRoundOrEnd為再來一局或是離開遊戲物件
 func (c *CPU) DuelingPhaseSelectKoma(b board.Board, gameState gamestate.GameState, anotherRoundOrEnd *anotherroundorend.AnotherRoundOrEnd) {
 	if c.inevitableWinOpportunity(b) {
+		fmt.Println("GG Capture SuI")
 		return
 	}
 	if c.inevitableLoseOpportunity(b) {
 
 		if c.defenseCapture(b) {
 			fmt.Println(currentTime(), ": can capture defense")
+			fmt.Println(c.MoveToTarget)
 			c.Select = cpuselect.DEFENSE_CAPTURE
 			return
 		}
@@ -29,6 +31,7 @@ func (c *CPU) DuelingPhaseSelectKoma(b board.Board, gameState gamestate.GameStat
 
 		if c.defenseAvoid(b) {
 			fmt.Println(currentTime(), ": can move sui to avoid capture")
+			fmt.Println(c.MoveToTarget)
 			c.Select = cpuselect.DEFENSE_AVOID
 			return
 		}
@@ -36,6 +39,7 @@ func (c *CPU) DuelingPhaseSelectKoma(b board.Board, gameState gamestate.GameStat
 
 		if c.defenseARata(b, gameState.LevelHolder.MaxLayer) {
 			fmt.Println(currentTime(), ": can arata koma to defense capture sui")
+			fmt.Println(c.MoveToTarget)
 			c.Select = cpuselect.DEFENSE_ARATA
 			return
 		}
@@ -48,6 +52,7 @@ func (c *CPU) DuelingPhaseSelectKoma(b board.Board, gameState gamestate.GameStat
 
 	if c.tryCapture(b) {
 		fmt.Println(currentTime(), ": try to Capture")
+		fmt.Println(c.MoveToTarget)
 		c.Select = cpuselect.TRY_CAPTURE
 		return
 	}
@@ -70,6 +75,8 @@ func (c *CPU) DuelingPhaseSelectKoma(b board.Board, gameState gamestate.GameStat
 	// 從可選擇列表選擇一個
 	t := rand.Intn(len(probablyChoice)) // 隨機選擇在可能選擇的列表中的位置
 	c.MoveToTarget = probablyChoice[t]  // 設定選擇的事可能選擇的列表中的位置
+	c.Select = cpuselect.NORMAL
+	fmt.Println(c.MoveToTarget)
 }
 
 func currentTime() string {
