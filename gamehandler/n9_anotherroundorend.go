@@ -9,6 +9,7 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/gamestate"
 )
 
+// AnotherRoundOrEndGame 再一局或離開遊戲畫面的判斷
 func (g *Game) AnotherRoundOrEndGame() {
 	if inpututil.IsMouseButtonJustReleased(ebiten.MouseButtonLeft) {
 		x, y := ebiten.CursorPosition()

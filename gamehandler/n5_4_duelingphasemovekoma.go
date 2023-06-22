@@ -11,6 +11,7 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/koma"
 )
 
+// DuelingPhaseMoveKoma 對弈期間的移駒，玩家選擇是否要取消選取、新、或是移駒
 func (g *Game) DuelingPhaseMoveKoma() {
 	if inpututil.IsMouseButtonJustReleased(ebiten.MouseButtonLeft) {
 		x, y := ebiten.CursorPosition()
@@ -37,7 +38,7 @@ func (g *Game) DuelingPhaseMoveKoma() {
 					g.Board.Blocks[k] = currentBlock
 					g.WhichKomaBeenSelected = nil
 
-					ResetBlockColor(&g.Board)
+					resetBlockColor(&g.Board)
 					g.delayedChangePhaseTo(phase.CLICK_CLOCK)
 					g.SetMaxRange()
 					return
@@ -79,8 +80,10 @@ func (g *Game) DuelingPhaseMoveKoma() {
 								containOpponentKoma = true
 							}
 						}
+						temp := image.Point{X: g.WhichKomaBeenSelected[0], Y: g.WhichKomaBeenSelected[1]}
 						// 若目標block的段數已經答這個階級所能堆疊到最高段數，並且有包含對家的駒
-						if len(currentBlock.KomaStack) == g.GameState.MaxLayer && containOpponentKoma && len(g.Board.Blocks[image.Point{X: g.WhichKomaBeenSelected[0], Y: g.WhichKomaBeenSelected[1]}].KomaStack) == len(currentBlock.KomaStack) {
+						if len(currentBlock.KomaStack) == g.GameState.LevelHolder.MaxLayer && containOpponentKoma &&
+							len(g.Board.Blocks[temp].KomaStack) == len(currentBlock.KomaStack) {
 							g.Capture.Show = true
 							g.TargetPosition = k
 							g.delayedChangePhaseTo(phase.PLAYER_CAPTURE_OR_CONTROL_ASK)
@@ -88,7 +91,7 @@ func (g *Game) DuelingPhaseMoveKoma() {
 						}
 
 						// 若目標block的段數未達這個階級所能堆疊的最高段數，並且有包含對家的駒
-						if len(currentBlock.KomaStack) < g.GameState.MaxLayer && containOpponentKoma {
+						if len(currentBlock.KomaStack) < g.GameState.LevelHolder.MaxLayer && containOpponentKoma {
 							g.Capture.Show = true
 							g.Capture.ControlBool = true
 							g.TargetPosition = k
@@ -97,7 +100,7 @@ func (g *Game) DuelingPhaseMoveKoma() {
 
 						}
 						// 若目標位置已經達最高段數且目標位置有包括對方的駒時
-						if len(currentBlock.KomaStack) < g.GameState.MaxLayer && !currentBlock.HasSuI() {
+						if len(currentBlock.KomaStack) < g.GameState.LevelHolder.MaxLayer && !currentBlock.HasSuI() {
 							// 複製前一個block
 							previousBlock := g.Board.Blocks[image.Point{X: g.WhichKomaBeenSelected[0], Y: g.WhichKomaBeenSelected[1]}]
 							// 複製前一個block中KomaStack的最後一個駒

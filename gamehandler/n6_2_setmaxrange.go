@@ -2,6 +2,7 @@ package gamehandler
 
 import "math"
 
+// SetMaxRange 設定可以選擇的最大範圍
 func (g *Game) SetMaxRange() {
 	var fartest int = math.MaxInt64
 	for k, v := range g.Board.Blocks {

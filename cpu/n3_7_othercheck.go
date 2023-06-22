@@ -40,7 +40,7 @@ func otherCheck(eachDanCanMove []image.Point, lastKoma koma.Koma, g gamestate.Ga
 					hinder = true
 				}
 
-				if targetlen <= currentDan && targetlen < g.MaxLayer && !tempblock.HasSuI() {
+				if targetlen <= currentDan && targetlen < g.LevelHolder.MaxLayer && !tempblock.HasSuI() {
 					confirmPosition = append(confirmPosition, targetBlockPosition)
 				}
 			} else {

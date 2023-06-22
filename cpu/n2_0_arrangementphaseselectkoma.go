@@ -40,7 +40,7 @@ func (c *CPU) ArrangementPhaseSelectKoma(g gamestate.GameState, b *board.Board) 
 			for {
 				coor = image.Point{X: rand.Intn(9) + 1, Y: rand.Intn(3) + 1}
 				targetblock = b.Blocks[coor]
-				if !targetblock.HasSuI() && len(targetblock.KomaStack) < g.MaxLayer {
+				if !targetblock.HasSuI() && len(targetblock.KomaStack) < g.LevelHolder.MaxLayer {
 					c.MoveToTarget = []int{whichOne, coor.X, coor.Y}
 					return
 				}

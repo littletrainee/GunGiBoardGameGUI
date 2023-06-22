@@ -9,7 +9,7 @@ import (
 
 type Timer struct {
 	RemainingTime     int
-	BackgroundColor   color.RGBA
+	Background        color.RGBA
 	StopCountDown     chan bool
 	CurrentCoordinate image.Point
 	Img               *ebiten.Image

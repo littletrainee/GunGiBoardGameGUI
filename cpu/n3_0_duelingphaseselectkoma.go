@@ -34,7 +34,7 @@ func (c *CPU) DuelingPhaseSelectKoma(b board.Board, gameState gamestate.GameStat
 		}
 		fmt.Println(currentTime(), ": can't move sui to avoid capture")
 
-		if c.defenseARata(b, gameState.MaxLayer) {
+		if c.defenseARata(b, gameState.LevelHolder.MaxLayer) {
 			fmt.Println(currentTime(), ": can arata koma to defense capture sui")
 			c.Select = cpuselect.DEFENSE_ARATA
 			return

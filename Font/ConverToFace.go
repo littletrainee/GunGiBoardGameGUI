@@ -1,3 +1,4 @@
+// 將字型來源檔轉換成程式內可以使用的字型
 package font
 
 import (

@@ -1,0 +1,5 @@
+# 忽略資料夾
+workspace/
+.vscode/
+# 忽略檔案
+note.md

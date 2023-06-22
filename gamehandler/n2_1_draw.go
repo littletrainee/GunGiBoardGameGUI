@@ -9,20 +9,14 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/enum/phase"
 )
 
+// Draw 實例化Game介面下的Draw，用於每禎繪製一次所需的畫面
 func (g *Game) Draw(screen *ebiten.Image) {
 	screen.Fill(color.White)
 	switch g.GameState.Phase {
-	// 選擇顏色
-	case phase.SELECT_COLOR:
-		g.GameState.Draw(screen, g.Font)
-
-	// 選擇階級
-	case phase.SELECT_LEVEL:
-		g.GameState.Draw(screen, g.Font)
-
-	// 若階級是入門或初級詢問是否用推薦的配置
-	case phase.ASK_ARRANGEMENT:
-		g.GameState.Draw(screen, g.Font)
+	case phase.SELECT_COLOR,
+		phase.SELECT_LEVEL,
+		phase.RECOMMEND_OR_MANUAL_ARRANGEMENT:
+		g.GameState.Draw(screen)
 
 	// 對弈前的倒數計時
 	case phase.BEGIN_COUNTDOWN_FOR_GAMING:
@@ -41,7 +35,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			constant.BOARD_X, constant.BOARD_Y,
 			constant.BOARD_WIDTH, constant.BOARD_WIDTH,
 			color.Black, true)
-		g.Board.Draw(screen, g.Font)
+		g.Board.Draw(screen)
 		g.Player1.DrawKomaTai(screen, g.Font)
 		g.Player2.DrawKomaTai(screen, g.Font)
 		vector.DrawFilledRect(screen,

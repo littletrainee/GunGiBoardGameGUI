@@ -1,4 +1,4 @@
-package selectcolor
+package colorholder
 
 import (
 	"image"
@@ -11,9 +11,13 @@ import (
 	"golang.org/x/image/font"
 )
 
-func Initilization(font font.Face) SelectColor {
-	var rt SelectColor = SelectColor{
-		Title: "請選擇顏色",
+// Initilization 初始化ColorHolder物件，並設定其所包含的標題圖像、駒切片後回傳
+//
+// 參數font為文字所需要的字型來源
+func Initilization(font font.Face) ColorHolder {
+	var sc ColorHolder = ColorHolder{
+		TitleImg: ebiten.NewImage(300, 300),
+		TitleOpt: &ebiten.DrawImageOptions{},
 		KomaList: []koma.Koma{
 			{
 				Name:              "帥",
@@ -30,10 +34,14 @@ func Initilization(font font.Face) SelectColor {
 				Op:                &ebiten.DrawImageOptions{},
 			}},
 	}
-	for i := range rt.KomaList {
-		rt.KomaList[i].SetGeoMetry(0)
-		text.Draw(rt.KomaList[i].Img, rt.KomaList[i].Name, font, 0, 20, color.Black)
+	sc.TitleOpt.GeoM.Scale(3, 3)
+	sc.TitleOpt.GeoM.Translate(372, 100)
+	text.Draw(sc.TitleImg, "請選擇顏色", font, 0, 50, color.Black)
+
+	for i := range sc.KomaList {
+		sc.KomaList[i].SetGeoMetry(0)
+		text.Draw(sc.KomaList[i].Img, sc.KomaList[i].Name, font, 0, 20, color.Black)
 
 	}
-	return rt
+	return sc
 }

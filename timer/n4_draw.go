@@ -25,7 +25,7 @@ func (t *Timer) Draw(screen *ebiten.Image, font font.Face, phase phase.Phase) {
 		// 計時器背景
 		vector.DrawFilledRect(screen, float32(t.CurrentCoordinate.X), float32(t.CurrentCoordinate.Y),
 			float32(constant.TIMER_SIZE), float32(constant.TIMER_SIZE),
-			t.BackgroundColor, true)
+			t.Background, true)
 		// 每次重新顯示文字必須要重製畫布，否則會有殘留影像
 		t.Img = ebiten.NewImage(constant.TIMER_SIZE, constant.TIMER_SIZE)
 		s := strconv.Itoa(t.RemainingTime / 60)

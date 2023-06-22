@@ -10,6 +10,7 @@ import (
 	"github.com/littletrainee/gunginotationgenerator/enum/level"
 )
 
+// DuelingPhaseSelectKoma 對弈期間的選駒，可能是棋盤上也可能是玩家的駒台
 func (g *Game) DuelingPhaseSelectKoma() {
 	// 循環查找哪個block是否有被按鍵釋放
 	if inpututil.IsMouseButtonJustReleased(ebiten.MouseButtonLeft) {
@@ -27,11 +28,12 @@ func (g *Game) DuelingPhaseSelectKoma() {
 					// 取得當前block的駒堆疊數量，以確認當前block最後一個駒可以移動的最大範圍
 					currentDan := len(currentBlock.KomaStack)
 					if lastKoma.Name == "帥" {
-						if g.GameState.Level != level.INTERMEDIATE && g.GameState.Level != level.ADVANCED {
+						if g.GameState.LevelHolder.CurrentLevel != level.INTERMEDIATE &&
+							g.GameState.LevelHolder.CurrentLevel != level.ADVANCED {
 							for _, direction := range lastKoma.ProbablyMoveing {
 								for danIndex, eachDanCanMove := range direction {
 									if danIndex < currentDan {
-										g.ConfirmPosition = append(g.ConfirmPosition, suICheck(eachDanCanMove, lastKoma, g, currentDan)...)
+										g.ConfirmPosition = append(g.ConfirmPosition, suICheck(eachDanCanMove, lastKoma, g.Board, currentDan)...)
 									}
 								}
 							}
@@ -56,7 +58,7 @@ func (g *Game) DuelingPhaseSelectKoma() {
 									continue
 								}
 							}
-							g.ConfirmPosition = append(g.ConfirmPosition, checkTargetBlock(direction, lastKoma, currentDan, g)...)
+							g.ConfirmPosition = append(g.ConfirmPosition, otherCheck(direction, lastKoma, currentDan, g)...)
 						}
 						g.Board.Blocks[k] = currentBlock
 						g.delayedChangePhaseTo(phase.MOVE_KOMA)
@@ -65,7 +67,7 @@ func (g *Game) DuelingPhaseSelectKoma() {
 
 					// 迭代當前的方向
 					for _, direction := range lastKoma.ProbablyMoveing {
-						g.ConfirmPosition = append(g.ConfirmPosition, checkTargetBlock(direction, lastKoma, currentDan, g)...)
+						g.ConfirmPosition = append(g.ConfirmPosition, otherCheck(direction, lastKoma, currentDan, g)...)
 					}
 					g.Board.Blocks[k] = currentBlock
 					g.delayedChangePhaseTo(phase.MOVE_KOMA)
@@ -90,7 +92,7 @@ func (g *Game) DuelingPhaseSelectKoma() {
 							tempblock := g.Board.Blocks[image.Point{X: column, Y: row}]
 							if tempblock.HasSuI() {
 								tempblock.CurrentColor = color.DenyColor
-							} else if len(tempblock.KomaStack) < g.GameState.MaxLayer {
+							} else if len(tempblock.KomaStack) < g.GameState.LevelHolder.MaxLayer {
 								tempblock.CurrentColor = color.ConfirmColor
 							} else {
 								tempblock.CurrentColor = color.DenyColor

@@ -1,3 +1,4 @@
+// CPU演算後的決策列舉
 package cpuselect
 
 type CPUSelect int
@@ -9,5 +10,6 @@ const (
 	DEFENSE_ARATA                                         // CPU選擇"新"防守
 	TRY_CAPTURE                                           // CPU嘗試俘獲對方的駒
 	BEEN_CHECKMATE                                        // CPU被"將軍"
+	NORMAL                                                // CPU一般的選擇
 	WAIT_FOR_SELECT_ANOTHERROUND_OR_EXIT                  // 等待玩家選擇再來一局還是離開遊戲
 )

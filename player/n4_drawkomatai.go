@@ -17,7 +17,7 @@ func (p *Player) DrawKomaTai(screen *ebiten.Image, font font.Face) {
 		// area
 		vector.DrawFilledRect(screen, constant.OWN_KOMADAI_X+1,
 			constant.OWN_KOMADAI_Y+1, constant.KOMADAI_SIZE-2,
-			constant.KOMADAI_SIZE-2, p.KomaDaiBackGroundColor, true)
+			constant.KOMADAI_SIZE-2, p.KomaDaiBackground, true)
 	} else {
 		vector.DrawFilledRect(screen, constant.OPPONENT_KOMADAI_POSITION_X,
 			constant.OPPONENT_KOMADAI_POSITION_Y, constant.KOMADAI_SIZE, constant.KOMADAI_SIZE,
@@ -25,11 +25,11 @@ func (p *Player) DrawKomaTai(screen *ebiten.Image, font font.Face) {
 
 		vector.DrawFilledRect(screen, constant.OPPONENT_KOMADAI_POSITION_X+1,
 			constant.OPPONENT_KOMADAI_POSITION_Y+1, constant.KOMADAI_SIZE-2,
-			constant.KOMADAI_SIZE-2, p.KomaDaiBackGroundColor, true)
+			constant.KOMADAI_SIZE-2, p.KomaDaiBackground, true)
 	}
 	for _, v := range p.KomaDai {
 		if v.Item2 > 0 {
-			v.Item1.Draw(screen, font)
+			v.Item1.Draw(screen)
 		}
 	}
 }

@@ -9,6 +9,9 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/constant"
 )
 
+// Draw 繪製DeclareSumi彈出視窗
+//
+// 參數screen為要繪製的目標視窗
 func (d *DeclareSuMi) Draw(screen *ebiten.Image) {
 	if d.Show {
 		vector.DrawFilledRect(screen, constant.SUMI_BUTTON_X, constant.SUMI_BUTTON_Y, constant.SUMI_BUTTON_WIDTH, constant.SUMI_BUTTON_HEIGHT, color.Black, true)

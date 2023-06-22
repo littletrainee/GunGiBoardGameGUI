@@ -8,6 +8,7 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/enum/state"
 )
 
+// ClickClock 棋鐘按鈕按下的判斷
 func (g *Game) ClickClock() {
 	if inpututil.IsMouseButtonJustReleased(ebiten.MouseButtonLeft) {
 		x, y := ebiten.CursorPosition()
@@ -16,19 +17,19 @@ func (g *Game) ClickClock() {
 			// change anotherone's color
 			g.GameState.TurnToNext()
 			g.Player1Timer.StopCountDown <- true
-			g.Player1Timer.BackgroundColor = color.TimerPauseColor
+			g.Player1Timer.Background = color.TimerPauseColor
 			g.Player2Timer.CountDown()
-			g.Player2Timer.BackgroundColor = color.ConfirmColor
+			g.Player2Timer.Background = color.ConfirmColor
 			g.delayedChangePhaseTo(phase.SELECT_KOMA)
 		} else if g.DeclareSuMi.SuMiButton(x, y) && g.CurrentState == state.ARRANGEMENT {
 			g.Player1.IsSuMi = true
 			g.DeclareSuMi.Show = false
-			g.Player1.KomaDaiBackGroundColor = color.DenyColor
+			g.Player1.KomaDaiBackground = color.DenyColor
 			g.GameState.TurnToNext()
 			g.Player1Timer.StopCountDown <- true
-			g.Player1Timer.BackgroundColor = color.TimerPauseColor
+			g.Player1Timer.Background = color.TimerPauseColor
 			g.Player2Timer.CountDown()
-			g.Player2Timer.BackgroundColor = color.ConfirmColor
+			g.Player2Timer.Background = color.ConfirmColor
 			g.delayedChangePhaseTo(phase.SELECT_KOMA)
 		}
 	}

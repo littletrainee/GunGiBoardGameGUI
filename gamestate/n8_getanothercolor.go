@@ -3,9 +3,9 @@ package gamestate
 import "image/color"
 
 func (g *GameState) TurnToNext() {
-	if g.Turn == color.Black {
-		g.Turn = color.White
+	if g.ColorHolder.Turn == color.Black {
+		g.ColorHolder.Turn = color.White
 	} else {
-		g.Turn = color.Black
+		g.ColorHolder.Turn = color.Black
 	}
 }

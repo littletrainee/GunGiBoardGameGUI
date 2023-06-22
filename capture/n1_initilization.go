@@ -17,9 +17,6 @@ func Initilization(font font.Face) Capture {
 	var c Capture = Capture{
 		Show:              false,
 		ControlBool:       false,
-		CaptureText:       "俘獲",
-		CancelText:        "取消",
-		ControlText:       "控制",
 		CaptureImg:        ebiten.NewImage(constant.CAPTURE_BUTTON_WIDTH, constant.CAPTURE_BUTTON_HEIGHT),
 		CancelImg:         ebiten.NewImage(constant.CAPTURE_BUTTON_WIDTH, constant.CAPTURE_BUTTON_HEIGHT),
 		EnableControlImg:  ebiten.NewImage(constant.CAPTURE_BUTTON_WIDTH, constant.CAPTURE_BUTTON_HEIGHT),
@@ -31,9 +28,9 @@ func Initilization(font font.Face) Capture {
 	c.CaptureOpt.GeoM.Translate(constant.CAPTURE_BUTTON_X, constant.CAPTURE_BUTTON_Y)
 	c.CancelOpt.GeoM.Translate(constant.CAPTURE_BUTTON_X*1.25, constant.CAPTURE_BUTTON_Y)
 	c.ControlOpt.GeoM.Translate(constant.CAPTURE_BUTTON_X*1.5, constant.CAPTURE_BUTTON_Y)
-	text.Draw(c.CaptureImg, c.CaptureText, font, 30, 32, color.Black)
-	text.Draw(c.CancelImg, c.CancelText, font, 30, 32, color.Black)
-	text.Draw(c.EnableControlImg, c.ControlText, font, 30, 32, color.Black)
-	text.Draw(c.DisableControlImg, c.CancelText, font, 30, 32, _color.DisableButtonColor)
+	text.Draw(c.CaptureImg, "俘獲", font, 30, 32, color.Black)
+	text.Draw(c.CancelImg, "取消", font, 30, 32, color.Black)
+	text.Draw(c.EnableControlImg, "控制", font, 30, 32, color.Black)
+	text.Draw(c.DisableControlImg, "控制", font, 30, 32, _color.DisableButtonColor)
 	return c
 }

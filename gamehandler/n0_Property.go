@@ -1,3 +1,4 @@
+// 整體程式的主要控制項
 package gamehandler
 
 import (
@@ -15,6 +16,7 @@ import (
 	"golang.org/x/image/font"
 )
 
+// 程式相關的數據管理
 type Game struct {
 	GameState             gamestate.GameState     // 遊戲狀態
 	Font                  font.Face               // 顯示字體

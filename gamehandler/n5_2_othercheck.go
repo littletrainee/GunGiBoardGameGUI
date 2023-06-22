@@ -8,7 +8,10 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/koma"
 )
 
-func checkTargetBlock(direction [][]image.Point, lastKoma koma.Koma, currentDan int, g *Game,
+// otherCheck 其他駒可以移動的範圍，回傳值為可以移動的選項切片
+//
+// 參數direction為每個可以移動方向中的當前的段，lastKoma為當前駒物件，currentDan為當前的段，b為棋盤物件
+func otherCheck(direction [][]image.Point, lastKoma koma.Koma, currentDan int, g *Game,
 ) []image.Point {
 	// 設定是否已經有阻礙
 	var (
@@ -43,13 +46,10 @@ func checkTargetBlock(direction [][]image.Point, lastKoma koma.Koma, currentDan 
 							hinder = true
 						}
 
-						// if tempblock.HasSuI() {
-						// 	tempblock.CurrentColor = _color.DenyColor
-						/* }else */
 						if targetlen <= currentDan {
-							if targetlen == g.GameState.MaxLayer {
+							if targetlen == g.GameState.LevelHolder.MaxLayer {
 								tempblock.CurrentColor = _color.CaptureColor
-							} else if targetlen < g.GameState.MaxLayer {
+							} else if targetlen < g.GameState.LevelHolder.MaxLayer {
 								tempblock.CurrentColor = _color.ConfirmColor
 							}
 							confirmPosition = append(confirmPosition, targetBlockPosition)

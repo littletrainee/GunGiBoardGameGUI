@@ -17,13 +17,13 @@ func (p *Player) RecommendPosition(g gamestate.GameState, b board.Board) {
 	var (
 		target []pair.Pair[int, image.Point]
 	)
-	if g.Level == level.BEGINNER {
+	if g.LevelHolder.CurrentLevel == level.BEGINNER {
 		if p.IsOwn {
 			target = defaultposition.OwnBeginner()
 		} else {
 			target = defaultposition.OpponentBeginner()
 		}
-	} else if g.Level == level.ELEMENTARY {
+	} else if g.LevelHolder.CurrentLevel == level.ELEMENTARY {
 		if p.IsOwn {
 			target = defaultposition.OwnElementary()
 		} else {

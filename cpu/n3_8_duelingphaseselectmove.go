@@ -38,7 +38,7 @@ func (c *CPU) DuelingPhaseSelectMove(g gamestate.GameState, b board.Board) {
 			currentLastKoma = currentBlock.KomaStack[len(currentBlock.KomaStack)-1]
 			currentDan := len(currentBlock.KomaStack)
 			if currentLastKoma.Name == "帥" {
-				if g.Level != level.INTERMEDIATE && g.Level != level.ADVANCED {
+				if g.LevelHolder.CurrentLevel != level.INTERMEDIATE && g.LevelHolder.CurrentLevel != level.ADVANCED {
 					for _, direction := range currentLastKoma.ProbablyMoveing {
 						for danIndex, eachDanCanMove := range direction {
 							if danIndex < currentDan {
@@ -64,7 +64,7 @@ func (c *CPU) DuelingPhaseSelectMove(g gamestate.GameState, b board.Board) {
 									if targetBlockLength != 0 || targetBlockLength >= currentDan {
 										hinder = true
 									}
-									if targetBlockLength <= currentDan && targetBlockLength < g.MaxLayer && !targetBlock.HasSuI() {
+									if targetBlockLength <= currentDan && targetBlockLength < g.LevelHolder.MaxLayer && !targetBlock.HasSuI() {
 										probablyPosition = append(probablyPosition, targetblockPosition)
 									} else {
 										break
@@ -101,7 +101,7 @@ func (c *CPU) DuelingPhaseSelectMove(g gamestate.GameState, b board.Board) {
 									if targetBlockLength != 0 || targetBlockLength >= currentDan {
 										hinder = true
 									}
-									if targetBlockLength <= currentDan && targetBlockLength < g.MaxLayer && !targetBlock.HasSuI() {
+									if targetBlockLength <= currentDan && targetBlockLength < g.LevelHolder.MaxLayer && !targetBlock.HasSuI() {
 										probablyPosition = append(probablyPosition, targetblockPosition)
 									} else {
 										break

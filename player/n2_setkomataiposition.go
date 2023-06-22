@@ -31,5 +31,5 @@ func (p *Player) SetKomaTaiPosition(l level.Level, font font.Face) {
 	}
 	p.SetKomaTai(l, font)
 	// 設定駒台的背景顏色
-	p.KomaDaiBackGroundColor = color.BoardColor
+	p.KomaDaiBackground = color.BoardColor
 }

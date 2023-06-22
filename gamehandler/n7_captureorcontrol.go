@@ -11,7 +11,7 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/koma"
 )
 
-// 俘獲或控制按鈕的判斷
+// CaptureOrControl 俘獲或控制按鈕的判斷
 func (g *Game) CaptureOrControl() {
 	if inpututil.IsMouseButtonJustReleased(ebiten.MouseButtonLeft) {
 		x, y := ebiten.CursorPosition()

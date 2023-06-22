@@ -6,10 +6,9 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/vector"
 	"github.com/littletrainee/GunGiBoardGameGUI/constant"
-	"golang.org/x/image/font"
 )
 
-func (k *Koma) Draw(screen *ebiten.Image, font font.Face) {
+func (k *Koma) Draw(screen *ebiten.Image) {
 	// base for outline
 	vector.DrawFilledCircle(screen,
 		float32(k.CurrentCoordinate.X), float32(k.CurrentCoordinate.Y),

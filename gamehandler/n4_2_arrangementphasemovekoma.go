@@ -7,13 +7,14 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/koma"
 )
 
-// 駒被選取時
+// ArrangementPhaseMoveKoma 布陣階段駒被選取時，玩家選擇放置的位置或是取消選擇
 func (g *Game) ArrangementPhaseMoveKoma() {
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		x, y := ebiten.CursorPosition()
 		// 若點到棋盤上的位置則放置
 		for k, v := range g.Board.Blocks {
-			if v.OnBlock(x, y) && !v.HasSuI() && v.Name.Item2 > 6 && len(v.KomaStack) < g.GameState.MaxLayer {
+			if v.OnBlock(x, y) && !v.HasSuI() && v.Name.Item2 > 6 &&
+				len(v.KomaStack) < g.GameState.LevelHolder.MaxLayer {
 				//複製出來
 				var tempKoma koma.Koma = g.Player1.KomaDai[g.WhichKomaBeenSelected[0]].Item1.Clone()
 
@@ -30,7 +31,7 @@ func (g *Game) ArrangementPhaseMoveKoma() {
 					g.Player1.KomaDai[g.WhichKomaBeenSelected[0]].Item1 = koma.Koma{}
 				}
 				g.Board.Blocks[k] = v
-				ResetBlockColor(&g.Board)
+				resetBlockColor(&g.Board)
 				g.WhichKomaBeenSelected = nil
 				g.delayedChangePhaseTo(phase.CLICK_CLOCK)
 				return
@@ -39,7 +40,7 @@ func (g *Game) ArrangementPhaseMoveKoma() {
 		// 弱點到駒台上被選取駒
 		for i, v := range g.Player1.KomaDai {
 			if v.Item1.OnKoma(float64(x), float64(y)) && i == g.WhichKomaBeenSelected[0] {
-				ResetBlockColor(&g.Board)
+				resetBlockColor(&g.Board)
 				g.WhichKomaBeenSelected = nil
 				g.delayedChangePhaseTo(phase.SELECT_KOMA)
 				return

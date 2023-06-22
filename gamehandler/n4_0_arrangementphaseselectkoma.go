@@ -5,7 +5,7 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/enum/phase"
 )
 
-// 布陣階段的選駒
+// ArrangementPhaseSelectKoma 布陣階段的選駒，玩家在布陣階段的選擇
 func (g *Game) ArrangementPhaseSelectKoma() {
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		x, y := ebiten.CursorPosition()

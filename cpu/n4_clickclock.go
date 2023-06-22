@@ -14,24 +14,24 @@ func (c *CPU) ClickClock(g *gamestate.GameState, player1Timer, player2Timer *tim
 	if s == state.ARRANGEMENT {
 		if c.CurrentDeclareSuMiPercentage > c.DeclareSuMiTargetPercentage {
 			c.Player.IsSuMi = true
-			c.Player.KomaDaiBackGroundColor = color.DenyColor
+			c.Player.KomaDaiBackground = color.DenyColor
 			g.TurnToNext()
 			player2Timer.StopCountDown <- true
-			player2Timer.BackgroundColor = color.TimerPauseColor
+			player2Timer.Background = color.TimerPauseColor
 			player1Timer.CountDown()
-			player1Timer.BackgroundColor = color.ConfirmColor
+			player1Timer.Background = color.ConfirmColor
 		} else {
 			g.TurnToNext()
 			player2Timer.StopCountDown <- true
-			player2Timer.BackgroundColor = color.TimerPauseColor
+			player2Timer.Background = color.TimerPauseColor
 			player1Timer.CountDown()
-			player1Timer.BackgroundColor = color.ConfirmColor
+			player1Timer.Background = color.ConfirmColor
 		}
 	} else {
 		g.TurnToNext()
 		player2Timer.StopCountDown <- true
-		player2Timer.BackgroundColor = color.TimerPauseColor
+		player2Timer.Background = color.TimerPauseColor
 		player1Timer.CountDown()
-		player1Timer.BackgroundColor = color.ConfirmColor
+		player1Timer.Background = color.ConfirmColor
 	}
 }
