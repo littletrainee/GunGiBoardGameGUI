@@ -22,7 +22,7 @@ func (c *CPU) defenseCapture(b board.Board) bool {
 				hinder            bool
 			)
 			// 迭代目標駒的可移動範圍所有方向
-			for _, direction := range v.KomaStack[len(v.KomaStack)-1].ProbablyMoveing {
+			for _, direction := range v.KomaStack[len(v.KomaStack)-1].MoveableRange {
 				hinder = false
 				// 迭代每個方向的各個階段
 				for i, layer := range direction {

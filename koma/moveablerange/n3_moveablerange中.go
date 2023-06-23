@@ -1,10 +1,10 @@
-package move
+package moveablerange
 
 import (
 	"image"
 )
 
-func PM中() [][][]image.Point {
+func MoveableRange中() [][][]image.Point {
 	return [][][]image.Point{
 		// 上
 		{{{X: 0, Y: -1}}, {{X: 0, Y: -2}}, {{X: 0, Y: -3}}},

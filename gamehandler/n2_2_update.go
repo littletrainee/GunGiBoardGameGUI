@@ -50,7 +50,8 @@ func (g *Game) Update() error {
 			g.GameState.Phase = phase.SELECT_RECOMMEND_OR_MANUAL_ARRANGEMENT
 			g.GameState.ArrangementHolder = arrangementholder.Initilization(g.Font) // 初始化布陣控制物件
 		} else {
-			g.GameState.Phase = phase.BEGIN_COUNTDOWN_FOR_GAMING
+			g.GameState.ArrangementHolder.ArramgementBy = arrangementselect.MANUAL
+			g.GameState.Phase = phase.SET_COUNTDOWN_FOR_GAMING
 		}
 		// 若選擇高級最高段數提高至3
 		if g.GameState.LevelHolder.CurrentLevel == level.ADVANCED {
@@ -152,10 +153,8 @@ func (g *Game) Update() error {
 			} else {
 				g.CPU.DuelingPhaseSelectKoma(g.Board, g.GameState, &g.AnotherRoundOrEnd)
 				switch g.CPU.Select {
-				case cpuselect.NORMAL:
-					g.CPU.DuelingPhaseSelectMove(g.GameState, g.Board)
-					g.delayedChangePhaseTo(phase.MOVE_KOMA)
-				case cpuselect.DEFENSE_CAPTURE,
+				case cpuselect.NORMAL,
+					cpuselect.DEFENSE_CAPTURE,
 					cpuselect.DEFENSE_AVOID,
 					cpuselect.DEFENSE_ARATA,
 					cpuselect.TRY_CAPTURE:

@@ -27,7 +27,7 @@ func (c *CPU) inevitableWinOpportunity(b board.Board) bool {
 		if komaStackLength > 0 && v.KomaStack[komaStackLength-1].Color == c.SelfColor {
 			theTopOneOfKomaStack = v.KomaStack[komaStackLength-1]
 			// 迭代可能的方向
-			for _, direction := range theTopOneOfKomaStack.ProbablyMoveing {
+			for _, direction := range theTopOneOfKomaStack.MoveableRange {
 				hinder = false
 				// 基於可能的方向去進行迭代每個方向的段
 				for _, layer := range direction {

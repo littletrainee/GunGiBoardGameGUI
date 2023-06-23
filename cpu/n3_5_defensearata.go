@@ -30,6 +30,9 @@ func (c *CPU) defenseARata(b board.Board, maxlayer int) bool {
 		tempKoma = c.KomaDai[rndSelectKoma].Item1.Clone()
 		// 逐項迭代block
 		for orginalkey := range b.Blocks {
+			if orginalkey.Y > c.MaxRange {
+				continue
+			}
 			// 複製board 用以比較核對位置
 			var cloneBoard board.Board = board.Board{Blocks: make(map[image.Point]block.Block)}
 			for k, v := range b.Blocks {

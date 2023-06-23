@@ -27,51 +27,83 @@ func (g *Game) DuelingPhaseSelectKoma() {
 
 					// 取得當前block的駒堆疊數量，以確認當前block最後一個駒可以移動的最大範圍
 					currentDan := len(currentBlock.KomaStack)
-					if lastKoma.Name == "帥" {
+					switch lastKoma.Name {
+					case "帥":
 						if g.GameState.LevelHolder.CurrentLevel != level.INTERMEDIATE &&
 							g.GameState.LevelHolder.CurrentLevel != level.ADVANCED {
-							for _, direction := range lastKoma.ProbablyMoveing {
+							for _, direction := range lastKoma.MoveableRange {
 								for danIndex, eachDanCanMove := range direction {
 									if danIndex < currentDan {
-										g.ConfirmPosition = append(g.ConfirmPosition, suICheck(eachDanCanMove, lastKoma, g.Board, currentDan)...)
+										g.ConfirmPositionSlice = append(g.ConfirmPositionSlice, suICheck(eachDanCanMove, lastKoma, g.Board, currentDan)...)
 									}
 								}
 							}
-							g.Board.Blocks[k] = currentBlock
+							// g.Board.Blocks[k] = currentBlock
 							g.delayedChangePhaseTo(phase.MOVE_KOMA)
 							return
 						}
-					}
-					if lastKoma.Name == "弓" {
-						for i, direction := range lastKoma.ProbablyMoveing {
+					case "弓":
+						for i, direction := range lastKoma.MoveableRange {
 							switch i {
 							case 0:
-								if len(g.Board.Blocks[image.Point{X: k.X, Y: k.Y - 1}].KomaStack) > len(currentBlock.KomaStack) {
+								temp := image.Point{X: k.X, Y: k.Y - 1}
+								if len(g.Board.Blocks[temp].KomaStack) > len(currentBlock.KomaStack) {
 									continue
 								}
 							case 1:
-								if len(g.Board.Blocks[image.Point{X: k.X - 1, Y: k.Y - 1}].KomaStack) > len(currentBlock.KomaStack) {
+								temp := image.Point{X: k.X - 1, Y: k.Y - 1}
+								if len(g.Board.Blocks[temp].KomaStack) > len(currentBlock.KomaStack) {
 									continue
 								}
 							case 7:
-								if len(g.Board.Blocks[image.Point{X: k.X + 1, Y: k.Y - 1}].KomaStack) > len(currentBlock.KomaStack) {
+								temp := image.Point{X: k.X + 1, Y: k.Y - 1}
+								if len(g.Board.Blocks[temp].KomaStack) > len(currentBlock.KomaStack) {
 									continue
 								}
 							}
-							g.ConfirmPosition = append(g.ConfirmPosition, otherCheck(direction, lastKoma, currentDan, g)...)
+							g.ConfirmPositionSlice = append(g.ConfirmPositionSlice, otherCheck(direction, lastKoma, currentDan, g)...)
 						}
-						g.Board.Blocks[k] = currentBlock
+						// g.Board.Blocks[k] = currentBlock
+						g.delayedChangePhaseTo(phase.MOVE_KOMA)
+						return
+					case "砲":
+						for i, direction := range lastKoma.MoveableRange {
+							if i == 0 {
+								temp1 := image.Point{X: k.X, Y: k.Y - 1}
+								temp2 := image.Point{X: k.X, Y: k.Y - 2}
+								if len(g.Board.Blocks[temp1].KomaStack) > len(currentBlock.KomaStack) ||
+									len(g.Board.Blocks[temp2].KomaStack) > len(currentBlock.KomaStack) {
+									continue
+								}
+							}
+							g.ConfirmPositionSlice = append(g.ConfirmPositionSlice, otherCheck(direction, lastKoma, currentDan, g)...)
+						}
+						// g.Board.Blocks[k] = currentBlock
+						g.delayedChangePhaseTo(phase.MOVE_KOMA)
+						return
+					case "筒":
+						for i, direction := range lastKoma.MoveableRange {
+							if i == 0 {
+								temp1 := image.Point{X: k.X, Y: k.Y - 1}
+								if len(g.Board.Blocks[temp1].KomaStack) > len(currentBlock.KomaStack) {
+									continue
+								}
+							}
+							g.ConfirmPositionSlice = append(g.ConfirmPositionSlice, otherCheck(direction, lastKoma, currentDan, g)...)
+						}
+						// g.Board.Blocks[k] = currentBlock
+						g.delayedChangePhaseTo(phase.MOVE_KOMA)
+						return
+					default:
+						// 迭代當前的方向
+						for _, direction := range lastKoma.MoveableRange {
+							g.ConfirmPositionSlice = append(g.ConfirmPositionSlice, otherCheck(direction, lastKoma, currentDan, g)...)
+						}
+						// g.Board.Blocks[k] = currentBlock
 						g.delayedChangePhaseTo(phase.MOVE_KOMA)
 						return
 					}
 
-					// 迭代當前的方向
-					for _, direction := range lastKoma.ProbablyMoveing {
-						g.ConfirmPosition = append(g.ConfirmPosition, otherCheck(direction, lastKoma, currentDan, g)...)
-					}
-					g.Board.Blocks[k] = currentBlock
-					g.delayedChangePhaseTo(phase.MOVE_KOMA)
-					return
 				}
 			}
 		}

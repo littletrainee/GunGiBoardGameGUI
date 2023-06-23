@@ -1,10 +1,11 @@
-package move
+package moveablerange
 
 import (
 	"image"
 )
 
-func PM忍() [][][]image.Point {
+// MoveableRange忍 忍可以移動的範圍，回傳的是三維切片
+func MoveableRange忍() [][][]image.Point {
 	return [][][]image.Point{
 		// 上
 		{},

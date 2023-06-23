@@ -1,8 +1,9 @@
-package move
+package moveablerange
 
 import "image"
 
-func PM馬() [][][]image.Point {
+// MoveableRange馬 馬可以移動的範圍，回傳的是三維切片
+func MoveableRange馬() [][][]image.Point {
 	return [][][]image.Point{
 		// 上
 		{{{X: 0, Y: -1}, {X: 0, Y: -2}}, {{X: 0, Y: -3}}, {{X: 0, Y: -4}}},

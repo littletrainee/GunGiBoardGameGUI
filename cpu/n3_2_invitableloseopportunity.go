@@ -23,7 +23,7 @@ func (c *CPU) inevitableLoseOpportunity(b board.Board) bool {
 			// 當前迭代的block最上方的駒
 			var theTopOne koma.Koma = v.KomaStack[len(v.KomaStack)-1]
 			// 迭代可能的方向
-			for _, direction := range theTopOne.ProbablyMoveing {
+			for _, direction := range theTopOne.MoveableRange {
 				hinder = false
 				// 基於可能的方向去進行迭代每個方向的段
 				for i, layer := range direction {

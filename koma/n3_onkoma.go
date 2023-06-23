@@ -6,6 +6,9 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/constant"
 )
 
+// OnKoma 確認滑鼠放開案件後是否再駒上，若在駒上則回傳true，否則false
+//
+// 參數x與y為滑鼠的座標
 func (k *Koma) OnKoma(x, y float64) bool {
 	var (
 		tempx float64 = x - float64(k.CurrentCoordinate.X)

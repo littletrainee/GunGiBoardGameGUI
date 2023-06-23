@@ -1,8 +1,9 @@
-package move
+package moveablerange
 
 import "image"
 
-func PM弓() [][][]image.Point {
+// MoveableRange弓 弓可以移動的範圍，回傳的是三維切片
+func MoveableRange弓() [][][]image.Point {
 	return [][][]image.Point{
 		// 上
 		{{{X: 0, Y: -2}}, {{X: 0, Y: -3}}, {{X: 0, Y: -4}}},

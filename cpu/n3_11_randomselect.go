@@ -7,20 +7,41 @@ import (
 	"time"
 
 	"github.com/littletrainee/GunGiBoardGameGUI/board"
+	"github.com/littletrainee/GunGiBoardGameGUI/enum/cpuselect"
 	"github.com/littletrainee/GunGiBoardGameGUI/gamestate"
 	"github.com/littletrainee/GunGiBoardGameGUI/koma"
 	"github.com/littletrainee/gunginotationgenerator/enum/level"
 )
 
-// DuelingPhaseSelectMove 對弈期間選擇移動的位置，從可能的切片當中選擇要移動的位置，可能是新也可能是移居，取決於切片的長度
+// RandomSelect 隨機移動，不需要進行防禦的選擇，從可能的切片當中選擇要移動的位置，可能是新也可能是移居，取決於切片的長度
 //
 // 參數g為當前遊戲的狀態，b為棋盤物件
-func (c *CPU) DuelingPhaseSelectMove(g gamestate.GameState, b board.Board) {
+func (c *CPU) RandomSelect(g gamestate.GameState, b board.Board) {
 	var (
 		currentLastKoma  koma.Koma
 		probablyPosition []image.Point
 		hinder           bool
+		probablyChoice   [][]int
 	)
+	rand.Seed(time.Now().UnixNano())
+	// 迭代block
+	for k, v := range b.Blocks {
+		if len(v.KomaStack) > 0 && v.KomaStack[len(v.KomaStack)-1].Color == c.Player.SelfColor {
+			probablyChoice = append(probablyChoice, []int{k.X, k.Y}) //駒在棋盤上的位置
+		}
+	}
+
+	// 迭代駒台
+	for i, v := range c.KomaDai {
+		if v.Item2 > 0 {
+			probablyChoice = append(probablyChoice, []int{i}) // 駒在駒台上的編號
+		}
+	}
+	// 從可選擇列表選擇一個
+	t := rand.Intn(len(probablyChoice)) // 隨機選擇在可能選擇的列表中的位置
+	c.MoveToTarget = probablyChoice[t]  // 設定選擇的事可能選擇的列表中的位置
+	c.Select = cpuselect.NORMAL
+	fmt.Println(c.MoveToTarget)
 
 	if len(c.MoveToTarget) == 1 { // 駒台
 		for column := 1; column < 10; column++ {
@@ -34,22 +55,17 @@ func (c *CPU) DuelingPhaseSelectMove(g gamestate.GameState, b board.Board) {
 		}
 
 	} else if len(c.MoveToTarget) == 2 { // 棋盤
-		currentBlock, ok := b.Blocks[image.Point{X: c.MoveToTarget[0], Y: c.MoveToTarget[1]}]
+		tempPos := image.Point{X: c.MoveToTarget[0], Y: c.MoveToTarget[1]}
+		currentBlock, ok := b.Blocks[tempPos]
 		if ok {
 			currentLastKoma = currentBlock.KomaStack[len(currentBlock.KomaStack)-1]
 			currentDan := len(currentBlock.KomaStack)
 			if currentLastKoma.Name == "帥" {
 				if g.LevelHolder.CurrentLevel != level.INTERMEDIATE && g.LevelHolder.CurrentLevel != level.ADVANCED {
-					for _, direction := range currentLastKoma.ProbablyMoveing {
-						for danIndex, eachDanCanMove := range direction {
-							if danIndex < currentDan {
-								probablyPosition = append(probablyPosition, suICheck(eachDanCanMove, currentLastKoma, b, currentDan)...)
-							}
-						}
-					}
+					probablyPosition = append(probablyPosition, checkSuIConfirmMove(b, tempPos)...)
 				}
 			} else if currentLastKoma.Name == "大" {
-				for d, v := range currentLastKoma.ProbablyMoveing {
+				for d, v := range currentLastKoma.MoveableRange {
 					if d == 0 || d == 2 || d == 4 || d == 6 { // 方向
 						hinder = false
 						for i := 0; i < len(v[0]); i++ {
@@ -86,7 +102,7 @@ func (c *CPU) DuelingPhaseSelectMove(g gamestate.GameState, b board.Board) {
 					}
 				}
 			} else if currentLastKoma.Name == "中" {
-				for d, v := range currentLastKoma.ProbablyMoveing {
+				for d, v := range currentLastKoma.MoveableRange {
 					if d == 1 || d == 3 || d == 5 || d == 7 { // 方向
 						hinder = false
 						for i := 0; i < len(v[0]); i++ {
@@ -123,7 +139,7 @@ func (c *CPU) DuelingPhaseSelectMove(g gamestate.GameState, b board.Board) {
 					}
 				}
 			} else if currentLastKoma.Name == "弓" {
-				for i, direction := range currentLastKoma.ProbablyMoveing {
+				for i, direction := range currentLastKoma.MoveableRange {
 					switch i {
 					case 0:
 						if len(b.Blocks[image.Point{X: c.MoveToTarget[0], Y: c.MoveToTarget[1] + 1}].KomaStack) > len(currentBlock.KomaStack) {
@@ -146,7 +162,7 @@ func (c *CPU) DuelingPhaseSelectMove(g gamestate.GameState, b board.Board) {
 
 				}
 			} else {
-				for _, direction := range currentLastKoma.ProbablyMoveing {
+				for _, direction := range currentLastKoma.MoveableRange {
 					for danIndex, eachDanCanMove := range direction {
 						// 確定沒有超過當前階級可以的最高段數
 						if danIndex < currentDan {

@@ -59,8 +59,8 @@ const (
 	ANOTHER_ROUND_OR_EXIT_Y            = 300     // 再來一局或離開遊戲視窗的Y座標
 	ANOTHER_ROUND_OR_EXIT_WIDTH        = 476     // 再來一局或離開遊戲視窗的Y座標
 	ANOTHER_ROUND_OR_EXIT_HEIGHT       = 150     // 再來一局或離開遊戲視窗的Y座標
-	ANOTHER_ROUND_BUTTON_POSITION_X    = 376     // 再來一局按鈕的X座標
-	ANOTHER_ROUND_BUTTON_POSITION_Y    = 388     // 再來一局按鈕的Y座標
+	ANOTHER_ROUND_BUTTON_X             = 376     // 再來一局按鈕的X座標
+	ANOTHER_ROUND_BUTTON_Y             = 388     // 再來一局按鈕的Y座標
 	ANOTHER_ROUND_BUTTON_WIDTH         = 100     // 再來一局按鈕的寬度
 	ANOTHER_ROUND_BUTTON_HEIGHT        = 50      // 再來一局按鈕的高度
 )

@@ -9,7 +9,7 @@ import (
 	"github.com/hajimehoshi/ebiten/v2/text"
 	"github.com/littletrainee/GunGiBoardGameGUI/constant"
 	"github.com/littletrainee/GunGiBoardGameGUI/koma"
-	"github.com/littletrainee/GunGiBoardGameGUI/koma/move"
+	"github.com/littletrainee/GunGiBoardGameGUI/koma/moveablerange"
 	_constant "github.com/littletrainee/gunginotationgenerator/constant"
 	"github.com/littletrainee/gunginotationgenerator/enum/level"
 	"github.com/littletrainee/pair"
@@ -29,8 +29,8 @@ func (p *Player) SetKomaTai(l level.Level, font font.Face) {
 		source = _constant.ALLKOMA[:30]
 	case level.ELEMENTARY:
 		source = _constant.ALLKOMA[:33]
-	case level.INTERMEDIATE:
-	case level.ADVANCED:
+	case level.INTERMEDIATE,
+		level.ADVANCED:
 		source = _constant.ALLKOMA
 	}
 	if !p.IsOwn {
@@ -65,48 +65,48 @@ func (p *Player) SetKomaTai(l level.Level, font font.Face) {
 
 		switch string(v) {
 		case "帥": // 0
-			tempKoma.ProbablyMoveing = move.PM帥()
+			tempKoma.MoveableRange = moveablerange.MoveableRange帥()
 			repeat = 1
 		case "大": // 1
-			tempKoma.ProbablyMoveing = move.PM大()
+			tempKoma.MoveableRange = moveablerange.MoveableRange大()
 			repeat = 1
 		case "中": // 2
-			tempKoma.ProbablyMoveing = move.PM中()
+			tempKoma.MoveableRange = moveablerange.MoveableRange中()
 			repeat = 1
 		case "小": // 3
-			tempKoma.ProbablyMoveing = move.PM小()
+			tempKoma.MoveableRange = moveablerange.MoveableRange小()
 			repeat = 2
 		case "侍": // 4
-			tempKoma.ProbablyMoveing = move.PM侍()
+			tempKoma.MoveableRange = moveablerange.MoveableRange侍()
 			repeat = 2
 
 		case "忍": // 5
-			tempKoma.ProbablyMoveing = move.PM忍()
+			tempKoma.MoveableRange = moveablerange.MoveableRange忍()
 			repeat = 2
 		case "槍": // 6
-			tempKoma.ProbablyMoveing = move.PM槍()
+			tempKoma.MoveableRange = moveablerange.MoveableRange槍()
 			repeat = 3
 		case "砦": // 7
-			tempKoma.ProbablyMoveing = move.PM砦()
+			tempKoma.MoveableRange = moveablerange.MoveableRange砦()
 			repeat = 2
 		case "馬": // 8
-			tempKoma.ProbablyMoveing = move.PM馬()
+			tempKoma.MoveableRange = moveablerange.MoveableRange馬()
 			repeat = 2
 		case "兵": // 9
-			tempKoma.ProbablyMoveing = move.PM兵()
+			tempKoma.MoveableRange = moveablerange.MoveableRange兵()
 			repeat = 4
 
 		case "弓":
-			tempKoma.ProbablyMoveing = move.PM弓()
+			tempKoma.MoveableRange = moveablerange.MoveableRange弓()
 			repeat = 2
 		case "砲":
-			tempKoma.ProbablyMoveing = move.PM砲()
+			tempKoma.MoveableRange = moveablerange.MoveableRange砲()
 			repeat = 1
 		case "筒":
-			tempKoma.ProbablyMoveing = move.PM筒()
+			tempKoma.MoveableRange = moveablerange.MoveableRange筒()
 			repeat = 1
 		case "謀":
-			tempKoma.ProbablyMoveing = move.PM謀()
+			tempKoma.MoveableRange = moveablerange.MoveableRange謀()
 			repeat = 1
 		}
 		for i := 0; i < repeat; i++ {

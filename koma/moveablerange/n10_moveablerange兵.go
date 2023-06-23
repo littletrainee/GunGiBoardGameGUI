@@ -1,15 +1,16 @@
-package move
+package moveablerange
 
 import (
 	"image"
 )
 
-func PM謀() [][][]image.Point {
+// MoveableRange兵 兵可以移動的範圍，回傳的是三維切片
+func MoveableRange兵() [][][]image.Point {
 	return [][][]image.Point{
 		// 上
-		{},
+		{{{X: 0, Y: -1}}, {{X: 0, Y: -2}}, {{X: 0, Y: -3}}},
 		// 右上
-		{{{X: 1, Y: -1}}, {{X: 2, Y: -2}}, {{X: 3, Y: -3}}},
+		{},
 		// 右
 		{},
 		// 右下
@@ -21,6 +22,6 @@ func PM謀() [][][]image.Point {
 		// 左
 		{},
 		// 左上
-		{{{X: -1, Y: -1}}, {{X: -2, Y: -2}}, {{X: -3, Y: -3}}},
+		{},
 	}
 }

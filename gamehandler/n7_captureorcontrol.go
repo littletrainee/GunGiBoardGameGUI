@@ -25,9 +25,8 @@ func (g *Game) CaptureOrControl() {
 				if v.Color == g.Player1.SelfColor {
 					targetKoma := v.Clone()
 					currentBlock := g.Board.Blocks[g.TargetPosition]
-					shift := block.Shift(tempKomaStack)
 
-					targetKoma.SetCurrentCoordinate(currentBlock.Coordinate, shift)
+					targetKoma.SetCurrentCoordinate(currentBlock.Coordinate, block.Shift(tempKomaStack))
 					targetKoma.SetCurrentPosition(currentBlock.Name)
 					targetKoma.SetGeoMetry(0)
 					tempKomaStack = append(tempKomaStack, targetKoma)
@@ -35,9 +34,8 @@ func (g *Game) CaptureOrControl() {
 				}
 			}
 			targetKoma := previousBlock.KomaStack[len(previousBlock.KomaStack)-1].Clone()
-			shift := block.Shift(tempKomaStack)
 
-			targetKoma.SetCurrentCoordinate(currentBlock.Coordinate, shift)
+			targetKoma.SetCurrentCoordinate(currentBlock.Coordinate, block.Shift(tempKomaStack))
 			targetKoma.SetCurrentPosition(currentBlock.Name)
 			targetKoma.SetGeoMetry(0)
 
@@ -46,7 +44,7 @@ func (g *Game) CaptureOrControl() {
 			currentBlock.KomaStack = tempKomaStack
 			g.Board.Blocks[g.TargetPosition] = currentBlock
 			g.Board.Blocks[previousPosition] = previousBlock
-			g.ConfirmPosition = nil
+			g.ConfirmPositionSlice = nil
 
 			for k := range g.Board.Blocks {
 				tempblock := g.Board.Blocks[k]
@@ -76,7 +74,7 @@ func (g *Game) CaptureOrControl() {
 			// 前一個block中的KomaStack移除最後一個
 			previousBlock.KomaStack = previousBlock.KomaStack[:len(previousBlock.KomaStack)-1]
 			// 重設可移動的位置切片
-			g.ConfirmPosition = nil
+			g.ConfirmPositionSlice = nil
 
 			// 將前一個block重新賦予回去map
 			g.Board.Blocks[image.Point{X: g.WhichKomaBeenSelected[0], Y: g.WhichKomaBeenSelected[1]}] = previousBlock

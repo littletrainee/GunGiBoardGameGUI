@@ -8,6 +8,9 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/constant"
 )
 
+// Draw 繪製駒在畫面上
+//
+// 參數screen為要繪製的畫面
 func (k *Koma) Draw(screen *ebiten.Image) {
 	// base for outline
 	vector.DrawFilledCircle(screen,
@@ -23,9 +26,5 @@ func (k *Koma) Draw(screen *ebiten.Image) {
 	vector.DrawFilledCircle(screen,
 		float32(k.CurrentCoordinate.X), float32(k.CurrentCoordinate.Y),
 		constant.KOMA_SIZE-6.25, color.White, true)
-	/*
-		正向文字為當前座標X-10,Y-12
-		反向文字為當前座標X+10,Y+12
-	*/
 	screen.DrawImage(k.Img, k.Op)
 }

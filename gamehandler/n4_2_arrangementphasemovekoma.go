@@ -13,16 +13,13 @@ func (g *Game) ArrangementPhaseMoveKoma() {
 		x, y := ebiten.CursorPosition()
 		// 若點到棋盤上的位置則放置
 		for k, v := range g.Board.Blocks {
-			if v.OnBlock(x, y) && !v.HasSuI() && v.Name.Item2 > 6 &&
+			if v.OnBlock(x, y) && !v.HasSuI() && v.Name.Y > 6 &&
 				len(v.KomaStack) < g.GameState.LevelHolder.MaxLayer {
 				//複製出來
 				var tempKoma koma.Koma = g.Player1.KomaDai[g.WhichKomaBeenSelected[0]].Item1.Clone()
 
-				// 設定目標格的位置
-				tempKoma.SetCurrentCoordinate(v.Coordinate, int(block.Shift(v.KomaStack)))
-				//設定目標代號
+				tempKoma.SetCurrentCoordinate(v.Coordinate, block.Shift(v.KomaStack))
 				tempKoma.SetCurrentPosition(v.Name)
-				// 設定文字顯示的位置
 				tempKoma.SetGeoMetry(0)
 
 				v.KomaStack = append(v.KomaStack, tempKoma)

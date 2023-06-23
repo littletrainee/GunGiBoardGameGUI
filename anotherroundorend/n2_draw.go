@@ -26,20 +26,20 @@ func (a *AnotherRoundOrEnd) Draw(screen *ebiten.Image) {
 
 		// another round button base
 		vector.DrawFilledRect(screen,
-			float32(constant.ANOTHER_ROUND_BUTTON_POSITION_X), float32(constant.ANOTHER_ROUND_BUTTON_POSITION_Y), constant.ANOTHER_ROUND_BUTTON_WIDTH, constant.ANOTHER_ROUND_BUTTON_HEIGHT, color.Black, true)
+			float32(constant.ANOTHER_ROUND_BUTTON_X), float32(constant.ANOTHER_ROUND_BUTTON_Y), constant.ANOTHER_ROUND_BUTTON_WIDTH, constant.ANOTHER_ROUND_BUTTON_HEIGHT, color.Black, true)
 		// another round button background
 		vector.DrawFilledRect(screen,
-			constant.ANOTHER_ROUND_BUTTON_POSITION_X+1, constant.ANOTHER_ROUND_BUTTON_POSITION_Y+1,
+			constant.ANOTHER_ROUND_BUTTON_X+1, constant.ANOTHER_ROUND_BUTTON_Y+1,
 			constant.ANOTHER_ROUND_BUTTON_WIDTH-2, constant.ANOTHER_ROUND_BUTTON_HEIGHT-2, _color.CaptureColor, true)
 		screen.DrawImage(a.AnotherRoundImg, a.AnotherRoundOpt)
 
 		// end game button base
 		vector.DrawFilledRect(screen,
-			constant.ANOTHER_ROUND_BUTTON_POSITION_X*1.5, constant.ANOTHER_ROUND_BUTTON_POSITION_Y,
+			constant.ANOTHER_ROUND_BUTTON_X*1.5, constant.ANOTHER_ROUND_BUTTON_Y,
 			constant.ANOTHER_ROUND_BUTTON_WIDTH, constant.ANOTHER_ROUND_BUTTON_HEIGHT, color.Black, true)
 		// end game button background
 		vector.DrawFilledRect(screen,
-			constant.ANOTHER_ROUND_BUTTON_POSITION_X*1.5+1, constant.ANOTHER_ROUND_BUTTON_POSITION_Y+1,
+			constant.ANOTHER_ROUND_BUTTON_X*1.5+1, constant.ANOTHER_ROUND_BUTTON_Y+1,
 			constant.ANOTHER_ROUND_BUTTON_WIDTH-2, constant.ANOTHER_ROUND_BUTTON_HEIGHT-2, _color.DenyColor, true)
 		screen.DrawImage(a.EndImg, a.EndOpt)
 	}

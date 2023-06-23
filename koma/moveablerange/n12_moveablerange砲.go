@@ -1,10 +1,11 @@
-package move
+package moveablerange
 
 import (
 	"image"
 )
 
-func PM砲() [][][]image.Point {
+// MoveableRange砲 砲可以移動的範圍，回傳的是三維切片
+func MoveableRange砲() [][][]image.Point {
 	return [][][]image.Point{
 		// 上
 		{{{X: 0, Y: -3}}, {{X: 0, Y: -4}}, {{X: 0, Y: -5}}},

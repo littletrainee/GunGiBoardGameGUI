@@ -32,6 +32,6 @@ type Game struct {
 	TargetPosition        image.Point             // 目標位置
 	DeclareSuMi           declaresumi.DeclareSuMi // 宣告布陣完畢
 	Capture               capture.Capture         // 俘獲視窗
-	ConfirmPosition       []image.Point           // 核可的位置
+	ConfirmPositionSlice  []image.Point           // 核可的位置
 	AnotherRoundOrEnd     aroe.AnotherRoundOrEnd  // 遊戲結束或是再來一局視窗
 }

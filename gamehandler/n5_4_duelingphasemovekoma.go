@@ -23,9 +23,8 @@ func (g *Game) DuelingPhaseMoveKoma() {
 					// 複製駒台上的駒
 					targetKoma := g.Player1.KomaDai[g.WhichKomaBeenSelected[0]].Item1.Clone()
 					// 設置偏移量
-					shift := block.Shift(currentBlock.KomaStack)
 					// 對被複製的駒重設其位置與座標
-					targetKoma.SetCurrentCoordinate(currentBlock.Coordinate, shift)
+					targetKoma.SetCurrentCoordinate(currentBlock.Coordinate, block.Shift(currentBlock.KomaStack))
 					targetKoma.SetCurrentPosition(currentBlock.Name)
 					targetKoma.SetGeoMetry(0)
 
@@ -54,8 +53,8 @@ func (g *Game) DuelingPhaseMoveKoma() {
 
 			// 非駒台上的駒
 		} else {
-			for k, currentBlock := range g.Board.Blocks {
-				if currentBlock.OnBlock(x, y) {
+			for k, targetBlock := range g.Board.Blocks {
+				if targetBlock.OnBlock(x, y) {
 					// 若點選的位置為棋盤上被選擇駒的位置，則取消選取
 					if k.X == g.WhichKomaBeenSelected[0] && k.Y == g.WhichKomaBeenSelected[1] {
 						for k := range g.Board.Blocks {
@@ -67,23 +66,29 @@ func (g *Game) DuelingPhaseMoveKoma() {
 						g.delayedChangePhaseTo(phase.SELECT_KOMA)
 						return
 					}
-					if contain(k, g.ConfirmPosition) {
-						if len(currentBlock.KomaStack) > 0 && currentBlock.KomaStack[len(currentBlock.KomaStack)-1].Name == "帥" {
+					// 目標位置是在核可的移動範圍內
+					if contain(k, g.ConfirmPositionSlice) {
+						targetBlockLength := len(targetBlock.KomaStack)
+
+						// 若目標位置有駒，並且目標最上面的駒是帥，且顏色不等於自家的顏色
+						if targetBlockLength > 0 && targetBlock.KomaStack[targetBlockLength-1].Name == "帥" &&
+							targetBlock.KomaStack[targetBlockLength-1].Color != g.Player1.SelfColor {
 							g.Player1Timer.StopCountDown <- true
 							g.AnotherRoundOrEnd.Show = true
 							g.delayedChangePhaseTo(phase.ANOTHER_ROUND_OR_END)
 							return
 						}
+
 						var containOpponentKoma bool
-						for _, v := range currentBlock.KomaStack {
+						for _, v := range targetBlock.KomaStack {
 							if v.Color != g.Player1.SelfColor {
 								containOpponentKoma = true
 							}
 						}
-						temp := image.Point{X: g.WhichKomaBeenSelected[0], Y: g.WhichKomaBeenSelected[1]}
+						previousPosition := image.Point{X: g.WhichKomaBeenSelected[0], Y: g.WhichKomaBeenSelected[1]}
 						// 若目標block的段數已經答這個階級所能堆疊到最高段數，並且有包含對家的駒
-						if len(currentBlock.KomaStack) == g.GameState.LevelHolder.MaxLayer && containOpponentKoma &&
-							len(g.Board.Blocks[temp].KomaStack) == len(currentBlock.KomaStack) {
+						if targetBlockLength == g.GameState.LevelHolder.MaxLayer && containOpponentKoma &&
+							targetBlockLength == len(g.Board.Blocks[previousPosition].KomaStack) {
 							g.Capture.Show = true
 							g.TargetPosition = k
 							g.delayedChangePhaseTo(phase.PLAYER_CAPTURE_OR_CONTROL_ASK)
@@ -91,37 +96,36 @@ func (g *Game) DuelingPhaseMoveKoma() {
 						}
 
 						// 若目標block的段數未達這個階級所能堆疊的最高段數，並且有包含對家的駒
-						if len(currentBlock.KomaStack) < g.GameState.LevelHolder.MaxLayer && containOpponentKoma {
+						if targetBlockLength < g.GameState.LevelHolder.MaxLayer && containOpponentKoma {
 							g.Capture.Show = true
 							g.Capture.ControlBool = true
 							g.TargetPosition = k
 							g.delayedChangePhaseTo(phase.PLAYER_CAPTURE_OR_CONTROL_ASK)
 							return
-
 						}
+
 						// 若目標位置已經達最高段數且目標位置有包括對方的駒時
-						if len(currentBlock.KomaStack) < g.GameState.LevelHolder.MaxLayer && !currentBlock.HasSuI() {
+						if targetBlockLength < g.GameState.LevelHolder.MaxLayer && !targetBlock.HasSuI() {
 							// 複製前一個block
-							previousBlock := g.Board.Blocks[image.Point{X: g.WhichKomaBeenSelected[0], Y: g.WhichKomaBeenSelected[1]}]
+							previousBlock := g.Board.Blocks[previousPosition]
 							// 複製前一個block中KomaStack的最後一個駒
 							targetKoma := previousBlock.KomaStack[len(previousBlock.KomaStack)-1].Clone()
-							shift := block.Shift(currentBlock.KomaStack)
 							// 對被複製的駒重設其位置與座標
-							targetKoma.SetCurrentCoordinate(currentBlock.Coordinate, shift)
-							targetKoma.SetCurrentPosition(currentBlock.Name)
+							targetKoma.SetCurrentCoordinate(targetBlock.Coordinate, block.Shift(targetBlock.KomaStack))
+							targetKoma.SetCurrentPosition(targetBlock.Name)
 							targetKoma.SetGeoMetry(0)
 							// 當前block的KomaStack增加被複製的駒
-							currentBlock.KomaStack = append(currentBlock.KomaStack, targetKoma)
+							targetBlock.KomaStack = append(targetBlock.KomaStack, targetKoma)
 							// 前一個block中的KomaStack移除最後一個
 							previousBlock.KomaStack = previousBlock.KomaStack[:len(previousBlock.KomaStack)-1]
 							// 重設可移動的位置切片
-							g.ConfirmPosition = nil
+							g.ConfirmPositionSlice = nil
 
 							// 將前一個block重新賦予回去map
-							g.Board.Blocks[image.Point{X: g.WhichKomaBeenSelected[0], Y: g.WhichKomaBeenSelected[1]}] = previousBlock
+							g.Board.Blocks[previousPosition] = previousBlock
 							// 重設前一個被選取的位置
 							g.WhichKomaBeenSelected = nil
-							g.Board.Blocks[k] = currentBlock
+							g.Board.Blocks[k] = targetBlock
 
 							for k := range g.Board.Blocks {
 								tempblock := g.Board.Blocks[k]
@@ -132,7 +136,6 @@ func (g *Game) DuelingPhaseMoveKoma() {
 							g.SetMaxRange()
 							return
 						}
-
 					}
 				}
 			}

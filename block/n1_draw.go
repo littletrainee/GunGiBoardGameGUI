@@ -10,7 +10,7 @@ import (
 //
 // 參數screen為要繪製的目標視窗
 func (b *Block) Draw(screen *ebiten.Image) {
-	vector.DrawFilledRect(screen, b.Coordinate.X, b.Coordinate.Y, constant.BLOCK_SIZE,
+	vector.DrawFilledRect(screen, float32(b.Coordinate.X), float32(b.Coordinate.Y), constant.BLOCK_SIZE,
 		constant.BLOCK_SIZE, b.CurrentColor, true)
 	for _, v := range b.KomaStack {
 		v.Draw(screen)

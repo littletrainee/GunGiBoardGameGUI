@@ -1,10 +1,12 @@
-package move
+// 所有的駒預設可以移動的範圍物件
+package moveablerange
 
 import (
 	"image"
 )
 
-func PM帥() [][][]image.Point {
+// MoveableRange帥 帥可以移動的範圍，回傳的是三維切片
+func MoveableRange帥() [][][]image.Point {
 	return [][][]image.Point{
 		// 上
 		{{{X: 0, Y: -1}}, {{X: 0, Y: -2}}, {{X: 0, Y: -3}}},

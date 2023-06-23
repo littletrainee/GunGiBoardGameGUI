@@ -37,6 +37,7 @@ func (c *Capture) Draw(screen *ebiten.Image) {
 
 		// Control button
 		if c.ControlBool {
+			screen.DrawImage(c.TitleCaptureAndControlImg, c.TitleCaptureAndControlOpt)
 			// base
 			vector.DrawFilledRect(screen, constant.CAPTURE_BUTTON_X*1.5, constant.CAPTURE_BUTTON_Y, constant.CAPTURE_BUTTON_WIDTH, constant.CAPTURE_BUTTON_HEIGHT, color.Black, true)
 			// background
@@ -44,6 +45,7 @@ func (c *Capture) Draw(screen *ebiten.Image) {
 			// Text
 			screen.DrawImage(c.EnableControlImg, c.ControlOpt)
 		} else {
+			screen.DrawImage(c.TitleOnlyCaptureImg, c.TitleOnlyCaptureOpt)
 			// base
 			vector.DrawFilledRect(screen, constant.CAPTURE_BUTTON_X*1.5, constant.CAPTURE_BUTTON_Y, constant.CAPTURE_BUTTON_WIDTH, constant.CAPTURE_BUTTON_HEIGHT, color.Black, true)
 			// background

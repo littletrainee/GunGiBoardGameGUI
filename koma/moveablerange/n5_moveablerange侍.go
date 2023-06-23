@@ -1,17 +1,18 @@
-package move
+package moveablerange
 
 import (
 	"image"
 )
 
-func PM小() [][][]image.Point {
+// MoveableRange侍 侍可以移動的範圍，回傳的是三維切片
+func MoveableRange侍() [][][]image.Point {
 	return [][][]image.Point{
 		// 上
 		{{{X: 0, Y: -1}}, {{X: 0, Y: -2}}, {{X: 0, Y: -3}}},
 		// 右上
 		{{{X: 1, Y: -1}}, {{X: 2, Y: -2}}, {{X: 3, Y: -3}}},
 		// 右
-		{{{X: 1, Y: 0}}, {{X: 2, Y: 0}}, {{X: 3, Y: 0}}},
+		{},
 		// 右下
 		{},
 		// 下
@@ -19,7 +20,7 @@ func PM小() [][][]image.Point {
 		// 左下
 		{},
 		// 左
-		{{{X: -1, Y: 0}}, {{X: -2, Y: 0}}, {{X: -3, Y: 0}}},
+		{},
 		// 左上
 		{{{X: -1, Y: -1}}, {{X: -2, Y: -2}}, {{X: -3, Y: -3}}},
 	}

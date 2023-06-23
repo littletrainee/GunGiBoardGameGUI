@@ -3,7 +3,6 @@ package gamehandler
 import (
 	"image"
 
-	"github.com/littletrainee/GunGiBoardGameGUI/block"
 	_color "github.com/littletrainee/GunGiBoardGameGUI/color"
 	"github.com/littletrainee/GunGiBoardGameGUI/koma"
 )
@@ -29,39 +28,41 @@ func otherCheck(direction [][]image.Point, lastKoma koma.Koma, currentDan int, g
 				}
 
 				// 確認目標位置是否在棋盤內
-				_, exists := g.Board.Blocks[targetBlockPosition]
+				tempblock, exists := g.Board.Blocks[targetBlockPosition]
 
 				// 若在棋盤內
 				if exists {
 					// 若沒有阻隔
 					if !hinder {
 						// 從blocks取出目標block
-						var (
-							tempblock block.Block = g.Board.Blocks[targetBlockPosition]
-							targetlen int         = len(tempblock.KomaStack)
-						)
+						var targetlen int = len(tempblock.KomaStack)
 
-						// 目標點有駒或者目標的段數大於或等於當前的段數
-						if targetlen != 0 && targetlen >= currentDan {
+						if targetlen > currentDan { // 目標段數高於本身段數則中斷
+							break
+						} else if targetlen == currentDan { // 否則將hinder設為true
 							hinder = true
 						}
 
-						if targetlen <= currentDan {
-							if targetlen == g.GameState.LevelHolder.MaxLayer {
-								tempblock.CurrentColor = _color.CaptureColor
-							} else if targetlen < g.GameState.LevelHolder.MaxLayer {
-								tempblock.CurrentColor = _color.ConfirmColor
-							}
-							confirmPosition = append(confirmPosition, targetBlockPosition)
+						// 目標段等於當前段則設為CaptureColorl
+						if targetlen == currentDan && targetlen == g.GameState.LevelHolder.MaxLayer {
+							tempblock.CurrentColor = _color.CaptureColor
+						} else if targetlen <= currentDan {
+							tempblock.CurrentColor = _color.ConfirmColor
+						} else if targetlen > currentDan {
+							tempblock.CurrentColor = _color.DenyColor
 						}
+						confirmPosition = append(confirmPosition, targetBlockPosition)
 						g.Board.Blocks[targetBlockPosition] = tempblock
 					} else {
 						break
 					}
+				} else {
+					break
 				}
 			}
+		} else {
+			break
 		}
-
 	}
 	return confirmPosition
 }

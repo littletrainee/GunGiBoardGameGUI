@@ -30,11 +30,10 @@ func (c *CPU) DuelingPhaseMoveKoma(b *board.Board) {
 		for _, v := range targetBlock.KomaStack {
 			if v.Color == c.SelfColor {
 				// 確認偏移量
-				shift = block.Shift(tempKomaSlice)
 				// 複製目標駒
 				cloneKoma = v.Clone()
 				// 設定目標駒座標與位置
-				cloneKoma.SetCurrentCoordinate(targetBlock.Coordinate, shift)
+				cloneKoma.SetCurrentCoordinate(targetBlock.Coordinate, block.Shift(tempKomaSlice))
 				cloneKoma.SetCurrentPosition(targetBlock.Name)
 				// 設定是否旋轉
 				cloneKoma.SetGeoMetry(math.Pi)

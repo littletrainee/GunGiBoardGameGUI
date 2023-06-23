@@ -1,7 +1,12 @@
 package koma
 
-import "math"
+import (
+	"math"
+)
 
+// SetGeoMetry 設定駒是否要翻轉與畫面的繪製位置
+//
+// 參數rotate為是否要翻轉180°
 func (k *Koma) SetGeoMetry(rotate float64) {
 	if rotate == math.Pi {
 		k.Op.GeoM.Rotate(math.Pi)

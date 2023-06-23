@@ -1,13 +1,13 @@
-package move
+package moveablerange
 
 import (
 	"image"
 )
 
-func PM侍() [][][]image.Point {
+func MoveableRange謀() [][][]image.Point {
 	return [][][]image.Point{
 		// 上
-		{{{X: 0, Y: -1}}, {{X: 0, Y: -2}}, {{X: 0, Y: -3}}},
+		{},
 		// 右上
 		{{{X: 1, Y: -1}}, {{X: 2, Y: -2}}, {{X: 3, Y: -3}}},
 		// 右

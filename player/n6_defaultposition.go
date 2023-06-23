@@ -7,7 +7,7 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/board"
 	"github.com/littletrainee/GunGiBoardGameGUI/gamestate"
 	"github.com/littletrainee/GunGiBoardGameGUI/koma"
-	"github.com/littletrainee/GunGiBoardGameGUI/koma/defaultposition"
+	"github.com/littletrainee/GunGiBoardGameGUI/koma/recommendposition"
 	"github.com/littletrainee/gunginotationgenerator/enum/level"
 	"github.com/littletrainee/pair"
 )
@@ -19,15 +19,15 @@ func (p *Player) RecommendPosition(g gamestate.GameState, b board.Board) {
 	)
 	if g.LevelHolder.CurrentLevel == level.BEGINNER {
 		if p.IsOwn {
-			target = defaultposition.OwnBeginner()
+			target = recommendposition.OwnBeginner()
 		} else {
-			target = defaultposition.OpponentBeginner()
+			target = recommendposition.OpponentBeginner()
 		}
 	} else if g.LevelHolder.CurrentLevel == level.ELEMENTARY {
 		if p.IsOwn {
-			target = defaultposition.OwnElementary()
+			target = recommendposition.OwnElementary()
 		} else {
-			target = defaultposition.OpponentElementary()
+			target = recommendposition.OpponentElementary()
 		}
 	}
 	for _, v := range target {
