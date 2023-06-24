@@ -7,6 +7,7 @@ import (
 	"github.com/littletrainee/pair"
 )
 
+// Initilization 初始化玩家物件，設定好並回傳
 func Initilization(selfColor color.Gray16, isown bool) Player {
 	return Player{
 		SelfColor: selfColor,

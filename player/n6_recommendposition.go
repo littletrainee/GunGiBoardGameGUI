@@ -12,7 +12,9 @@ import (
 	"github.com/littletrainee/pair"
 )
 
-// 推薦位置
+// RecommendPosition 在入門與初級階段的推薦布陣配置
+//
+// 參數g為遊戲的階級來源，b為棋盤物件
 func (p *Player) RecommendPosition(g gamestate.GameState, b board.Board) {
 	var (
 		target []pair.Pair[int, image.Point]

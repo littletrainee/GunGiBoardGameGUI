@@ -1,3 +1,4 @@
+// 遊戲中的玩家物件
 package player
 
 import (

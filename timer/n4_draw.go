@@ -13,6 +13,9 @@ import (
 	"golang.org/x/image/font"
 )
 
+// Draw 繪製其中在畫面上
+//
+// 參數screen為要繪製的畫面，font為每次棋鐘文字繪製所需要的字型，phase為確認是否在遊戲正式開始前的階段判斷
 func (t *Timer) Draw(screen *ebiten.Image, font font.Face, phase phase.Phase) {
 	if phase == _phase.BEGIN_COUNTDOWN_FOR_GAMING {
 		// 重設畫布

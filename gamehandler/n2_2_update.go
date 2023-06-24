@@ -62,8 +62,8 @@ func (g *Game) Update() error {
 		// 先後手
 		g.GameState.SetFirst()
 		// 設定駒台上駒的位置
-		g.Player1.SetKomaTaiPosition(g.GameState.LevelHolder.CurrentLevel, g.Font)
-		g.Player2.SetKomaTaiPosition(g.GameState.LevelHolder.CurrentLevel, g.Font)
+		g.Player1.SetKomaDaiPosition(g.GameState.LevelHolder.CurrentLevel, g.Font)
+		g.Player2.SetKomaDaiPosition(g.GameState.LevelHolder.CurrentLevel, g.Font)
 
 	case phase.SELECT_RECOMMEND_OR_MANUAL_ARRANGEMENT:
 		g.GameState.SelectRecommendOrManualArrangement()
@@ -153,18 +153,13 @@ func (g *Game) Update() error {
 			} else {
 				g.CPU.DuelingPhaseSelectKoma(g.Board, g.GameState, &g.AnotherRoundOrEnd)
 				switch g.CPU.Select {
-				case cpuselect.NORMAL,
-					cpuselect.DEFENSE_CAPTURE,
-					cpuselect.DEFENSE_AVOID,
-					cpuselect.DEFENSE_ARATA,
-					cpuselect.TRY_CAPTURE:
+				case cpuselect.RANDOM_SELECT, cpuselect.DEFENSE_CAPTURE, cpuselect.DEFENSE_AVOID,
+					cpuselect.DEFENSE_ARATA, cpuselect.TRY_CAPTURE:
 					g.delayedChangePhaseTo(phase.MOVE_KOMA)
 				case cpuselect.BEEN_CHECKMATE:
 					// 暫停計時器
 					g.Player2Timer.StopCountDown <- true
 					g.delayedChangePhaseTo(phase.ANOTHER_ROUND_OR_END)
-					// g.CPU.Select = cpuselect.WAIT_FOR_SELECT_ANOTHERROUND_OR_EXIT
-					// case cpuselect.WAIT_FOR_SELECT_ANOTHERROUND_OR_EXIT:
 				}
 			}
 		}

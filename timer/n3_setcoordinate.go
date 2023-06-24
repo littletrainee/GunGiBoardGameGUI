@@ -6,6 +6,9 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/constant"
 )
 
+// SetGeoM設定棋鐘的位置
+//
+// 參數rotate為棋鐘是否要旋轉
 func (t *Timer) SetGeoM(rotate bool) {
 	t.Op.GeoM.Scale(2, 2)
 	if rotate {

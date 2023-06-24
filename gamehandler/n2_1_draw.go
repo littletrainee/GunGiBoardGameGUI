@@ -36,8 +36,8 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			constant.BOARD_WIDTH, constant.BOARD_WIDTH,
 			color.Black, true)
 		g.Board.Draw(screen)
-		g.Player1.DrawKomaTai(screen, g.Font)
-		g.Player2.DrawKomaTai(screen, g.Font)
+		g.Player1.Draw(screen)
+		g.Player2.Draw(screen)
 		vector.DrawFilledRect(screen,
 			float32(constant.TIMER_X), float32(constant.TIMER_Y),
 			float32(constant.TIMER_WIDTH), float32(constant.TIMER_HEIGHT),

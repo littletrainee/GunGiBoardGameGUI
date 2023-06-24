@@ -65,7 +65,7 @@ func (c *CPU) DuelingPhaseMoveKoma(b *board.Board) {
 			targetBlock           block.Block = b.Blocks[targetBlockPosition]
 			shift                 int
 			cloneKoma             koma.Koma
-			tempKomaSlice         []koma.Koma
+			tempKomaSlice         []koma.Koma = targetBlock.KomaStack
 		)
 
 		// 確認偏移量
@@ -150,7 +150,7 @@ func (c *CPU) DuelingPhaseMoveKoma(b *board.Board) {
 			b.Blocks[targetBlockPosition] = targetBlock
 			c.MoveToTarget = nil
 		}
-	case cpuselect.NORMAL:
+	case cpuselect.RANDOM_SELECT:
 		var (
 			targetPosition image.Point // 設定目標位置的座標
 			targetBlock    block.Block // 複製目標block

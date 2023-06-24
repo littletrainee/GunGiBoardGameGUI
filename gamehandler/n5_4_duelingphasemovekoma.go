@@ -4,16 +4,17 @@ import (
 	"image"
 
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"github.com/littletrainee/GunGiBoardGameGUI/block"
 	"github.com/littletrainee/GunGiBoardGameGUI/color"
 	"github.com/littletrainee/GunGiBoardGameGUI/enum/phase"
 	"github.com/littletrainee/GunGiBoardGameGUI/koma"
+	"github.com/littletrainee/GunGiBoardGameGUI/otherfunction"
 )
 
 // DuelingPhaseMoveKoma 對弈期間的移駒，玩家選擇是否要取消選取、新、或是移駒
 func (g *Game) DuelingPhaseMoveKoma() {
-	if inpututil.IsMouseButtonJustReleased(ebiten.MouseButtonLeft) {
+
+	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		x, y := ebiten.CursorPosition()
 		// 選取的駒是否為駒台上的駒
 		if len(g.WhichKomaBeenSelected) == 1 {
@@ -67,7 +68,7 @@ func (g *Game) DuelingPhaseMoveKoma() {
 						return
 					}
 					// 目標位置是在核可的移動範圍內
-					if contain(k, g.ConfirmPositionSlice) {
+					if otherfunction.Contain(g.ConfirmPositionSlice, k) {
 						targetBlockLength := len(targetBlock.KomaStack)
 
 						// 若目標位置有駒，並且目標最上面的駒是帥，且顏色不等於自家的顏色
@@ -106,6 +107,7 @@ func (g *Game) DuelingPhaseMoveKoma() {
 
 						// 若目標位置已經達最高段數且目標位置有包括對方的駒時
 						if targetBlockLength < g.GameState.LevelHolder.MaxLayer && !targetBlock.HasSuI() {
+							g.delayedChangePhaseTo(phase.CLICK_CLOCK)
 							// 複製前一個block
 							previousBlock := g.Board.Blocks[previousPosition]
 							// 複製前一個block中KomaStack的最後一個駒
@@ -132,7 +134,6 @@ func (g *Game) DuelingPhaseMoveKoma() {
 								tempblock.CurrentColor = color.BoardColor
 								g.Board.Blocks[k] = tempblock
 							}
-							g.delayedChangePhaseTo(phase.CLICK_CLOCK)
 							g.SetMaxRange()
 							return
 						}

@@ -6,10 +6,12 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/vector"
 	"github.com/littletrainee/GunGiBoardGameGUI/constant"
-	"golang.org/x/image/font"
 )
 
-func (p *Player) DrawKomaTai(screen *ebiten.Image, font font.Face) {
+// Draw 繪製駒台與駒台列表
+//
+// 參數screen為要繪製的畫面
+func (p *Player) Draw(screen *ebiten.Image) {
 	if p.IsOwn {
 		vector.DrawFilledRect(screen, constant.OWN_KOMADAI_X,
 			constant.OWN_KOMADAI_Y, constant.KOMADAI_SIZE, constant.KOMADAI_SIZE,

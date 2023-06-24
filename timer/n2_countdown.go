@@ -4,6 +4,7 @@ import (
 	"time"
 )
 
+// CountDown 用另一個線程控制棋鐘的剩餘時間
 func (t *Timer) CountDown() {
 	go func() {
 		for {

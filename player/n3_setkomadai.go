@@ -16,12 +16,15 @@ import (
 	"golang.org/x/image/font"
 )
 
-func (p *Player) SetKomaTai(l level.Level, font font.Face) {
+// SetKomaDai 設定駒台列表
+//
+// 參數l為玩家選擇的階級，font為駒上的文字字型來源
+func (p *Player) SetKomaDai(l level.Level, font font.Face) {
 	var (
 		source       string
-		row          float32 = 0
-		column       float32 = 0
-		distance     float32 = constant.KOMA_SIZE*2 + 1
+		row          int
+		column       int
+		distance     int = constant.KOMA_SIZE*2 + 1
 		numberOfKoma int
 	)
 	switch l {
@@ -42,16 +45,16 @@ func (p *Player) SetKomaTai(l level.Level, font font.Face) {
 
 	for _, v := range source {
 		var (
-			c        float32   = float32(p.KomaOnKomaDaiCoordinate.X) + distance*column
-			r        float32   = float32(p.KomaOnKomaDaiCoordinate.Y) + distance*row
+			c        int       = p.KomaOnKomaDaiCoordinate.X + distance*column
+			r        int       = p.KomaOnKomaDaiCoordinate.Y + distance*row
 			tempKoma koma.Koma = koma.Koma{
 				Name:  string(v),
 				Color: p.SelfColor,
 				CurrentCoordinate: image.Point{
-					X: int(c),
-					Y: int(r)},
+					X: c,
+					Y: r},
 				Op:  &ebiten.DrawImageOptions{},
-				Img: ebiten.NewImage(int(constant.KOMA_SIZE)+1, int(constant.KOMA_SIZE)+1),
+				Img: ebiten.NewImage(constant.KOMA_SIZE+1, constant.KOMA_SIZE+1),
 			}
 			repeat int
 		)

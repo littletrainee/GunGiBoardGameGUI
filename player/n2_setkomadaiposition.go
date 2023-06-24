@@ -9,7 +9,10 @@ import (
 	"golang.org/x/image/font"
 )
 
-func (p *Player) SetKomaTaiPosition(l level.Level, font font.Face) {
+// 設定駒台的位置並初始化玩家的駒台列表
+//
+// 參數l為玩家選擇的階段，font為駒所需繪製文字的字型來源
+func (p *Player) SetKomaDaiPosition(l level.Level, font font.Face) {
 	if p.IsOwn {
 		p.KomaDaiCoordinate = image.Point{
 			X: constant.OWN_KOMADAI_X,
@@ -29,7 +32,7 @@ func (p *Player) SetKomaTaiPosition(l level.Level, font font.Face) {
 			Y: constant.KOMA_ON_OPPONENT_KOMADAI_Y,
 		}
 	}
-	p.SetKomaTai(l, font)
+	p.SetKomaDai(l, font)
 	// 設定駒台的背景顏色
 	p.KomaDaiBackground = color.BoardColor
 }

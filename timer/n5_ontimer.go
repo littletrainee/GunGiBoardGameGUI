@@ -6,14 +6,9 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/constant"
 )
 
-// func (t *Timer) ClickTimer(gs *gamestate.GameState, pos image.Point) {
-// 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
-// 		if t.onTimer(pos.X, pos.Y) {
-// 			gs.TrunToNext()
-// 		}
-// 	}
-// }
-
+// OnTimer 判斷滑鼠是否在棋鐘圖像上，若在上面則回傳true，否則回傳false
+//
+// 參數x與y為滑鼠的位置
 func (t *Timer) OnTimer(x, y int) bool {
 	return image.Point{x, y}.In(image.Rect(int(t.CurrentCoordinate.X), int(t.CurrentCoordinate.Y),
 		int(t.CurrentCoordinate.X)+int(constant.TIMER_SIZE),
