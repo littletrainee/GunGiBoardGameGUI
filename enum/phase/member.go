@@ -18,6 +18,8 @@ const (
 	MOVE_KOMA                                                 // 玩家的移駒
 	CLICK_CLOCK                                               // 玩家的棋鐘
 	PLAYER_CAPTURE_OR_CONTROL_ASK                             // 玩家的俘獲或控制視窗
+	MUTINY                                                    // 玩家選擇是否要叛變對方的駒
 	ANOTHER_ROUND_OR_END                                      // 詢問是否再來一局
-	BUFFER_ZONE                                               // 緩衝區
+	BEFORE_GAMING_BUFFER_ZONE                                 // 遊戲開始前的緩衝
+	GAMING_BUFFER_ZONE                                        // 遊戲開始後緩衝區
 )

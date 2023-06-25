@@ -75,7 +75,8 @@ func canHopCheck(levelholder levelholder.LevelHolder, whereHop []koma.Koma, b bo
 								hinder = true
 							}
 
-							switch otherfunction.Move(targetBlock.KomaStack, whereHop, levelholder) {
+							a := otherfunction.Move(targetBlock.KomaStack, whereHop, levelholder)
+							switch a {
 							case action.MOVE, action.CAPTURE_OR_CONTROL:
 								confirmPosition = append(confirmPosition, targetBlockPosition)
 								targetBlock.CurrentColor = color.ConfirmColor
@@ -126,12 +127,12 @@ func canHopCheck(levelholder levelholder.LevelHolder, whereHop []koma.Koma, b bo
 						}
 
 						// 確認目標位置是否在棋盤內
-						tempblock, exists := b.Blocks[targetBlockPosition]
+						targetBlock, exists := b.Blocks[targetBlockPosition]
 
 						// 若在棋盤內且沒有阻隔
 						if exists && !hinder {
 							// 從blocks取出目標block
-							var targetlen int = len(tempblock.KomaStack)
+							targetlen := len(targetBlock.KomaStack)
 
 							if targetlen > currentDan { // 目標段數高於本身段數則中斷
 								break
@@ -139,17 +140,18 @@ func canHopCheck(levelholder levelholder.LevelHolder, whereHop []koma.Koma, b bo
 								hinder = true
 							}
 
-							// 目標段等於當前段則設為CaptureColorl
-							if targetlen == currentDan && targetlen == levelholder.MaxLayer {
-								tempblock.CurrentColor = color.CaptureColor
+							a := otherfunction.Move(targetBlock.KomaStack, whereHop, levelholder)
+							switch a {
+							case action.MOVE, action.CAPTURE_OR_CONTROL:
 								confirmPosition = append(confirmPosition, targetBlockPosition)
-							} else if targetlen <= currentDan {
-								tempblock.CurrentColor = color.ConfirmColor
+								targetBlock.CurrentColor = color.ConfirmColor
+							case action.CAPTURE_ONLY:
 								confirmPosition = append(confirmPosition, targetBlockPosition)
-							} else {
-								tempblock.CurrentColor = color.DenyColor
+								targetBlock.CurrentColor = color.CaptureColor
+							default:
+								targetBlock.CurrentColor = color.DenyColor
 							}
-							b.Blocks[targetBlockPosition] = tempblock
+							b.Blocks[targetBlockPosition] = targetBlock
 						} else {
 							break
 						}
@@ -183,12 +185,12 @@ func canHopCheck(levelholder levelholder.LevelHolder, whereHop []koma.Koma, b bo
 						}
 
 						// 確認目標位置是否在棋盤內
-						tempblock, exists := b.Blocks[targetBlockPosition]
+						targetBlock, exists := b.Blocks[targetBlockPosition]
 
 						// 若在棋盤內且沒有阻隔
 						if exists && !hinder {
 							// 從blocks取出目標block
-							var targetlen int = len(tempblock.KomaStack)
+							var targetlen int = len(targetBlock.KomaStack)
 
 							if targetlen > currentDan { // 目標段數高於本身段數則中斷
 								break
@@ -196,17 +198,18 @@ func canHopCheck(levelholder levelholder.LevelHolder, whereHop []koma.Koma, b bo
 								hinder = true
 							}
 
-							// 目標段等於當前段則設為CaptureColorl
-							if targetlen == currentDan && targetlen == levelholder.MaxLayer {
-								tempblock.CurrentColor = color.CaptureColor
+							a := otherfunction.Move(targetBlock.KomaStack, whereHop, levelholder)
+							switch a {
+							case action.MOVE, action.CAPTURE_OR_CONTROL:
 								confirmPosition = append(confirmPosition, targetBlockPosition)
-							} else if targetlen <= currentDan {
-								tempblock.CurrentColor = color.ConfirmColor
+								targetBlock.CurrentColor = color.ConfirmColor
+							case action.CAPTURE_ONLY:
 								confirmPosition = append(confirmPosition, targetBlockPosition)
-							} else {
-								tempblock.CurrentColor = color.DenyColor
+								targetBlock.CurrentColor = color.CaptureColor
+							default:
+								targetBlock.CurrentColor = color.DenyColor
 							}
-							b.Blocks[targetBlockPosition] = tempblock
+							b.Blocks[targetBlockPosition] = targetBlock
 						} else {
 							break
 						}

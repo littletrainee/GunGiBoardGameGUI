@@ -4,7 +4,6 @@ import (
 	"image/color"
 
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"github.com/littletrainee/GunGiBoardGameGUI/enum/phase"
 	"golang.org/x/image/font"
 )
@@ -13,7 +12,7 @@ import (
 //
 // 參數font為文字所使用的字型來源
 func (g *GameState) SelectColor(font font.Face) {
-	if inpututil.IsMouseButtonJustReleased(ebiten.MouseButtonLeft) {
+	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		x, y := ebiten.CursorPosition()
 		for _, v := range g.ColorHolder.KomaList {
 			if v.OnKoma(float64(x), float64(y)) {
@@ -22,7 +21,7 @@ func (g *GameState) SelectColor(font font.Face) {
 				} else {
 					g.ColorHolder.Own = color.White
 				}
-				g.Phase = phase.SET_COLOR
+				g.DelayedChangePhaseTo(phase.SET_COLOR)
 				return
 			}
 		}

@@ -1,8 +1,7 @@
 package cpu
 
 import (
-	"fmt"
-	"time"
+	"log"
 
 	"github.com/littletrainee/GunGiBoardGameGUI/anotherroundorend"
 	"github.com/littletrainee/GunGiBoardGameGUI/board"
@@ -15,47 +14,36 @@ import (
 // 參數b為棋盤物件，gameState為當前對弈的遊戲狀態，anotherRoundOrEnd為再來一局或是離開遊戲物件
 func (c *CPU) DuelingPhaseSelectKoma(b board.Board, gameState gamestate.GameState, anotherRoundOrEnd *anotherroundorend.AnotherRoundOrEnd) {
 	if c.inevitableWinOpportunity(b, gameState.LevelHolder) {
-		fmt.Println("GG Capture SuI")
+		log.Printf("自家被將死\n\n")
 		return
 	}
-	if c.inevitableLoseOpportunity(b) {
+	if c.inevitableLoseOpportunity(b, gameState.LevelHolder) {
 
 		if c.defenseCapture(b, gameState.LevelHolder) {
-			fmt.Println(currentTime(), ": can capture defense")
+			log.Printf("可以用俘獲阻止被將軍\n%s:%v\n\n", "c.MoveToTarget", c.MoveToTarget)
 			c.Select = cpuselect.DEFENSE_CAPTURE
 			return
 		}
-		fmt.Println(currentTime(), ": can't capture defense")
+		log.Printf("無法用俘獲阻止被將軍\n\n")
 
 		if c.defenseAvoid(gameState, b) {
-			fmt.Println(currentTime(), ": can move sui to avoid capture")
+			log.Printf("可以用移動帥避免被將軍\n%s:%v\n\n", "c.MoveToTarget", c.MoveToTarget)
 			c.Select = cpuselect.DEFENSE_AVOID
 			return
 		}
-		fmt.Println(currentTime(), ": can't move sui to avoid capture")
-
-		if c.defenseARata(b, gameState) {
-			fmt.Println(currentTime(), ": can arata koma to defense capture sui")
-			c.Select = cpuselect.DEFENSE_ARATA
-			return
-		}
-		fmt.Println(currentTime(), ": can't arata koma to defense capture sui")
-		fmt.Println(currentTime(), "GG Been Capture")
+		log.Printf("無法移動帥避免被將軍\n\n")
+		log.Printf("對家被將死\n\n")
 		c.Select = cpuselect.BEEN_CHECKMATE
 		anotherRoundOrEnd.Show = true
 		return
 	}
 
 	if c.tryCapture(b) {
-		fmt.Println(currentTime(), ": try to Capture")
+		log.Printf("嘗試俘獲\n%s:%v\n\n", "c.MoveToTarget", c.MoveToTarget)
 		c.Select = cpuselect.TRY_CAPTURE
 		return
 	}
 	c.RandomSelect(gameState, b)
-	fmt.Println(currentTime(), ": random select koma")
+	log.Printf("隨機選擇駒與移動位置\n%s:%v\n\n", "c.MoveToTarget", c.MoveToTarget)
 	c.Select = cpuselect.RANDOM_SELECT
-}
-
-func currentTime() string {
-	return time.Now().Format("03:04:05 PM")
 }

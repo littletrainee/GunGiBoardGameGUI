@@ -6,7 +6,6 @@ import (
 
 // SetFirst設定先後手
 func (g *GameState) SetFirst() {
-	// rand.Seed(time.Now().UnixNano())
 	// target := rand.Intn(2)
 	// if target == 0 {
 	// 	g.First = color.Black

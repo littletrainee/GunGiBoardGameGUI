@@ -6,7 +6,6 @@ import (
 
 	"github.com/littletrainee/GunGiBoardGameGUI/block"
 	"github.com/littletrainee/GunGiBoardGameGUI/board"
-	"github.com/littletrainee/GunGiBoardGameGUI/koma"
 )
 
 // ArrangementPhaseMoveKoma 布陣階段放置駒到棋盤上
@@ -26,8 +25,5 @@ func (c *CPU) ArrangementPhaseMoveKoma(b board.Board) {
 	targetblock.KomaStack = append(targetblock.KomaStack, tempKoma)
 	b.Blocks[position] = targetblock
 	c.Player.KomaDai[c.MoveToTarget[0]].Item2--
-	if c.Player.KomaDai[c.MoveToTarget[0]].Item2 == 0 {
-		c.Player.KomaDai[c.MoveToTarget[0]].Item1 = koma.Koma{}
-	}
 	c.MoveToTarget = nil
 }

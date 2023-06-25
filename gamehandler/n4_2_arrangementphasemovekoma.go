@@ -24,13 +24,10 @@ func (g *Game) ArrangementPhaseMoveKoma() {
 
 				v.KomaStack = append(v.KomaStack, tempKoma)
 				g.Player1.KomaDai[g.WhichKomaBeenSelected[0]].Item2--
-				if g.Player1.KomaDai[g.WhichKomaBeenSelected[0]].Item2 == 0 {
-					g.Player1.KomaDai[g.WhichKomaBeenSelected[0]].Item1 = koma.Koma{}
-				}
 				g.Board.Blocks[k] = v
 				resetBlockColor(&g.Board)
 				g.WhichKomaBeenSelected = nil
-				g.delayedChangePhaseTo(phase.CLICK_CLOCK)
+				g.GameState.DelayedChangePhaseTo(phase.CLICK_CLOCK)
 				return
 			}
 		}
@@ -39,7 +36,7 @@ func (g *Game) ArrangementPhaseMoveKoma() {
 			if v.Item1.OnKoma(float64(x), float64(y)) && i == g.WhichKomaBeenSelected[0] {
 				resetBlockColor(&g.Board)
 				g.WhichKomaBeenSelected = nil
-				g.delayedChangePhaseTo(phase.SELECT_KOMA)
+				g.GameState.DelayedChangePhaseTo(phase.SELECT_KOMA)
 				return
 			}
 		}

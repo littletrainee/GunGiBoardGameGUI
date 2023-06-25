@@ -98,9 +98,6 @@ func (c *CPU) DuelingPhaseMoveKoma(b *board.Board) {
 
 		tempKomaSlice = append(tempKomaSlice, cloneKoma)
 		c.KomaDai[c.MoveToTarget[0]].Item2--
-		if c.KomaDai[c.MoveToTarget[0]].Item2 == 0 {
-			c.KomaDai[c.MoveToTarget[0]].Item1 = koma.Koma{}
-		}
 
 		targetBlock.KomaStack = tempKomaSlice
 		b.Blocks[targetBlockPosision] = targetBlock
@@ -171,10 +168,6 @@ func (c *CPU) DuelingPhaseMoveKoma(b *board.Board) {
 			targetBlock.KomaStack = append(targetBlock.KomaStack, cloneKoma)
 			// 將駒台上的目標駒數量減少
 			c.KomaDai[c.MoveToTarget[0]].Item2--
-			// 若目標駒的數量為0時，則重設為空struct已減少記憶體使用量
-			if c.KomaDai[c.MoveToTarget[0]].Item2 == 0 {
-				c.KomaDai[c.MoveToTarget[0]].Item1 = koma.Koma{}
-			}
 			// 將修改後的目標block賦予回去map
 			b.Blocks[targetPosition] = targetBlock
 			c.MoveToTarget = nil

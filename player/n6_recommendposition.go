@@ -6,7 +6,6 @@ import (
 
 	"github.com/littletrainee/GunGiBoardGameGUI/board"
 	"github.com/littletrainee/GunGiBoardGameGUI/gamestate"
-	"github.com/littletrainee/GunGiBoardGameGUI/koma"
 	"github.com/littletrainee/GunGiBoardGameGUI/koma/recommendposition"
 	"github.com/littletrainee/gunginotationgenerator/enum/level"
 	"github.com/littletrainee/pair"
@@ -45,9 +44,6 @@ func (p *Player) RecommendPosition(g gamestate.GameState, b board.Board) {
 		}
 		tempblock.KomaStack = append(tempblock.KomaStack, tempKoma)
 		p.KomaDai[v.Item1].Item2--
-		if p.KomaDai[v.Item1].Item2 == 0 {
-			p.KomaDai[v.Item1].Item1 = koma.Koma{}
-		}
 		b.Blocks[pos] = tempblock
 	}
 }

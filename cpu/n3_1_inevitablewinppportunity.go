@@ -51,10 +51,6 @@ func (c *CPU) inevitableWinOpportunity(b board.Board, l levelholder.LevelHolder)
 										return true
 									}
 								}
-								// if targetKoma.Name == "帥" && targetKoma.Color != c.SelfColor {
-								// 	c.MoveToTarget = []int{assumePosition.X, assumePosition.Y, targetPosition.X, targetPosition.Y}
-								// 	return true
-								// }
 							} else { // 不存在則中斷
 								break
 							}

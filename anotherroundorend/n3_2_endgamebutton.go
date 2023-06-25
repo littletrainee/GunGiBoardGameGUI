@@ -12,5 +12,9 @@ import (
 //
 // 參數x與y為滑鼠的座標。
 func (a *AnotherRoundOrEnd) EndGameButton(x, y int) bool {
-	return image.Point{x, y}.In(image.Rect(int(constant.ANOTHER_ROUND_BUTTON_X*1.5), int(constant.ANOTHER_ROUND_BUTTON_Y), int(constant.ANOTHER_ROUND_BUTTON_X*1.5)+int(constant.ANOTHER_ROUND_BUTTON_WIDTH), int(constant.ANOTHER_ROUND_BUTTON_Y)+int(constant.ANOTHER_ROUND_BUTTON_HEIGHT)))
+	return image.Point{x, y}.In(image.Rect(
+		constant.ANOTHER_ROUND_BUTTON_X*1.5,
+		constant.ANOTHER_ROUND_BUTTON_Y,
+		constant.ANOTHER_ROUND_BUTTON_X*1.5+constant.ANOTHER_ROUND_BUTTON_WIDTH,
+		constant.ANOTHER_ROUND_BUTTON_Y+constant.ANOTHER_ROUND_BUTTON_HEIGHT))
 }

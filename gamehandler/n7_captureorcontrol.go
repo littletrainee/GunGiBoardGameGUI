@@ -2,6 +2,7 @@ package gamehandler
 
 import (
 	"image"
+	"log"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
@@ -9,6 +10,7 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/color"
 	"github.com/littletrainee/GunGiBoardGameGUI/enum/phase"
 	"github.com/littletrainee/GunGiBoardGameGUI/koma"
+	"github.com/littletrainee/GunGiBoardGameGUI/mutiny"
 )
 
 // CaptureOrControl 俘獲或控制按鈕的判斷
@@ -51,7 +53,7 @@ func (g *Game) CaptureOrControl() {
 				tempblock.CurrentColor = color.BoardColor
 				g.Board.Blocks[k] = tempblock
 			}
-			g.delayedChangePhaseTo(phase.CLICK_CLOCK)
+			g.GameState.DelayedChangePhaseTo(phase.CLICK_CLOCK)
 			g.SetMaxRange()
 			g.Capture.Reset()
 			g.WhichKomaBeenSelected = nil
@@ -87,10 +89,27 @@ func (g *Game) CaptureOrControl() {
 				tempblock.CurrentColor = color.BoardColor
 				g.Board.Blocks[k] = tempblock
 			}
-			g.delayedChangePhaseTo(phase.CLICK_CLOCK)
 			g.SetMaxRange()
 			g.Capture.Reset()
 			g.WhichKomaBeenSelected = nil
+
+			// 判斷移動的是否是謀
+			if g.Player1.SelectBouShou {
+				// 有謀，並且有可以替換的
+				mutiny.MunityCheck(currentBlock.KomaStack, &g.Player1)
+				if len(g.Player1.MutinyList) > 0 {
+					g.Mutiny.Show = true
+					log.Printf("叛變檢查")
+					g.GameState.DelayedChangePhaseTo(phase.MUTINY)
+					return
+					// } else {
+					// 	g.Player1.SelectBouShou = false
+					// 	g.GameState.DelayedChangePhaseTo(phase.CLICK_CLOCK)
+					// 	g.TargetPosition = image.Point{}
+				}
+			}
+			g.Player1.SelectBouShou = false
+			g.GameState.DelayedChangePhaseTo(phase.CLICK_CLOCK)
 			g.TargetPosition = image.Point{}
 		}
 		if g.Capture.CancelButton(x, y) {
@@ -99,7 +118,7 @@ func (g *Game) CaptureOrControl() {
 				tempblock.CurrentColor = color.BoardColor
 				g.Board.Blocks[k] = tempblock
 			}
-			g.delayedChangePhaseTo(phase.SELECT_KOMA)
+			g.GameState.DelayedChangePhaseTo(phase.SELECT_KOMA)
 			g.Capture.Reset()
 			g.TargetPosition = image.Point{}
 		}

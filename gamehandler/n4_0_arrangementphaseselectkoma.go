@@ -15,7 +15,7 @@ func (g *Game) ArrangementPhaseSelectKoma() {
 				g.setConfirmPosition()
 				g.WhichKomaBeenSelected = []int{0}
 				g.Player1.IsSetSuI = true
-				g.delayedChangePhaseTo(phase.MOVE_KOMA)
+				g.GameState.DelayedChangePhaseTo(phase.MOVE_KOMA)
 			}
 		} else { //第一巡
 			for i := range g.Player1.KomaDai {
@@ -23,7 +23,7 @@ func (g *Game) ArrangementPhaseSelectKoma() {
 					// 逐項迭代駒台上的位置
 					g.setConfirmPosition()
 					g.WhichKomaBeenSelected = []int{i}
-					g.delayedChangePhaseTo(phase.MOVE_KOMA)
+					g.GameState.DelayedChangePhaseTo(phase.MOVE_KOMA)
 				}
 			}
 		}

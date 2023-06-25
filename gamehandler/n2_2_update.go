@@ -17,6 +17,7 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/enum/state"
 	"github.com/littletrainee/GunGiBoardGameGUI/gamestate/arrangementholder"
 	"github.com/littletrainee/GunGiBoardGameGUI/gamestate/levelholder"
+	"github.com/littletrainee/GunGiBoardGameGUI/mutiny"
 	"github.com/littletrainee/GunGiBoardGameGUI/player"
 	"github.com/littletrainee/GunGiBoardGameGUI/timer"
 	"github.com/littletrainee/gunginotationgenerator/enum/level"
@@ -119,6 +120,7 @@ func (g *Game) Update() error {
 		g.Capture = capture.Initilization(g.Font)
 		g.AnotherRoundOrEnd = anotherroundorend.Initilization(g.Font)
 		g.DeclareSuMi = declaresumi.Initilization(g.Font)
+		g.Mutiny = mutiny.Initilization(g.Font)
 
 	case phase.SELECT_KOMA:
 		switch g.CurrentState {
@@ -140,10 +142,10 @@ func (g *Game) Update() error {
 			} else {
 				g.CPU.ArrangementPhaseSelectKoma(g.GameState, &g.Board)
 				if g.CPU.CurrentDeclareSuMiPercentage > g.CPU.DeclareSuMiTargetPercentage {
-					g.delayedChangePhaseTo(phase.CLICK_CLOCK)
+					g.GameState.DelayedChangePhaseTo(phase.CLICK_CLOCK)
 				} else {
 					g.CPU.CurrentDeclareSuMiPercentage += g.CPU.DeclareSuMiPercentagePhase
-					g.delayedChangePhaseTo(phase.MOVE_KOMA)
+					g.GameState.DelayedChangePhaseTo(phase.MOVE_KOMA)
 				}
 			}
 		case state.DUELING:
@@ -155,11 +157,11 @@ func (g *Game) Update() error {
 				switch g.CPU.Select {
 				case cpuselect.RANDOM_SELECT, cpuselect.DEFENSE_CAPTURE, cpuselect.DEFENSE_AVOID,
 					cpuselect.DEFENSE_ARATA, cpuselect.TRY_CAPTURE:
-					g.delayedChangePhaseTo(phase.MOVE_KOMA)
+					g.GameState.DelayedChangePhaseTo(phase.MOVE_KOMA)
 				case cpuselect.BEEN_CHECKMATE:
 					// 暫停計時器
 					g.Player2Timer.StopCountDown <- true
-					g.delayedChangePhaseTo(phase.ANOTHER_ROUND_OR_END)
+					g.GameState.DelayedChangePhaseTo(phase.ANOTHER_ROUND_OR_END)
 				}
 			}
 		}
@@ -171,7 +173,7 @@ func (g *Game) Update() error {
 				g.ArrangementPhaseMoveKoma()
 			} else {
 				g.CPU.ArrangementPhaseMoveKoma(g.Board)
-				g.delayedChangePhaseTo(phase.CLICK_CLOCK)
+				g.GameState.DelayedChangePhaseTo(phase.CLICK_CLOCK)
 			}
 		case state.DUELING:
 			if g.GameState.ColorHolder.Turn == g.GameState.ColorHolder.Own {
@@ -180,9 +182,9 @@ func (g *Game) Update() error {
 				if len(g.CPU.MoveToTarget) != 0 {
 					g.CPU.DuelingPhaseMoveKoma(&g.Board)
 					g.SetMaxRange()
-					g.delayedChangePhaseTo(phase.CLICK_CLOCK)
+					g.GameState.DelayedChangePhaseTo(phase.CLICK_CLOCK)
 				} else {
-					g.delayedChangePhaseTo(phase.ANOTHER_ROUND_OR_END)
+					g.GameState.DelayedChangePhaseTo(phase.ANOTHER_ROUND_OR_END)
 				}
 			}
 		}
@@ -197,11 +199,18 @@ func (g *Game) Update() error {
 				g.Player1.KomaDaiBackground = _color.BoardColor
 				g.Player2.KomaDaiBackground = _color.BoardColor
 			}
-			g.delayedChangePhaseTo(phase.SELECT_KOMA)
+			g.GameState.DelayedChangePhaseTo(phase.SELECT_KOMA)
 		}
 
 	case phase.PLAYER_CAPTURE_OR_CONTROL_ASK:
 		g.CaptureOrControl()
+
+	case phase.MUTINY:
+		if g.GameState.ColorHolder.Turn == g.GameState.ColorHolder.Own {
+			g.MutinyCheck()
+		} //else {
+		// TODO
+		//}
 
 	case phase.ANOTHER_ROUND_OR_END:
 		g.AnotherRoundOrEndGame()

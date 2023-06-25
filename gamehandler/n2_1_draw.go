@@ -15,7 +15,8 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	switch g.GameState.Phase {
 	case phase.SELECT_COLOR,
 		phase.SELECT_LEVEL,
-		phase.SELECT_RECOMMEND_OR_MANUAL_ARRANGEMENT:
+		phase.SELECT_RECOMMEND_OR_MANUAL_ARRANGEMENT,
+		phase.BEFORE_GAMING_BUFFER_ZONE:
 		g.GameState.Draw(screen)
 
 	// 對弈前的倒數計時
@@ -26,8 +27,9 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		phase.MOVE_KOMA,
 		phase.CLICK_CLOCK,
 		phase.PLAYER_CAPTURE_OR_CONTROL_ASK,
+		phase.MUTINY,
 		phase.ANOTHER_ROUND_OR_END,
-		phase.BUFFER_ZONE:
+		phase.GAMING_BUFFER_ZONE:
 
 		// 繪製棋盤
 		// Base
@@ -47,5 +49,6 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		g.Capture.Draw(screen)
 		g.AnotherRoundOrEnd.Draw(screen)
 		g.DeclareSuMi.Draw(screen)
+		g.Mutiny.Draw(screen)
 	}
 }

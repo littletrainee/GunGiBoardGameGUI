@@ -50,7 +50,8 @@ func otherCheck(levelholder levelholder.LevelHolder, whereOther []koma.Koma, b b
 							hinder = true
 						}
 
-						switch otherfunction.Move(targetBlock.KomaStack, whereOther, levelholder) {
+						a := otherfunction.Move(targetBlock.KomaStack, whereOther, levelholder)
+						switch a {
 						case action.MOVE, action.CAPTURE_OR_CONTROL:
 							confirmPosition = append(confirmPosition, targetBlockPosition)
 							targetBlock.CurrentColor = color.ConfirmColor

@@ -49,9 +49,9 @@ func stillInCaptureRange(b board.Board, suIPosition image.Point, selfColor color
 								} else if len(targetBlock.KomaStack) > stackLength {
 									break
 								}
-
-								switch otherfunction.Move(targetBlock.KomaStack, v.KomaStack, g.LevelHolder) {
-								case action.CAPTURE_ONLY, action.CAPTURE_OR_CONTROL:
+								a := otherfunction.Move(targetBlock.KomaStack, v.KomaStack, g.LevelHolder)
+								switch a {
+								case action.CAPTURE_ONLY, action.CAPTURE_OR_CONTROL, action.MOVE:
 									if targetPosition == suIPosition {
 										return true
 									}

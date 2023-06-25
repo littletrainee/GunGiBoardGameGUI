@@ -11,6 +11,7 @@ import (
 	"github.com/littletrainee/GunGiBoardGameGUI/declaresumi"
 	"github.com/littletrainee/GunGiBoardGameGUI/enum/state"
 	"github.com/littletrainee/GunGiBoardGameGUI/gamestate"
+	"github.com/littletrainee/GunGiBoardGameGUI/mutiny"
 	"github.com/littletrainee/GunGiBoardGameGUI/player"
 	"github.com/littletrainee/GunGiBoardGameGUI/timer"
 	"golang.org/x/image/font"
@@ -34,4 +35,5 @@ type Game struct {
 	Capture               capture.Capture         // 俘獲視窗
 	ConfirmPositionSlice  []image.Point           // 核可的位置
 	AnotherRoundOrEnd     aroe.AnotherRoundOrEnd  // 遊戲結束或是再來一局視窗
+	Mutiny                mutiny.Mutiny           // 叛變視窗
 }

@@ -42,7 +42,8 @@ func suICheck(levelholder levelholder.LevelHolder, whereSuI []koma.Koma, b board
 						// 若在棋盤內
 						if exists {
 
-							switch otherfunction.Move(targetBlock.KomaStack, whereSuI, levelholder) {
+							a := otherfunction.Move(targetBlock.KomaStack, whereSuI, levelholder)
+							switch a {
 							case action.MOVE, action.CAPTURE_OR_CONTROL:
 								confirmPosition = append(confirmPosition, targetBlockPosition)
 								targetBlock.CurrentColor = color.ConfirmColor
@@ -88,7 +89,8 @@ func suICheck(levelholder levelholder.LevelHolder, whereSuI []koma.Koma, b board
 								hinder = true
 							}
 
-							switch otherfunction.Move(targetBlock.KomaStack, whereSuI, levelholder) {
+							a := otherfunction.Move(targetBlock.KomaStack, whereSuI, levelholder)
+							switch a {
 							case action.MOVE, action.CAPTURE_OR_CONTROL:
 								confirmPosition = append(confirmPosition, targetBlockPosition)
 								targetBlock.CurrentColor = color.ConfirmColor

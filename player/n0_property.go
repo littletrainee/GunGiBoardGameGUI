@@ -20,4 +20,6 @@ type Player struct {
 	IsSetSuI                bool                        // 是否已布置好帥
 	IsSuMi                  bool                        // 是否宣告"布陣完畢"
 	MaxRange                int                         // 可以"新"的最大範圍
+	SelectBouShou           bool                        // 謀是否被選取
+	MutinyList              [][]int                     // 叛變清單
 }
