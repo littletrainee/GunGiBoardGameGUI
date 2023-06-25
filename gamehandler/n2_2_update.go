@@ -158,10 +158,11 @@ func (g *Game) Update() error {
 				case cpuselect.RANDOM_SELECT, cpuselect.DEFENSE_CAPTURE, cpuselect.DEFENSE_AVOID,
 					cpuselect.DEFENSE_ARATA, cpuselect.TRY_CAPTURE:
 					g.GameState.DelayedChangePhaseTo(phase.MOVE_KOMA)
-				case cpuselect.BEEN_CHECKMATE:
+				case cpuselect.BEEN_CHECKMATE, cpuselect.CHECKMATE:
 					// 暫停計時器
 					g.Player2Timer.StopCountDown <- true
 					g.GameState.DelayedChangePhaseTo(phase.ANOTHER_ROUND_OR_END)
+
 				}
 			}
 		}

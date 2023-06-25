@@ -11,4 +11,5 @@ const (
 	TRY_CAPTURE                      // CPU嘗試俘獲對方的駒
 	BEEN_CHECKMATE                   // CPU被"將軍"
 	RANDOM_SELECT                    // CPU一般的選擇
+	CHECKMATE                        // CPU"將軍"玩家
 )

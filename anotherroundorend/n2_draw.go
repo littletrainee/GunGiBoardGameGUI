@@ -7,6 +7,7 @@ import (
 	"github.com/hajimehoshi/ebiten/v2/vector"
 	_color "github.com/littletrainee/GunGiBoardGameGUI/color"
 	"github.com/littletrainee/GunGiBoardGameGUI/constant"
+	"github.com/littletrainee/GunGiBoardGameGUI/enum/checkmate"
 )
 
 // Draw 繪製AnotherRoundOrEnd彈出視窗
@@ -20,7 +21,11 @@ func (a *AnotherRoundOrEnd) Draw(screen *ebiten.Image) {
 		// background
 		vector.DrawFilledRect(screen, constant.ANOTHER_ROUND_OR_EXIT_X+1, constant.ANOTHER_ROUND_OR_EXIT_Y+1,
 			constant.ANOTHER_ROUND_OR_EXIT_WIDTH-2, constant.ANOTHER_ROUND_OR_EXIT_HEIGHT-2, _color.BoardColor, true)
-		screen.DrawImage(a.TitleImg, a.TitleOpt)
+		if a.CheckMateEnumeration == checkmate.CHECKMATE {
+			screen.DrawImage(a.TitleCheckMateImg, a.TitleCheckMateOpt)
+		} else {
+			screen.DrawImage(a.TitleBeCheckMateImg, a.TitleBeCheckMateOpt)
+		}
 
 		// another round button base
 		vector.DrawFilledRect(screen,

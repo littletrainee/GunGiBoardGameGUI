@@ -5,6 +5,7 @@ import (
 
 	"github.com/littletrainee/GunGiBoardGameGUI/anotherroundorend"
 	"github.com/littletrainee/GunGiBoardGameGUI/board"
+	"github.com/littletrainee/GunGiBoardGameGUI/enum/checkmate"
 	"github.com/littletrainee/GunGiBoardGameGUI/enum/cpuselect"
 	"github.com/littletrainee/GunGiBoardGameGUI/gamestate"
 )
@@ -15,6 +16,9 @@ import (
 func (c *CPU) DuelingPhaseSelectKoma(b board.Board, gameState gamestate.GameState, anotherRoundOrEnd *anotherroundorend.AnotherRoundOrEnd) {
 	if c.inevitableWinOpportunity(b, gameState.LevelHolder) {
 		log.Printf("自家被將死\n\n")
+		c.Select = cpuselect.BEEN_CHECKMATE
+		anotherRoundOrEnd.Show = true
+		anotherRoundOrEnd.CheckMateEnumeration = checkmate.BEEN_CHECKMATE
 		return
 	}
 	if c.inevitableLoseOpportunity(b, gameState.LevelHolder) {
@@ -33,8 +37,9 @@ func (c *CPU) DuelingPhaseSelectKoma(b board.Board, gameState gamestate.GameStat
 		}
 		log.Printf("無法移動帥避免被將軍\n\n")
 		log.Printf("對家被將死\n\n")
-		c.Select = cpuselect.BEEN_CHECKMATE
+		c.Select = cpuselect.CHECKMATE
 		anotherRoundOrEnd.Show = true
+		anotherRoundOrEnd.CheckMateEnumeration = checkmate.CHECKMATE
 		return
 	}
 
