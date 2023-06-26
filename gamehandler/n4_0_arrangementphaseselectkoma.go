@@ -11,7 +11,7 @@ func (g *Game) ArrangementPhaseSelectKoma() {
 		x, y := ebiten.CursorPosition()
 
 		if !g.Player1.IsSetSuI { // 非第一巡
-			if g.Player1.KomaDai[0].Item1.OnKoma(float64(x), float64(y)) && g.Player1.KomaDai[0].Item2 > 0 {
+			if g.Player1.KomaDai[0][0].OnKoma(float64(x), float64(y)) && len(g.Player1.KomaDai[0]) > 0 {
 				g.setConfirmPosition()
 				g.WhichKomaBeenSelected = []int{0}
 				g.Player1.IsSetSuI = true
@@ -19,7 +19,7 @@ func (g *Game) ArrangementPhaseSelectKoma() {
 			}
 		} else { //第一巡
 			for i := range g.Player1.KomaDai {
-				if g.Player1.KomaDai[i].Item1.OnKoma(float64(x), float64(y)) {
+				if len(g.Player1.KomaDai[i]) > 0 && g.Player1.KomaDai[i][0].OnKoma(float64(x), float64(y)) {
 					// 逐項迭代駒台上的位置
 					g.setConfirmPosition()
 					g.WhichKomaBeenSelected = []int{i}

@@ -14,7 +14,7 @@ func Initilization(p *player.Player) CPU {
 	c.Player = p
 	var count int
 	for _, v := range p.KomaDai {
-		count += v.Item2
+		count += len(v)
 	}
 	c.DeclareSuMiPercentagePhase = float32(100 / count)
 	c.DeclareSuMiTargetPercentage = 65 //float32(rand.Intn(constant.CPU_DECLARE_SUMI_TARGET_PERCENTAGE))

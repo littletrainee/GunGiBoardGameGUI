@@ -34,7 +34,8 @@ func (p *Player) RecommendPosition(g gamestate.GameState, b board.Board) {
 	for _, v := range target {
 		pos := image.Point{X: v.Item2.X, Y: v.Item2.Y}
 		tempblock := b.Blocks[pos]
-		tempKoma := p.KomaDai[v.Item1].Item1.Clone()
+		tempKoma := p.KomaDai[v.Item1][0].Clone()
+		tempLen := len(p.KomaDai[v.Item1])
 		tempKoma.SetCurrentCoordinate(tempblock.Coordinate, 0)
 		tempKoma.SetCurrentPosition(tempblock.Name)
 		if p.IsOwn {
@@ -43,7 +44,8 @@ func (p *Player) RecommendPosition(g gamestate.GameState, b board.Board) {
 			tempKoma.SetGeoMetry(math.Pi)
 		}
 		tempblock.KomaStack = append(tempblock.KomaStack, tempKoma)
-		p.KomaDai[v.Item1].Item2--
+		// p.KomaDai[v.Item1].Item2--
+		p.KomaDai[v.Item1] = p.KomaDai[v.Item1][:tempLen-1]
 		b.Blocks[pos] = tempblock
 	}
 }

@@ -21,7 +21,8 @@ func (g *Game) DuelingPhaseMoveKoma() {
 			for k, currentBlock := range g.Board.Blocks {
 				if currentBlock.OnBlock(x, y) && otherfunction.Contain(g.ConfirmPositionSlice, k) {
 					// 複製駒台上的駒
-					targetKoma := g.Player1.KomaDai[g.WhichKomaBeenSelected[0]].Item1.Clone()
+					targetKoma := g.Player1.KomaDai[g.WhichKomaBeenSelected[0]][0].Clone()
+					targetKomaLen := len(g.Player1.KomaDai[g.WhichKomaBeenSelected[0]])
 					// 設置偏移量
 					// 對被複製的駒重設其位置與座標
 					targetKoma.SetCurrentCoordinate(currentBlock.Coordinate, block.Shift(currentBlock.KomaStack))
@@ -30,7 +31,9 @@ func (g *Game) DuelingPhaseMoveKoma() {
 
 					// 當前block的KomaStack增加被複製的駒
 					currentBlock.KomaStack = append(currentBlock.KomaStack, targetKoma)
-					g.Player1.KomaDai[g.WhichKomaBeenSelected[0]].Item2--
+					// g.Player1.KomaDai[g.WhichKomaBeenSelected[0]].Item2--
+					// 移除最後一個
+					g.Player1.KomaDai[g.WhichKomaBeenSelected[0]] = g.Player1.KomaDai[g.WhichKomaBeenSelected[0]][:targetKomaLen-1]
 					g.Board.Blocks[k] = currentBlock
 					g.WhichKomaBeenSelected = nil
 

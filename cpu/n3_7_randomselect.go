@@ -27,7 +27,7 @@ func (c *CPU) RandomSelect(g gamestate.GameState, b board.Board) {
 
 	// 迭代駒台
 	for i, v := range c.KomaDai {
-		if v.Item2 > 0 {
+		if len(v) > 0 {
 			probablyChoice = append(probablyChoice, []int{i}) // 駒在駒台上的編號
 		}
 	}

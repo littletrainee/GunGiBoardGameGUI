@@ -83,21 +83,19 @@ func (c *CPU) DuelingPhaseMoveKoma(b *board.Board) {
 		c.MoveToTarget = nil
 		c.Select = cpuselect.None
 	case cpuselect.DEFENSE_ARATA:
-		var (
-			targetBlockPosision image.Point = image.Point{X: c.MoveToTarget[1], Y: c.MoveToTarget[2]}
-			targetBlock         block.Block = b.Blocks[targetBlockPosision]
-			shift               int
-			cloneKoma           koma.Koma
-			tempKomaSlice       []koma.Koma = b.Blocks[targetBlockPosision].KomaStack
-		)
-		shift = block.Shift(tempKomaSlice)
-		cloneKoma = c.KomaDai[c.MoveToTarget[0]].Item1.Clone()
-		cloneKoma.SetCurrentCoordinate(targetBlock.Coordinate, shift)
+		targetBlockPosision := image.Point{X: c.MoveToTarget[1], Y: c.MoveToTarget[2]}
+		targetBlock := b.Blocks[targetBlockPosision]
+		tempKomaSlice := b.Blocks[targetBlockPosision].KomaStack
+
+		cloneKoma := c.KomaDai[c.MoveToTarget[0]][0].Clone()
+		tempLen := len(c.KomaDai[c.MoveToTarget[0]])
+		cloneKoma.SetCurrentCoordinate(targetBlock.Coordinate, block.Shift(tempKomaSlice))
 		cloneKoma.SetCurrentPosition(targetBlock.Name)
 		cloneKoma.SetGeoMetry(math.Pi)
 
 		tempKomaSlice = append(tempKomaSlice, cloneKoma)
-		c.KomaDai[c.MoveToTarget[0]].Item2--
+		// c.KomaDai[c.MoveToTarget[0]].Item2--
+		c.KomaDai[c.MoveToTarget[0]] = c.KomaDai[c.MoveToTarget[0]][:tempLen-1]
 
 		targetBlock.KomaStack = tempKomaSlice
 		b.Blocks[targetBlockPosision] = targetBlock
@@ -157,7 +155,8 @@ func (c *CPU) DuelingPhaseMoveKoma(b *board.Board) {
 			targetPosition = image.Point{X: c.MoveToTarget[1], Y: c.MoveToTarget[2]}
 			targetBlock = b.Blocks[targetPosition]
 			// 從駒台上複製駒
-			cloneKoma := c.KomaDai[c.MoveToTarget[0]].Item1.Clone()
+			cloneKoma := c.KomaDai[c.MoveToTarget[0]][0].Clone()
+			tempLen := len(c.KomaDai[c.MoveToTarget[0]])
 
 			// 設定複製的駒位置
 			cloneKoma.SetCurrentCoordinate(targetBlock.Coordinate, block.Shift(targetBlock.KomaStack))
@@ -167,7 +166,8 @@ func (c *CPU) DuelingPhaseMoveKoma(b *board.Board) {
 			// 目標block堆疊增加複製的駒
 			targetBlock.KomaStack = append(targetBlock.KomaStack, cloneKoma)
 			// 將駒台上的目標駒數量減少
-			c.KomaDai[c.MoveToTarget[0]].Item2--
+			// c.KomaDai[c.MoveToTarget[0]].Item2--
+			c.KomaDai[c.MoveToTarget[0]] = c.KomaDai[c.MoveToTarget[0]][:tempLen-1]
 			// 將修改後的目標block賦予回去map
 			b.Blocks[targetPosition] = targetBlock
 			c.MoveToTarget = nil

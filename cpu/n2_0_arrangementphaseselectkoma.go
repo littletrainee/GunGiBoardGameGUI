@@ -29,7 +29,7 @@ func (c *CPU) ArrangementPhaseSelectKoma(g gamestate.GameState, b *board.Board) 
 
 		// 逐項迭代駒台上有的駒，加至待選的陣列中
 		for i, v := range c.Player.KomaDai {
-			if v.Item2 > 0 {
+			if len(v) > 0 {
 				whichOneCanBeChosen = append(whichOneCanBeChosen, i)
 			}
 		}

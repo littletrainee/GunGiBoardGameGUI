@@ -16,7 +16,8 @@ func (c *CPU) ArrangementPhaseMoveKoma(b board.Board) {
 		position image.Point = image.Point{X: c.MoveToTarget[1], Y: c.MoveToTarget[2]}
 	)
 	targetblock := b.Blocks[position]
-	tempKoma := c.Player.KomaDai[c.MoveToTarget[0]].Item1.Clone()
+	tempKoma := c.Player.KomaDai[c.MoveToTarget[0]][0].Clone()
+	tempKomaLen := len(c.Player.KomaDai[c.MoveToTarget[0]])
 	tempKoma.SetCurrentCoordinate(targetblock.Coordinate, block.Shift(targetblock.KomaStack))
 	tempKoma.SetCurrentPosition(targetblock.Name)
 	tempKoma.Op.GeoM.Reset()
@@ -24,6 +25,7 @@ func (c *CPU) ArrangementPhaseMoveKoma(b board.Board) {
 
 	targetblock.KomaStack = append(targetblock.KomaStack, tempKoma)
 	b.Blocks[position] = targetblock
-	c.Player.KomaDai[c.MoveToTarget[0]].Item2--
+	// c.Player.KomaDai[c.MoveToTarget[0]].Item2--
+	c.Player.KomaDai[c.MoveToTarget[0]] = c.Player.KomaDai[c.MoveToTarget[0]][:tempKomaLen-1]
 	c.MoveToTarget = nil
 }

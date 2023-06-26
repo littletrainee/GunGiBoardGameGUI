@@ -30,8 +30,8 @@ func (p *Player) Draw(screen *ebiten.Image) {
 			constant.KOMADAI_SIZE-2, p.KomaDaiBackground, true)
 	}
 	for _, v := range p.KomaDai {
-		if v.Item2 > 0 {
-			v.Item1.Draw(screen)
+		if len(v) > 0 {
+			v[0].Draw(screen)
 		}
 	}
 }

@@ -31,14 +31,16 @@ func (g *Game) MutinyCheck() {
 				for _, v := range g.Player1.MutinyList {
 					// 如果是該序號則複製後增加到cloneKomaStack裡面，並中斷該迴圈
 					if v[1] == i {
+						currentKomaStackLen := len(g.Player1.KomaDai[v[0]])
 						// 從駒台拿出來，並設定
-						cloneKoma := g.Player1.KomaDai[v[0]].Item1.Clone()
+						cloneKoma := g.Player1.KomaDai[v[0]][0].Clone()
 						cloneKoma.SetCurrentCoordinate(targetBlock.Coordinate, block.Shift(cloneKomaStack))
 						cloneKoma.SetCurrentPosition(targetBlock.Name)
 						cloneKoma.SetGeoMetry(0)
 
 						cloneKomaStack = append(cloneKomaStack, cloneKoma)
-						g.Player1.KomaDai[v[0]].Item2--
+						// g.Player1.KomaDai[v[0]].Item2--
+						g.Player1.KomaDai[v[0]] = g.Player1.KomaDai[v[0]][:currentKomaStackLen-1]
 						break
 					}
 				}

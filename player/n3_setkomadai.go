@@ -56,7 +56,8 @@ func (p *Player) SetKomaDai(l level.Level, font font.Face) {
 				Op:  &ebiten.DrawImageOptions{},
 				Img: ebiten.NewImage(constant.KOMA_SIZE+1, constant.KOMA_SIZE+1),
 			}
-			repeat int
+			tempKomaList []koma.Koma
+			repeat       int
 		)
 		text.Draw(tempKoma.Img, tempKoma.Name, font, 0, 20, color.Black)
 
@@ -113,14 +114,16 @@ func (p *Player) SetKomaDai(l level.Level, font font.Face) {
 			repeat = 1
 		}
 		for i := 0; i < repeat; i++ {
-			index := Contains(p.KomaDai, tempKoma)
-			if index > 0 {
-				p.KomaDai[index].Item2++
-			} else {
-				p.KomaDai = append(p.KomaDai, pair.Pair[koma.Koma, int]{
-					Item1: tempKoma, Item2: 1})
-			}
+			tempKomaList = append(tempKomaList, tempKoma)
+			// index := Contains(p.KomaDai, tempKoma)
+			// if index > 0 {
+			// 	p.KomaDai[index].Item2++
+			// } else {
+			// 	p.KomaDai = append(p.KomaDai, pair.Pair[koma.Koma, int]{
+			// 		Item1: tempKoma, Item2: 1})
+			// }
 		}
+		p.KomaDai = append(p.KomaDai, tempKomaList)
 		numberOfKoma += repeat
 		if column < 3 {
 			column++

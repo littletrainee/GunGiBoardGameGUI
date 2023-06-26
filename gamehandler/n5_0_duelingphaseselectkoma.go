@@ -11,6 +11,7 @@ import (
 // DuelingPhaseSelectKoma 對弈期間的選駒，可能是棋盤上也可能是玩家的駒台
 func (g *Game) DuelingPhaseSelectKoma() {
 	// 循環查找哪個block是否有被按鍵釋放
+	// if inpututil.IsMouseButtonJustReleased(ebiten.MouseButtonLeft) {
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		x, y := ebiten.CursorPosition()
 		for k, currentBlock := range g.Board.Blocks {
@@ -45,30 +46,28 @@ func (g *Game) DuelingPhaseSelectKoma() {
 
 		// 選擇駒台的駒
 		for i, v := range g.Player1.KomaDai {
-			if v.Item1.OnKoma(float64(x), float64(y)) {
-				if v.Item2 > 0 {
-					g.WhichKomaBeenSelected = []int{i}
-					for column := 1; column < 10; column++ {
-						for row := g.Player1.MaxRange; row < 10; row++ {
-							targetBlockPosition := image.Point{X: column, Y: row}
-							targetBlock := g.Board.Blocks[targetBlockPosition]
-							targetBlockLen := len(targetBlock.KomaStack)
+			if len(v) > 0 && v[0].OnKoma(float64(x), float64(y)) {
+				g.WhichKomaBeenSelected = []int{i}
+				for column := 1; column < 10; column++ {
+					for row := g.Player1.MaxRange; row < 10; row++ {
+						targetBlockPosition := image.Point{X: column, Y: row}
+						targetBlock := g.Board.Blocks[targetBlockPosition]
+						targetBlockLen := len(targetBlock.KomaStack)
 
-							// 目標位置有駒，沒有帥，段數未達到最高段數
-							if targetBlockLen > 0 && !targetBlock.HasSuI() &&
-								g.GameState.LevelHolder.MaxLayer > targetBlockLen &&
-								targetBlock.KomaStack[targetBlockLen-1].Color == g.Player1.SelfColor ||
-								targetBlockLen == 0 {
-								targetBlock.CurrentColor = color.ConfirmColor
-								g.ConfirmPositionSlice = append(g.ConfirmPositionSlice, targetBlockPosition)
-							} else {
-								targetBlock.CurrentColor = color.DenyColor
-							}
-							g.Board.Blocks[image.Point{X: column, Y: row}] = targetBlock
+						// 目標位置有駒，沒有帥，段數未達到最高段數
+						if targetBlockLen > 0 && !targetBlock.HasSuI() &&
+							g.GameState.LevelHolder.MaxLayer > targetBlockLen &&
+							targetBlock.KomaStack[targetBlockLen-1].Color == g.Player1.SelfColor ||
+							targetBlockLen == 0 {
+							targetBlock.CurrentColor = color.ConfirmColor
+							g.ConfirmPositionSlice = append(g.ConfirmPositionSlice, targetBlockPosition)
+						} else {
+							targetBlock.CurrentColor = color.DenyColor
 						}
+						g.Board.Blocks[image.Point{X: column, Y: row}] = targetBlock
 					}
-					g.GameState.DelayedChangePhaseTo(phase.MOVE_KOMA)
 				}
+				g.GameState.DelayedChangePhaseTo(phase.MOVE_KOMA)
 			}
 		}
 	}

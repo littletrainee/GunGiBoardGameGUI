@@ -12,7 +12,7 @@ func MunityCheck(targetKomaStack []koma.Koma, player *player.Player) {
 			break
 		}
 		for ki, V := range player.KomaDai {
-			if V.Item2 > 0 && V.Item1.Name == v.Name {
+			if len(V) > 0 && V[0].Name == v.Name {
 				player.MutinyList = append(player.MutinyList, []int{ki, i})
 			}
 		}
